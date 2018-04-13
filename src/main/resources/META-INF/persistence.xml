@@ -24,7 +24,7 @@
       <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
       <property name="eclipselink.logging.level" value="FINE"/>
       <property name="eclipselink.ddl-generation" value="drop-and-create-tables"/>
-      <property name="eclipselink.application-location" value="C:\Users\bibil\OneDrive\Documentos\NetBeansProjects\Exemplo_2\src\main\DDL"/>
+      <property name="eclipselink.application-location" value=""/>
       <property name="eclipselink.ddl-generation.output-mode" value="both"/>
       <property name="eclipselink.create-ddl-jdbc-file-name" value="create.sql"/>
       <property name="eclipselink.drop-ddl-jdbc-file-name" value="drop.sql"/>
