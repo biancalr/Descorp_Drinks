@@ -36,7 +36,7 @@ public class NewEmptyJUnitTest {
     public static void setUpClass() {
         logger = Logger.getGlobal();
         logger.setLevel(Level.INFO);
-        emf = Persistence.createEntityManagerFactory("idrinkUP");
+        emf = Persistence.createEntityManagerFactory("com.mycompany_idrink_jar_1.0-SNAPSHOTPU");
         DbUnitUtil.inserirDados();
     }
     
