@@ -26,7 +26,7 @@ import javax.persistence.Table;
  * @author Bianca
  */
 @Entity
-@Table(name = "tb_bebida")
+@Table(name = "TB_BEBIDA")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "ALCOOLICO",
         discriminatorType = DiscriminatorType.CHAR, length = 3)
