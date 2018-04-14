@@ -6,10 +6,12 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -39,11 +41,12 @@ public class Pedido implements Serializable {
     @Column(name = "HR_PEDIDO", nullable = false)
     @Temporal(TemporalType.TIME)
     private Calendar horaPedido;
+    @ElementCollection
     @JoinTable(name = "tb_pedido_bebida", joinColumns = {
         @JoinColumn(name = "TB_BEBIDA_ID", referencedColumnName = "ID")}, inverseJoinColumns = {
         @JoinColumn(name = "TB_PEDIDO_ID", referencedColumnName = "ID")})
     @ManyToMany
-    private List<Bebida> bebidas;
+    private Collection<Bebida> bebidas;
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false)
     @JoinColumn(name = "ID", referencedColumnName = "ID")
     private Cliente cliente;
@@ -86,7 +89,10 @@ public class Pedido implements Serializable {
         return bebidas;
     }
 
-    public void setBebidas(Bebida bebida) {
+    public void addBebidas(Bebida bebida) {
+        if (bebidas == null) {
+            bebidas = new HashSet<>();
+        }
         bebidas.add(bebida);
     }
 
@@ -94,17 +100,18 @@ public class Pedido implements Serializable {
         return cliente;
     }
 
-    public Double getdTotal() {
-        Double dtotal = total.doubleValue();
-        return dtotal;
+    public BigDecimal getTotal() {
+        return total;
     }
 
-    private void setTotal(Bebida b) {
-        for (int i = 0; i < this.bebidas.size(); i++) {
-            b = (Bebida) this.bebidas.get(i);
+    public BigDecimal calculaTotalCompras() {
+        List<Bebida> bebida = (List<Bebida>) bebidas;
+        for (int i = 0; i < bebida.size(); i++) {
+            Bebida b = (Bebida) bebida.get(i);
             BigDecimal temp = new BigDecimal(b.getQuantGarrafa());
             this.total = this.total.add((b.getPreco().multiply(temp)));
         }
+        return this.total;
     }
     
     @Override
@@ -148,7 +155,7 @@ public class Pedido implements Serializable {
         sb.append("\n ");
         sb.append(this.bebidas);
         sb.append("\n Total:");
-        sb.append(this.total);
+        sb.append(this.calculaTotalCompras());
         return sb.toString();
     }
     
