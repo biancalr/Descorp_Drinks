@@ -18,7 +18,7 @@ import javax.persistence.TemporalType;
  * @author Bianca
  */
 @Entity
-@Table(name = "tb_cartao")
+@Table(name = "TB_CARTAO")
 public class Cartao implements Serializable {
 
     @Id
