@@ -100,10 +100,6 @@ public class Pedido implements Serializable {
         return cliente;
     }
 
-    public BigDecimal getTotal() {
-        return total;
-    }
-
     public BigDecimal calculaTotalCompras() {
         List<Bebida> bebida = (List<Bebida>) bebidas;
         for (int i = 0; i < bebida.size(); i++) {
