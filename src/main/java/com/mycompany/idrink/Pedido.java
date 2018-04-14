@@ -3,11 +3,15 @@ package com.mycompany.idrink;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -37,10 +41,10 @@ public class Pedido implements Serializable {
     private Long id;
     @Column(name = "DT_PEDIDO", nullable = false)
     @Temporal(TemporalType.DATE)
-    private Date dataPedido;
+    private LocalDate dataPedido;
     @Column(name = "HR_PEDIDO", nullable = false)
     @Temporal(TemporalType.TIME)
-    private Calendar horaPedido;
+    private LocalTime horaPedido;
     @ElementCollection
     @JoinTable(name = "tb_pedido_bebida", joinColumns = {
         @JoinColumn(name = "TB_BEBIDA_ID", referencedColumnName = "ID")}, inverseJoinColumns = {
@@ -53,36 +57,40 @@ public class Pedido implements Serializable {
     @Column(name = "TOTAL", nullable = false)
     private BigDecimal total;
 
+    public Pedido() {
+        this.addDataPedido();
+        this.addHoraPedido();
+    }
+
+    
+    
     public Long getId() {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Date getDataPedido() {
+    public LocalDate getDataPedido() {
         return dataPedido;
     }
-
-    public void setDataPedido(Date dataPedido) {
-        this.dataPedido = dataPedido;
+    
+    private void addDataPedido() {
+        this.dataPedido = LocalDate.now();
     }
 
-    public SimpleDateFormat getDataPrevisaoEntrega() {
-        Calendar previEntrega = Calendar.getInstance();
-        previEntrega.setTime(this.dataPedido);
-        previEntrega.add(Calendar.DAY_OF_MONTH, +20);
-        SimpleDateFormat previsaoEntrega = new SimpleDateFormat("dd/MM/yy");
+    public LocalDate getDataPrevisaoEntrega() {
+//        Calendar previEntrega = Calendar.getInstance();
+//        previEntrega.setTime(this.dataPedido);
+//        previEntrega.add(Calendar.DAY_OF_MONTH, +20);
+//        SimpleDateFormat previsaoEntrega = new SimpleDateFormat("dd/MM/yy");
+        LocalDate previsaoEntrega = this.dataPedido.plusDays(20);
         return previsaoEntrega;
     }
     
-    public Calendar getHoraPedido() {
+    public LocalTime getHoraPedido() {
         return horaPedido;
     }
 
-    public void setHoraPedido(Calendar horaPedido) {
-        this.horaPedido = horaPedido;
+    private void addHoraPedido() {
+        this.horaPedido = LocalTime.now();
     }
 
     public Collection<Bebida> getBebidas() {
