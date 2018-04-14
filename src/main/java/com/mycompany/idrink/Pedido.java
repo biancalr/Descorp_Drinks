@@ -148,11 +148,11 @@ public class Pedido implements Serializable {
         sb.append("\n Cliente:");
         sb.append(this.cliente.getNome());
         sb.append("\n Data do Pedido:");
-        sb.append(this.dataPedidoFormatada().toString());
+        sb.append(this.dataPedido);
         sb.append("\n Hora do pedido:");
-        sb.append(this.horaPedidoFormatada().toString());
+        sb.append(this.horaPedido);
         sb.append("\n Data de previsão de entrega:");
-        sb.append(this.getDataPrevisaoEntrega().toString());
+        sb.append(this.getDataPrevisaoEntrega());
         sb.append("\n ");
         sb.append(this.bebidas);
         sb.append("\n Total:");
