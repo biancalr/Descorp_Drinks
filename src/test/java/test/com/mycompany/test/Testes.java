@@ -5,11 +5,9 @@
  */
 package test.com.mycompany.test;
 
-import static com.microsoft.schemas.office.excel.STTrueFalseBlank.T;
 import com.mycompany.idrink.Cartao;
 import com.mycompany.idrink.Cliente;
 import com.mycompany.idrink.Endereco;
-import com.mycompany.idrink.Pedido;
 import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -17,8 +15,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
-import javax.persistence.Query;
-import javax.persistence.TemporalType;
 import javax.persistence.TypedQuery;
 import org.junit.After;
 import org.junit.AfterClass;
