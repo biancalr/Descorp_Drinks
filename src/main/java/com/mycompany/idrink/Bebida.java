@@ -49,12 +49,11 @@ public class Bebida implements Serializable {
     @ManyToMany(mappedBy = "bebidas")
     protected Collection<Pedido> pedidos;
 
-    public Long getId() {
-        return id;
+    public Bebida() {
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public Long getId() {
+        return id;
     }
 
     public String getNome() {
@@ -69,10 +68,6 @@ public class Bebida implements Serializable {
         return preco;
     }
 
-    public void setPreco(BigDecimal preco) {
-        this.preco = preco;
-    }
-
     public Integer getQuantGarrafa() {
         return quantGarrafa;
     }
@@ -85,15 +80,11 @@ public class Bebida implements Serializable {
         return estoque;
     }
 
-    public void setEstoque(Integer estoque) {
-        this.estoque = estoque;
-    }
-
     public Collection<Pedido> getPedidos() {
         return pedidos;
     }
 
-    public void setPedidos(Collection<Pedido> pedidos) {
+    public void addPedidos(Collection<Pedido> pedidos) {
         if (this.pedidos == null) {
             pedidos = new HashSet<>();
         }
