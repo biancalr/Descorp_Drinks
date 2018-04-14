@@ -50,7 +50,7 @@ public class Pedido implements Serializable {
     @JoinColumn(name = "ID_CLIENTE", referencedColumnName = "ID")
     private Cliente cliente;
     @Column(name = "TOTAL", nullable = false)
-    private BigDecimal total;
+    private Double total;
 
     
     public Pedido() {
@@ -95,12 +95,11 @@ public class Pedido implements Serializable {
         return cliente;
     }
 
-    public BigDecimal calculaTotalCompras() {
+    public Double calculaTotalCompras() {
         List<Bebida> bebida = (List<Bebida>) bebidas;
         for (int i = 0; i < bebida.size(); i++) {
             Bebida b = (Bebida) bebida.get(i);
-            BigDecimal temp = new BigDecimal(b.getQuantGarrafa());
-            this.total = this.total.add((b.getPreco().multiply(temp)));
+            this.total = this.total + (b.getPreco() * b.getQuantGarrafa());
         }
         return this.total;
     }
