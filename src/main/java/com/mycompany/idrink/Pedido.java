@@ -41,13 +41,13 @@ public class Pedido implements Serializable {
     @Temporal(TemporalType.TIME)
     private Date horaPedido;
     @ElementCollection
-    @JoinTable(name = "tb_pedido_bebida", joinColumns = {
-        @JoinColumn(name = "TB_BEBIDA_ID", referencedColumnName = "ID")}, inverseJoinColumns = {
-        @JoinColumn(name = "TB_PEDIDO_ID", referencedColumnName = "ID")})
-    @ManyToMany
+    @JoinTable(name = "TB_PEDIDO_BEBIDA", joinColumns = {
+        @JoinColumn(name = "ID_BEBIDA", referencedColumnName = "ID")}, inverseJoinColumns = {
+        @JoinColumn(name = "ID_PEDIDO", referencedColumnName = "ID")})
+    @ManyToMany(fetch = FetchType.LAZY)
     private Collection<Bebida> bebidas;
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false)
-    @JoinColumn(name = "ID", referencedColumnName = "ID")
+    @JoinColumn(name = "ID_CLIENTE", referencedColumnName = "ID")
     private Cliente cliente;
     @Column(name = "TOTAL", nullable = false)
     private BigDecimal total;
