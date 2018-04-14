@@ -40,7 +40,7 @@ public class Bebida implements Serializable {
     @Column(name = "TXT_NOME", length = 50, nullable = false)
     protected String nome;
     @Column(name = "NUM_PRECO", length = 5, nullable = false)
-    protected BigDecimal preco;
+    protected Double preco;
     @Column(name = "NUM_QUANTIDADE", nullable = false)
     protected Integer quantGarrafa;
     @Column(name = "NUM_ESTOQUE", nullable = false)
@@ -64,7 +64,7 @@ public class Bebida implements Serializable {
         this.nome = nome;
     }
     
-    public BigDecimal getPreco() {
+    public Double getPreco() {
         return preco;
     }
 
