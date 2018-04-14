@@ -3,6 +3,7 @@ package com.mycompany.idrink;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Objects;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
@@ -10,6 +11,7 @@ import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
 import javax.persistence.DiscriminatorValue;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -43,8 +45,9 @@ public class Bebida implements Serializable {
     protected Integer quantGarrafa;
     @Column(name = "NUM_ESTOQUE", nullable = false)
     protected Integer estoque;
+    @ElementCollection
     @ManyToMany(mappedBy = "bebidas")
-    protected Collection<Pedido> Pedidos;
+    protected Collection<Pedido> pedidos;
 
     public Long getId() {
         return id;
@@ -87,11 +90,14 @@ public class Bebida implements Serializable {
     }
 
     public Collection<Pedido> getPedidos() {
-        return Pedidos;
+        return pedidos;
     }
 
-    public void setPedidos(Collection<Pedido> Pedidos) {
-        this.Pedidos = Pedidos;
+    public void setPedidos(Collection<Pedido> pedidos) {
+        if (this.pedidos == null) {
+            pedidos = new HashSet<>();
+        }
+        this.pedidos = pedidos;
     }
     
     @Override
