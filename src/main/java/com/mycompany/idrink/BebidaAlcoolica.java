@@ -14,7 +14,7 @@ import javax.persistence.Entity;
 @DiscriminatorValue(value = "SIM")
 public class BebidaAlcoolica extends Bebida implements Serializable {
     
-    @Column(name = "NUM_TEOR_ALCOOL", nullable = false)
+    @Column(name = "NUM_TEOR_ALCOOL", nullable = true)
     private Float teor;
 
     public Float getTeor() {
