@@ -63,10 +63,8 @@ public class Pedido implements Serializable {
         return id;
     }
 
-    public SimpleDateFormat dataPedidoFormatada() {
-        SimpleDateFormat data = new SimpleDateFormat("dd/MM/yy");
-        data.format(this.dataPedido);
-        return data;
+    public Date getDataPedido() {
+        return dataPedido;
     }
     
     private void addDataPedido() {
@@ -74,20 +72,16 @@ public class Pedido implements Serializable {
         this.dataPedido = c.getTime();
     }
 
-    public SimpleDateFormat getDataPrevisaoEntrega() {
+    public Date getDataPrevisaoEntrega() {
         Calendar previEntrega = Calendar.getInstance();
         previEntrega.setTime(this.dataPedido);
         previEntrega.add(Calendar.DAY_OF_MONTH, +20);
         this.dataPedido = previEntrega.getTime();
-        SimpleDateFormat previsaoEntrega = new SimpleDateFormat("dd/MM/yy");
-        previsaoEntrega.format(dataPedido);
-        return previsaoEntrega;
+        return this.dataPedido;
     }
-    
-    public SimpleDateFormat horaPedidoFormatada() {
-        SimpleDateFormat hora = new SimpleDateFormat("HH:mm:ss");
-        hora.format(this.horaPedido);
-        return hora;
+
+    public Date getHoraPedido() {
+        return horaPedido;
     }
 
     private void addHoraPedido() {
