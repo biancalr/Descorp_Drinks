@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -43,6 +44,7 @@ public class Cliente implements Serializable {
     private Cartao cartao;
     @Embedded
     private Endereco endereco;
+    @ElementCollection
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "cliente", orphanRemoval = true)
     private Collection<Pedido> pedidos;
     
