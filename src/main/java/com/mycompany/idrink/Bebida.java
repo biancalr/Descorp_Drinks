@@ -39,11 +39,11 @@ public class Bebida implements Serializable {
     protected Long id;
     @Column(name = "TXT_NOME", length = 50, nullable = false)
     protected String nome;
-    @Column(name = "INT_PRECO", length = 5, nullable = false)
+    @Column(name = "NUM_PRECO", length = 5, nullable = false)
     protected BigDecimal preco;
-    @Column(name = "INT_QUANTIDADE", nullable = false)
+    @Column(name = "NUM_QUANTIDADE", nullable = false)
     protected Integer quantGarrafa;
-    @Column(name = "INT_ESTOQUE", nullable = false)
+    @Column(name = "NUM_ESTOQUE", nullable = false)
     protected Integer estoque;
     @ElementCollection
     @ManyToMany(mappedBy = "bebidas")
