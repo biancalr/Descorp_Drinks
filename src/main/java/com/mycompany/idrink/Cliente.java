@@ -48,7 +48,7 @@ public class Cliente implements Serializable {
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "cliente", orphanRemoval = true)
     private Collection<Pedido> pedidos;
     
-    Cliente() {
+    public Cliente() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
