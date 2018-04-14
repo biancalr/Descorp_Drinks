@@ -29,7 +29,7 @@ import javax.persistence.Table;
 @Table(name = "TB_BEBIDA")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "ALCOOLICO",
-        discriminatorType = DiscriminatorType.CHAR, length = 3)
+        discriminatorType = DiscriminatorType.STRING, length = 3)
 @Access(AccessType.FIELD)
 @DiscriminatorValue(value = "NAO")
 public class Bebida implements Serializable {
