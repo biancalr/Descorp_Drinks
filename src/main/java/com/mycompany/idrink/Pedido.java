@@ -39,7 +39,7 @@ public class Pedido implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date dataPedido;
     @Column(name = "HR_PEDIDO", nullable = false)
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.TIME)
     private Date horaPedido;
     @ElementCollection
     @JoinTable(name = "tb_pedido_bebida", joinColumns = {
