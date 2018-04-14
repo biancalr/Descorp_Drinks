@@ -5,9 +5,11 @@
  */
 package test.com.mycompany.test;
 
+import static com.microsoft.schemas.office.excel.STTrueFalseBlank.T;
 import com.mycompany.idrink.Cartao;
 import com.mycompany.idrink.Cliente;
 import com.mycompany.idrink.Endereco;
+import com.mycompany.idrink.Pedido;
 import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -15,6 +17,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
+import javax.persistence.TemporalType;
+import javax.persistence.TypedQuery;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -124,9 +129,52 @@ public class Testes {
         return cartao;
     }
     
-    
+    @Test
+    public void removerCliente() {
+        logger.info("Executando t02: remover Cliente");
+        TypedQuery<Cliente> query = em.createNamedQuery("Cliente.PorNome", Cliente.class);
+        query.setParameter("nome", "Beltrano Silva");
+        Cliente cliente = query.getSingleResult();
+        assertNotNull(cliente);
+        em.remove(cliente);
+        em.flush();
+        assertEquals(0, query.getResultList().size());
+    }
      
+    @Test
+    public void atualizarCliente() {
+        //Não atualiza endereco nem cartão
+        logger.info("Executando t03: atualizar Cliente");
+        TypedQuery<Cliente> query = em.createNamedQuery("Cliente.PorNome", Cliente.class);
+        query.setParameter("nome", "Beltrano Silva");
+        Cliente cliente = query.getSingleResult();
+        assertNotNull(cliente);
+        cliente.setNome("Josh José");
+        cliente.setTelefone("3356-9694");
+        cliente.setLogin("jojo");
+        cliente.setSenha("55321");
+        em.flush();
+        assertEquals(0, query.getResultList().size());
+    }
     
+    public void atualizarEndereco() {
+        //Não atualiza endereco nem cartão
+        logger.info("Executando t04: atualizar Endereco");
+        TypedQuery<Cliente> query = em.createNamedQuery("Cliente.PorNome", Cliente.class);
+        query.setParameter("nome", "Beltrano Silva");
+        Cliente cliente = query.getSingleResult();
+        Endereco endereco = new Endereco();
+        assertNotNull(cliente);
+        endereco.setCep("35197114");
+        endereco.setEstado("Bahia");
+        endereco.setCidade("Pina");
+        endereco.setBairro("Favela do Bode");
+        endereco.setComplemento("bloco 13");
+        endereco.setLogradouro("Rua Encanta Moça");
+        endereco.setNumero(45);
+        em.flush();
+        assertEquals(0, query.getResultList().size());
+    }
     
     
 }
