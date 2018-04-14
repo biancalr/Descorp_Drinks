@@ -11,19 +11,19 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class Endereco implements Serializable {
 
-    @Column(name = "TXT_CEP", length = 8, nullable = false)
+    @Column(name = "END_TXT_CEP", length = 8, nullable = false)
     private String cep;
-    @Column(name = "TXT_ESTADO", length = 50, nullable = false)
+    @Column(name = "END_TXT_ESTADO", length = 50, nullable = false)
     private String estado;
-    @Column(name = "TXT_CIDADE", length = 50, nullable = false)
+    @Column(name = "END_TXT_CIDADE", length = 50, nullable = false)
     private String cidade;
-    @Column(name = "TXT_BAIRRO", length = 50, nullable = false)
+    @Column(name = "END_TXT_BAIRRO", length = 50, nullable = false)
     private String bairro;
-    @Column(name = "TXT_LOGRADOURO", length = 100, nullable = false)
+    @Column(name = "END_TXT_LOGRADOURO", length = 100, nullable = false)
     private String logradouro;
-    @Column(name = "TXT_COMPLEMENTO", length = 255, nullable = true)
+    @Column(name = "END_TXT_COMPLEMENTO", length = 255, nullable = true)
     private String complemento;
-    @Column(name = "INT_NUMERO", length = 5, nullable = false)
+    @Column(name = "END_INT_NUMERO", length = 5, nullable = false)
     private Integer numero;
 
     public String getCep() {
