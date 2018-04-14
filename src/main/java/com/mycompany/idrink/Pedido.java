@@ -2,7 +2,6 @@ package com.mycompany.idrink;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
@@ -70,14 +69,6 @@ public class Pedido implements Serializable {
     private void addDataPedido() {
         Calendar c = Calendar.getInstance();
         this.dataPedido = c.getTime();
-    }
-
-    public Date getDataPrevisaoEntrega() {
-        Calendar previEntrega = Calendar.getInstance();
-        previEntrega.setTime(this.dataPedido);
-        previEntrega.add(Calendar.DAY_OF_MONTH, +20);
-        this.dataPedido = previEntrega.getTime();
-        return this.dataPedido;
     }
 
     public Date getHoraPedido() {
@@ -151,8 +142,6 @@ public class Pedido implements Serializable {
         sb.append(this.dataPedido);
         sb.append("\n Hora do pedido:");
         sb.append(this.horaPedido);
-        sb.append("\n Data de previsão de entrega:");
-        sb.append(this.getDataPrevisaoEntrega());
         sb.append("\n ");
         sb.append(this.bebidas);
         sb.append("\n Total:");
