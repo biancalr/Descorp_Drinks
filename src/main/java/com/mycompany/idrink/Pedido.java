@@ -49,7 +49,6 @@ public class Pedido implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false)
     @JoinColumn(name = "ID_CLIENTE", referencedColumnName = "ID")
     private Cliente cliente;
-    @Column(name = "TOTAL", nullable = false)
     private Double total;
 
     
