@@ -2,7 +2,7 @@
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
- */
+ 
 package test.com.mycompany.test;
 
 import java.util.logging.Level;
@@ -21,7 +21,7 @@ import static org.junit.Assert.*;
 /**
  *
  * @author Bianca
- */
+ 
 public class NewEmptyJUnitTest {
     
     private static EntityManagerFactory emf;
@@ -77,4 +77,4 @@ public class NewEmptyJUnitTest {
     public void a() {
         //TODO
     }
-}
+}*/
