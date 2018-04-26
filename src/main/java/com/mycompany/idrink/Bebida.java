@@ -10,7 +10,6 @@ import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
 import javax.persistence.DiscriminatorValue;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -47,8 +46,6 @@ public class Bebida implements Serializable {
     @ManyToMany(mappedBy = "bebidas")
     protected List<Pedido> pedidos;
 
-    public Bebida() {
-    }
 
     public Long getId() {
         return id;
