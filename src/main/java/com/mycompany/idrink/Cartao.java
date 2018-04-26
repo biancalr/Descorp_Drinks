@@ -48,6 +48,7 @@ public class Cartao implements Serializable {
 
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
+        this.cliente.setCartao(this);
     }
     
     public String getBandeira() {
