@@ -1,7 +1,7 @@
 package com.mycompany.idrink;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -40,12 +39,11 @@ public class Pedido implements Serializable {
     @Column(name = "HR_PEDIDO", nullable = false)
     @Temporal(TemporalType.TIME)
     private Date horaPedido;
-    @ElementCollection
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "TB_PEDIDO_BEBIDA", joinColumns = {
         @JoinColumn(name = "ID_BEBIDA", referencedColumnName = "ID")}, inverseJoinColumns = {
         @JoinColumn(name = "ID_PEDIDO", referencedColumnName = "ID")})
-    @ManyToMany(fetch = FetchType.LAZY)
-    private Collection<Bebida> bebidas;
+    private List<Bebida> bebidas;
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false)
     @JoinColumn(name = "ID_CLIENTE", referencedColumnName = "ID")
     private Cliente cliente;
@@ -64,6 +62,10 @@ public class Pedido implements Serializable {
     public Date getDataPedido() {
         return dataPedido;
     }
+
+    public void setDataPedido(Date dataPedido) {
+        this.dataPedido = dataPedido;
+    }
     
     private void addDataPedido() {
         Calendar c = Calendar.getInstance();
@@ -74,24 +76,40 @@ public class Pedido implements Serializable {
         return horaPedido;
     }
 
+    public void setHoraPedido(Date horaPedido) {
+        this.horaPedido = horaPedido;
+    }
+    
     private void addHoraPedido() {
         Calendar c = Calendar.getInstance();
         this.horaPedido = c.getTime();
     }
 
-    public Collection<Bebida> getBebidas() {
+    public List<Bebida> getBebidas() {
         return bebidas;
     }
+    public boolean temBebidas(){
+        return !this.bebidas.isEmpty();
+    }
 
-    public void addBebidas(Bebida bebida) {
-        if (bebidas == null) {
-            bebidas = new HashSet<>();
+    public void addBebida(Bebida bebida) {
+        if (this.bebidas == null) {
+           this.bebidas = new ArrayList<>(); 
         }
-        bebidas.add(bebida);
+        bebida.getPedidos().add(this);
+        this.bebidas.add(bebida);
+    }
+    public boolean removerBebida(Bebida bebida){
+        return this.bebidas.remove(bebida);
     }
 
     public Cliente getCliente() {
         return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        cliente.getPedidos().add(this);
+        this.cliente = cliente;
     }
 
     public Double calculaTotalCompras() {
