@@ -63,6 +63,10 @@ public class Bebida implements Serializable {
         return preco;
     }
 
+    public void setPreco(Double preco) {
+        this.preco = preco;
+    }
+
     public Integer getQuantGarrafa() {
         return quantGarrafa;
     }
@@ -73,6 +77,10 @@ public class Bebida implements Serializable {
     
     public Integer getEstoque() {
         return estoque;
+    }
+
+    public void setEstoque(Integer estoque) {
+        this.estoque = estoque;
     }
 
     public List<Pedido> getPedidos() {
