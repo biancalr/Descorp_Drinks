@@ -1,10 +1,7 @@
 package com.mycompany.idrink;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import javax.persistence.Access;
@@ -47,7 +44,6 @@ public class Bebida implements Serializable {
     protected Integer quantGarrafa;
     @Column(name = "NUM_ESTOQUE", nullable = false)
     protected Integer estoque;
-    @ElementCollection
     @ManyToMany(mappedBy = "bebidas")
     protected List<Pedido> pedidos;
 
