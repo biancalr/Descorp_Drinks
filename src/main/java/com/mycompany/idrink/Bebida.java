@@ -2,8 +2,10 @@ package com.mycompany.idrink;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
@@ -47,7 +49,7 @@ public class Bebida implements Serializable {
     protected Integer estoque;
     @ElementCollection
     @ManyToMany(mappedBy = "bebidas")
-    protected Collection<Pedido> pedidos;
+    protected List<Pedido> pedidos;
 
     public Bebida() {
     }
@@ -80,15 +82,16 @@ public class Bebida implements Serializable {
         return estoque;
     }
 
-    public Collection<Pedido> getPedidos() {
+    public List<Pedido> getPedidos() {
         return pedidos;
     }
 
-    public void addPedidos(Collection<Pedido> pedidos) {
+    public void addEmPedidos(Pedido pedido) {
         if (this.pedidos == null) {
-            pedidos = new HashSet<>();
+            pedidos = new ArrayList<>();
         }
-        this.pedidos = pedidos;
+        pedido.getBebidas().add(this);
+        this.pedidos.add(pedido);
     }
     
     @Override
