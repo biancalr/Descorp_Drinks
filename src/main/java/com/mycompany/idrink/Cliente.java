@@ -1,12 +1,11 @@
 package com.mycompany.idrink;
 
 import java.io.Serializable;
-import java.util.Collection;
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -44,16 +43,15 @@ public class Cliente implements Serializable {
     private Cartao cartao;
     @Embedded
     private Endereco endereco;
-    @ElementCollection
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "cliente", orphanRemoval = true)
-    private Collection<Pedido> pedidos;
+    private List<Pedido> pedidos;
     
-    public Cliente() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getNome() {
@@ -101,6 +99,7 @@ public class Cliente implements Serializable {
     }
 
     public void setCartao(Cartao cartao) {
+        cartao.setCliente(this);
         this.cartao = cartao;
     }
 
@@ -112,24 +111,28 @@ public class Cliente implements Serializable {
         this.endereco = endereco;
     }
 
-    public Collection<Pedido> getPedidos() {
+    public List<Pedido> getPedidos() {
         return pedidos;
     }
 
     public void addPedidos(Pedido pedido) {
-        if (pedidos == null) {
-            pedidos = new HashSet<>();
+        if (this.pedidos == null) {
+            this.pedidos = new ArrayList<>();
         }
-        pedidos.add(pedido);
+        pedido.setCliente(this);
+        this.pedidos.add(pedido);
+    }
+    
+    public boolean removerPedido(Pedido pedido){
+        return this.pedidos.remove(pedido);
     }
     
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        int hash = 5;
+        hash = 29 * hash + Objects.hashCode(this.id);
         return hash;
     }
-
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
