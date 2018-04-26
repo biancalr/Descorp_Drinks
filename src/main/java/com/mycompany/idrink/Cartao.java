@@ -46,6 +46,10 @@ public class Cartao implements Serializable {
         return cliente;
     }
 
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
+    
     public String getBandeira() {
         return bandeira;
     }
