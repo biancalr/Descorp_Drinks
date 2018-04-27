@@ -25,7 +25,9 @@ public class DbUnitUtil {
         IDatabaseConnection db_conn = null;
         
         try {
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/idrink?zeroDateTimeBehavior=convertToNull", "root", "1730");
+            conn = DriverManager.getConnection(
+                    "jdbc:mysql://localhost:3306/idrink?zeroDateTimeBehavior=convertToNull", 
+                    "root", "1730");
             db_conn = new DatabaseConnection(conn, "idrink");
             DatabaseConfig dbConfig = db_conn.getConfig();
             dbConfig.setProperty(DatabaseConfig.PROPERTY_DATATYPE_FACTORY, new MySqlDataTypeFactory());
