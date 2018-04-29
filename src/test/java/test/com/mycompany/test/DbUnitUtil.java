@@ -1,5 +1,7 @@
 package test.com.mycompany.test;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -17,7 +19,7 @@ import org.dbunit.operation.DatabaseOperation;
  * @author Bianca
  */
 public class DbUnitUtil {
-    private static final String XML_FILE = "/dbunit/dataset.xml";
+    private static final String XML_FILE = "C:\\Users\\bibil\\OneDrive\\Documentos\\NetBeansProjects\\idrink\\src\\main\\resources\\dbUnit\\dataset.xml";
     
     @SuppressWarnings("UseSpecificCatch")
     public static void inserirDados() {
@@ -34,7 +36,9 @@ public class DbUnitUtil {
             dbConfig.setProperty(DatabaseConfig.PROPERTY_METADATA_HANDLER, new MySqlMetadataHandler());
             FlatXmlDataSetBuilder builder = new FlatXmlDataSetBuilder();
             builder.setColumnSensing(true);
-            InputStream in = DbUnitUtil.class.getResourceAsStream(XML_FILE);
+            File file = new File(XML_FILE);
+            InputStream in = new FileInputStream(file);
+            //InputStream in = DbUnitUtil.class.getResourceAsStream(XML_FILE); Nao funciona no Windows
             IDataSet dataset = builder.build(in);
             DatabaseOperation.CLEAN_INSERT.execute(db_conn, dataset);
         } catch (Exception e) {
