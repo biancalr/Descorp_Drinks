@@ -11,7 +11,7 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class Endereco implements Serializable {
 
-    @Column(name = "END_TXT_CEP", length = 8, nullable = false)
+    @Column(name = "END_TXT_CEP", length = 9, nullable = false)
     private String cep;
     @Column(name = "END_TXT_ESTADO", length = 50, nullable = false)
     private String estado;
