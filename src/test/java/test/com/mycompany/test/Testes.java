@@ -85,21 +85,21 @@ public class Testes {
     @Test
     public void persistirCliente() {
         logger.info("Executando t01: persistir Cliente");
-        Cliente cliente = em.find(Cliente.class, new Long(1));
+        Cliente cliente = new Cliente();
         cliente.setNome("Xuxa");
         cliente.setTelefone("3016-2564");
         cliente.setLogin("Xuxis");
         cliente.setEmail("xuxa@gmail.com");
         cliente.setSenha("6666");
         criarEndereco(cliente);
-        cliente.setCartao(criarCartao());
+        //criarCartao(cliente);
         em.persist(cliente);
         em.flush();
         assertNotNull(cliente.getId());
         logger.log(Level.INFO, "Cliente {0} incluído com sucesso.", cliente);
     }
     
-    public void criarEndereco(Cliente cliente){
+    public Endereco criarEndereco(Cliente cliente){
         Endereco endereco = new Endereco();
         endereco.setCep("50690220");
         endereco.setEstado("Pernambuco");
@@ -109,10 +109,10 @@ public class Testes {
         endereco.setNumero(550);
         cliente.setEndereco(endereco);
         em.flush();
-        
+        return endereco;
     }
     
-     private Cartao criarCartao() {
+     /*private Cartao criarCartao() {
         Cartao cartao = new Cartao();
         cartao.setBandeira("VISA");
         Calendar c = Calendar.getInstance();
@@ -123,8 +123,8 @@ public class Testes {
         cartao.setNumero("120000-100");
         em.flush();
         return cartao;
-    }
-    
+    }*/
+    /*
     @Test
     public void removerCliente() {
         logger.info("Executando t02: remover Cliente");
@@ -136,7 +136,8 @@ public class Testes {
         em.flush();
         assertEquals(0, query.getResultList().size());
     }
-     
+     */
+     /*
     @Test
     public void atualizarCliente() {
         //Não atualiza endereco nem cartão
@@ -151,10 +152,10 @@ public class Testes {
         cliente.setSenha("55321");
         em.flush();
         assertEquals(0, query.getResultList().size());
-    }
-    
+    }*/
+    /*
     public void atualizarEndereco() {
-        //Não atualiza endereco nem cartão
+        //Não atualiza cliente
         logger.info("Executando t04: atualizar Endereco");
         TypedQuery<Cliente> query = em.createNamedQuery("Cliente.PorNome", Cliente.class);
         query.setParameter("nome", "Beltrano Silva");
@@ -171,6 +172,6 @@ public class Testes {
         em.flush();
         assertEquals(0, query.getResultList().size());
     }
-    
+    */
     
 }
