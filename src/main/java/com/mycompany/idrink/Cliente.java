@@ -99,7 +99,6 @@ public class Cliente implements Serializable {
     }
 
     public void setCartao(Cartao cartao) {
-        cartao.setCliente(this);
         this.cartao = cartao;
     }
 
