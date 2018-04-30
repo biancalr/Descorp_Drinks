@@ -24,8 +24,6 @@ public class Cartao implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @OneToOne(mappedBy = "cartao")
-    private Cliente cliente;
     @Column(name = "TXT_BANDEIRA", length = 30, nullable = false)
     private String bandeira;
     @Temporal(TemporalType.DATE)
@@ -40,15 +38,6 @@ public class Cartao implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Cliente getCliente() {
-        return cliente;
-    }
-
-    public void setCliente(Cliente cliente) {
-        cliente.setCartao(this);
-        this.cliente = cliente;
     }
     
     public String getBandeira() {
