@@ -45,6 +45,13 @@
                 end_txt_bairro ="Iputinga" end_txt_logradouro ="Rua Ribeirão" 
                 end_txt_complemento ="Apto. 302" end_int_numero ="30"
                 id_cartao ="3"/>
+    <!--Cliente id = 3-->
+    <TB_CLIENTE txt_nome ="Fulano Silva" txt_email ="fulano@gmail.com" 
+                txt_login ="fulano" txt_senha ="fulano_mesmo" 
+                txt_telefone ="3362-9696" end_txt_cep ="50670-210" 
+                end_txt_estado ="Pernambuco" end_txt_cidade ="Recife"
+                end_txt_bairro ="Ibura" end_txt_logradouro ="Rua Ribeirão" 
+                end_txt_complemento ="Apto. 402" end_int_numero ="40"/>
     <!--Bebida id = 1 Não alcoólico-->
     <TB_BEBIDA  alcoolico ="NAO" txt_nome ="Coca-Cola" num_preco="6.50" 
                 num_quantidade ="1" num_estoque ="20"/>
