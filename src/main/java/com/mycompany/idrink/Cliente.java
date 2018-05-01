@@ -38,7 +38,7 @@ public class Cliente implements Serializable {
     private String senha;
     @Column(name = "TXT_TELEFONE", length = 20, nullable = false)
     private String telefone;
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false, orphanRemoval = true)
     @JoinColumn(name = "ID_CARTAO", referencedColumnName = "ID")
     private Cartao cartao;
     @Embedded
