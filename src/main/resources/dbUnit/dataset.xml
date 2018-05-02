@@ -13,10 +13,12 @@
 <dataset>
     <!--Cartao id = 1-->
     <TB_CARTAO  txt_bandeira ="VISA" dt_expiracao ="2018-04-10" 
-                txt_numero ="4073020000000002"/>    
+                txt_numero ="4073020000000002"/>
+    
     <!--Cartao id = 2-->
     <TB_CARTAO  txt_bandeira ="MASTERCARD" dt_expiracao ="2020-04-10"
                 txt_numero ="5555666677778884"/>
+    
     <!--Cartao id = 3-->
     <TB_CARTAO  txt_bandeira ="MAESTRO" dt_expiracao ="2019-01-17" 
                 txt_numero ="6759744303415452"/>
@@ -28,6 +30,7 @@
                 end_txt_cidade ="Recife" end_txt_bairro ="Espinheiro" 
                 end_txt_logradouro ="Rua da Hora" end_txt_complemento ="Apto. 203"
                 end_int_numero ="20" id_cartao ="1"/>
+    
     <!--Cliente id = 2-->
     <TB_CLIENTE txt_nome ="Sicrano Silva" txt_email ="sicrano@gmail.com"
                 txt_login ="sicrano" txt_senha ="sicrano123" 
@@ -36,6 +39,7 @@
                 end_txt_bairro ="Iputinga" end_txt_logradouro ="Rua Ribeirão"
                 end_txt_complemento ="Apto. 202" end_int_numero ="20"
                 id_cartao ="2"/>
+    
     <!--Cliente id = 3-->
     <TB_CLIENTE txt_nome ="Beltrano Silva" txt_email ="beltrano@gmail.com" 
                 txt_login ="beltrano" txt_senha ="beltrano_mesmo" 
@@ -44,6 +48,7 @@
                 end_txt_bairro ="Iputinga" end_txt_logradouro ="Rua Ribeirão" 
                 end_txt_complemento ="Apto. 302" end_int_numero ="30"
                 id_cartao ="3"/>
+    
     <!--Cliente id = 3-->
     <TB_CLIENTE txt_nome ="Fulano Silva" txt_email ="fulano@gmail.com" 
                 txt_login ="fulano" txt_senha ="fulano_mesmo" 
@@ -51,31 +56,40 @@
                 end_txt_estado ="Pernambuco" end_txt_cidade ="Recife"
                 end_txt_bairro ="Ibura" end_txt_logradouro ="Rua Ribeirão" 
                 end_txt_complemento ="Apto. 402" end_int_numero ="40"/>
+    
     <!--Bebida id = 1 Não alcoólico-->
     <TB_BEBIDA  txt_nome ="Coca-Cola" num_preco="6.50" num_estoque ="20"/>
+    
     <!--Bebida id = 2 Não alcoólico-->
     <TB_BEBIDA  txt_nome ="Ades Uva" num_preco ="3.40" num_estoque ="20"/>
+    
     <!--Bebida id = 3 Alcoólico-->
     <TB_BEBIDA  alcoolico ="SIM" txt_nome ="Catuaba" num_preco ="22.00" 
                 num_estoque ="10" num_teor_alcool ="16"/>
+    
     <!--Pedido id = 1-->
     <TB_PEDIDO  dt_pedido ="2018-06-12" hr_pedido ="16:16:50" 
                 id_cliente ="1"/>
     <TB_PEDIDO_BEBIDA id_pedido ="1" id_bebida ="1"/>
+    
     <!--Pedido id = 2-->
     <TB_PEDIDO  dt_pedido ="2018-07-13" hr_pedido ="13:09:23" 
                 id_cliente ="2"/>
     <TB_PEDIDO_BEBIDA id_pedido ="1" id_bebida ="2"/>
+    
     <!--Pedido id = 3-->
     <TB_PEDIDO  dt_pedido ="2019-10-02" hr_pedido ="06:09:01" 
                 id_cliente ="2"/>
     <TB_PEDIDO_BEBIDA id_pedido ="2" id_bebida ="3"/>
+    
     <!--Pedido id = 4-->
     <TB_PEDIDO  dt_pedido ="2020-10-02" hr_pedido ="15:18:58" 
                 id_cliente ="1"/>
     <TB_PEDIDO_BEBIDA id_pedido ="3" id_bebida ="1"/>
     <!--Pedido id = 5-->
+    
     <TB_PEDIDO  dt_pedido ="2020-10-02" hr_pedido ="15:18:58" 
                 id_cliente ="1"/>
     <TB_PEDIDO_BEBIDA id_pedido ="4" id_bebida ="1"/>
+    
 </dataset>
