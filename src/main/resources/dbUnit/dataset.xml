@@ -5,8 +5,7 @@
         end_txt_logradouro end_txt_complemento end_int_numero 
         id_cartao -->
 <!-- CARTAO: txt_bandeira dt_expiracao txt_numero -->
-<!-- BEBIDA: alcoolico txt_nome num_preco num_quantidade num_estoque
-             num_teor_alcool -->
+<!-- BEBIDA: alcoolico txt_nome num_preco num_estoque num_teor_alcool -->
 <!-- BEBIDA ALCOOLICA: num_teor_alcool -->
 <!-- PEDIDO: dt_pedido hr_pedido id_cliente -->
 <!-- PEDIDO_BEBIDA: id_pedido id_bebida -->
@@ -54,13 +53,13 @@
                 end_txt_complemento ="Apto. 402" end_int_numero ="40"/>
     <!--Bebida id = 1 Não alcoólico-->
     <TB_BEBIDA  alcoolico ="NAO" txt_nome ="Coca-Cola" num_preco="6.50" 
-                num_quantidade ="1" num_estoque ="20"/>
+                num_estoque ="20"/>
     <!--Bebida id = 2 Não alcoólico-->
     <TB_BEBIDA  alcoolico ="NAO" txt_nome ="Ades Uva" num_preco ="3.40" 
-                num_quantidade ="1" num_estoque ="20"/>
+                num_estoque ="20"/>
     <!--Bebida id = 3 Alcoólico-->
     <TB_BEBIDA  alcoolico ="SIM" txt_nome ="Catuaba" num_preco ="22.00" 
-                num_quantidade ="1" num_estoque ="10" num_teor_alcool ="16"/>
+                num_estoque ="10" num_teor_alcool ="16"/>
     <!--Pedido id = 1-->
     <TB_PEDIDO  dt_pedido ="2018-06-12" hr_pedido ="16:16:50" 
                 id_cliente ="1"/>
@@ -77,4 +76,5 @@
     <!--Pedido id = 4-->
     <TB_PEDIDO  dt_pedido ="2020-10-02" hr_pedido ="15:18:58" 
                 id_cliente ="1"/>
+    <TB_PEDIDO_BEBIDA id_pedido ="4" id_bebida ="1"/>
 </dataset>
