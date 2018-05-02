@@ -52,11 +52,9 @@
                 end_txt_bairro ="Ibura" end_txt_logradouro ="Rua Ribeirão" 
                 end_txt_complemento ="Apto. 402" end_int_numero ="40"/>
     <!--Bebida id = 1 Não alcoólico-->
-    <TB_BEBIDA  alcoolico ="NAO" txt_nome ="Coca-Cola" num_preco="6.50" 
-                num_estoque ="20"/>
+    <TB_BEBIDA  txt_nome ="Coca-Cola" num_preco="6.50" num_estoque ="20"/>
     <!--Bebida id = 2 Não alcoólico-->
-    <TB_BEBIDA  alcoolico ="NAO" txt_nome ="Ades Uva" num_preco ="3.40" 
-                num_estoque ="20"/>
+    <TB_BEBIDA  txt_nome ="Ades Uva" num_preco ="3.40" num_estoque ="20"/>
     <!--Bebida id = 3 Alcoólico-->
     <TB_BEBIDA  alcoolico ="SIM" txt_nome ="Catuaba" num_preco ="22.00" 
                 num_estoque ="10" num_teor_alcool ="16"/>
