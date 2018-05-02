@@ -64,16 +64,19 @@
     <TB_PEDIDO  dt_pedido ="2018-06-12" hr_pedido ="16:16:50" 
                 id_cliente ="1"/>
     <TB_PEDIDO_BEBIDA id_pedido ="1" id_bebida ="1"/>
-    <TB_PEDIDO_BEBIDA id_pedido ="1" id_bebida ="2"/>
     <!--Pedido id = 2-->
     <TB_PEDIDO  dt_pedido ="2018-07-13" hr_pedido ="13:09:23" 
                 id_cliente ="2"/>
-    <TB_PEDIDO_BEBIDA id_pedido ="2" id_bebida ="3"/>
+    <TB_PEDIDO_BEBIDA id_pedido ="1" id_bebida ="2"/>
     <!--Pedido id = 3-->
     <TB_PEDIDO  dt_pedido ="2019-10-02" hr_pedido ="06:09:01" 
                 id_cliente ="2"/>
-    <TB_PEDIDO_BEBIDA id_pedido ="3" id_bebida ="1"/>
+    <TB_PEDIDO_BEBIDA id_pedido ="2" id_bebida ="3"/>
     <!--Pedido id = 4-->
+    <TB_PEDIDO  dt_pedido ="2020-10-02" hr_pedido ="15:18:58" 
+                id_cliente ="1"/>
+    <TB_PEDIDO_BEBIDA id_pedido ="3" id_bebida ="1"/>
+    <!--Pedido id = 5-->
     <TB_PEDIDO  dt_pedido ="2020-10-02" hr_pedido ="15:18:58" 
                 id_cliente ="1"/>
     <TB_PEDIDO_BEBIDA id_pedido ="4" id_bebida ="1"/>
