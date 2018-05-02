@@ -31,6 +31,7 @@ public class Pedido implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private Double total;
     @Column(name = "DT_PEDIDO", nullable = false)
     @Temporal(TemporalType.DATE)
     private Date dataPedido;
@@ -39,13 +40,13 @@ public class Pedido implements Serializable {
     private Date horaPedido;
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "TB_PEDIDO_BEBIDA", joinColumns = {
-        @JoinColumn(name = "ID_BEBIDA", referencedColumnName = "ID")}, inverseJoinColumns = {
-        @JoinColumn(name = "ID_PEDIDO", referencedColumnName = "ID")})
+        @JoinColumn(name = "ID_PEDIDO", referencedColumnName = "ID")}, 
+            inverseJoinColumns = {
+                @JoinColumn(name = "ID_BEBIDA", referencedColumnName = "ID")})
     private List<Bebida> bebidas;
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false)
     @JoinColumn(name = "ID_CLIENTE", referencedColumnName = "ID")
     private Cliente cliente;
-    private Double total;
 
     
     public Pedido() {
@@ -114,7 +115,7 @@ public class Pedido implements Serializable {
         List<Bebida> bebida = (List<Bebida>) bebidas;
         for (int i = 0; i < bebida.size(); i++) {
             Bebida b = (Bebida) bebida.get(i);
-            this.total = this.total + (b.getPreco() * b.getQuantGarrafa());
+            this.total = this.total + (b.getPreco() /* b.getQuantGarrafa()*/);
         }
         return this.total;
     }
