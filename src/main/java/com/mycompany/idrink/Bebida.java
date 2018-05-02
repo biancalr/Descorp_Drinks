@@ -29,7 +29,6 @@ import javax.persistence.Table;
 @DiscriminatorColumn(name = "ALCOOLICO",
         discriminatorType = DiscriminatorType.STRING, length = 3)
 @Access(AccessType.FIELD)
-@DiscriminatorValue(value = "NAO")
 public class Bebida implements Serializable {
 
     @Id
@@ -39,8 +38,8 @@ public class Bebida implements Serializable {
     protected String nome;
     @Column(name = "NUM_PRECO", length = 5, nullable = false)
     protected Double preco;
-    @Column(name = "NUM_QUANTIDADE", nullable = false)
-    protected Integer quantGarrafa;
+//    @Column(name = "NUM_QUANTIDADE", nullable = false)
+//    protected Integer quantGarrafa;
     @Column(name = "NUM_ESTOQUE", nullable = false)
     protected Integer estoque;
     @ManyToMany(mappedBy = "bebidas")
@@ -67,13 +66,13 @@ public class Bebida implements Serializable {
         this.preco = preco;
     }
 
-    public Integer getQuantGarrafa() {
-        return quantGarrafa;
-    }
-
-    public void setQuantGarrafa(Integer quantGarrafa) {
-        this.quantGarrafa = quantGarrafa;
-    }
+//    public Integer getQuantGarrafa() {
+//        return quantGarrafa;
+//    }
+//
+//    public void setQuantGarrafa(Integer quantGarrafa) {
+//        this.quantGarrafa = quantGarrafa;
+//    }
     
     public Integer getEstoque() {
         return estoque;
@@ -129,8 +128,8 @@ public class Bebida implements Serializable {
         sb.append(this.nome);
         sb.append("\n Preco:");
         sb.append(this.preco);
-        sb.append("\n Quantidade:");
-        sb.append(this.quantGarrafa);
+//        sb.append("\n Quantidade:");
+//        sb.append(this.quantGarrafa);
         sb.append("\n");
         return sb.toString();
     }
