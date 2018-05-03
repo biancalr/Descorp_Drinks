@@ -38,12 +38,14 @@ public class Cliente implements Serializable {
     private String senha;
     @Column(name = "TXT_TELEFONE", length = 20, nullable = false)
     private String telefone;
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false, orphanRemoval = true)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, 
+            optional = false, orphanRemoval = true)
     @JoinColumn(name = "ID_CARTAO", referencedColumnName = "ID")
     private Cartao cartao;
     @Embedded
     private Endereco endereco;
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "cliente", orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "cliente", 
+            orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Pedido> pedidos;
     
     public Long getId() {
@@ -112,6 +114,9 @@ public class Cliente implements Serializable {
 
     public List<Pedido> getPedidos() {
         return pedidos;
+    }
+    public boolean temPedidos(){
+        return this.pedidos.isEmpty();
     }
 
     public void addPedidos(Pedido pedido) {
