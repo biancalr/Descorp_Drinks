@@ -31,15 +31,15 @@ import org.junit.runners.MethodSorters;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @SuppressWarnings("JPQLValidation")
 public class Testes {
-    
+
     private static EntityManagerFactory emf;
     private static Logger logger;
     private EntityManager em;
     private EntityTransaction et;
-    
+
     public Testes() {
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
         logger = Logger.getGlobal();
@@ -48,18 +48,18 @@ public class Testes {
         emf = Persistence.createEntityManagerFactory("idrinkPU");
         DbUnitUtil.inserirDados();
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
         emf.close();
     }
-    
+
     @Before
     public void setUp() {
         em = emf.createEntityManager();
         beginTransaction();
     }
-    
+
     @After
     public void tearDown() {
         commitTransaction();
@@ -80,7 +80,7 @@ public class Testes {
             fail(ex.getMessage());
         }
     }
-    
+
     @Test
     public void persistirCliente() {
         logger.info("Executando t01: persistir Cliente");
@@ -97,10 +97,10 @@ public class Testes {
         assertNotNull(cliente.getId());
         logger.log(Level.INFO, "Cliente {0} incluído com sucesso.", cliente);
     }
-    
-    private Endereco criarEndereco(Cliente cliente){
+
+    public Endereco criarEndereco(Cliente cliente) {
         Endereco endereco = new Endereco();
-        endereco.setCep("50690220");
+        endereco.setCep("50690-220");
         endereco.setEstado("Pernambuco");
         endereco.setCidade("Recife");
         endereco.setBairro("Iputinga");
@@ -111,8 +111,8 @@ public class Testes {
         em.flush();
         return endereco;
     }
-    
-    private void criarCartao(Cliente cliente){
+
+    public void criarCartao(Cliente cliente) {
         Cartao cartao = new Cartao();
         cartao.setBandeira("OUROCARD");
         cartao.setNumero("18888281889");
@@ -124,32 +124,52 @@ public class Testes {
         cliente.setCartao(cartao);
         em.flush();
     }
-    
+
     @Test
-     public void atualizarCartao() {
-        logger.info("Executando t02: Atualizar Cartao");
+    public void trocarCartao() {
+        /*
+         'Cartao' novo gera ID novo
+         */
+        logger.info("Executando t02: Trocar Cartao");
         Cliente cliente = em.find(Cliente.class, new Long(4));
         assertNotNull(cliente.getId());
         Cartao cartao = new Cartao();
-        cartao.setNumero("120000-100");
+        cartao.setNumero("1200001717171009");
         cartao.setBandeira("VISA");
         Calendar c = Calendar.getInstance();
         c.set(Calendar.YEAR, 2020);
         c.set(Calendar.MONTH, Calendar.JULY);
         c.set(Calendar.DAY_OF_MONTH, 13);
         cartao.setDataExpiracao(c.getTime());
+        cartao = em.merge(cartao);
         cliente.setCartao(cartao);
-        em.merge(cartao);
         em.flush();
-        em.clear();
         assertNotNull(cartao.getId());
-        logger.log(Level.INFO, "Cartao atualizado com sucesso", cartao);
-        
+        logger.log(Level.INFO, "Cartao substituído com sucesso", cartao);
+
     }
-    
+
     @Test
-    public void removerCliente() {
-        logger.info("Executando t03: Remover Cliente");
+    public void atualizarCartao() {
+        logger.info("Executando t03: Atualizar Cartao");
+        Cartao cartao = em.find(Cartao.class, new Long(3));
+        assertNotNull(cartao.getId());
+        Calendar c = Calendar.getInstance();
+        c.set(Calendar.YEAR, 2021);
+        c.set(Calendar.MONTH, Calendar.NOVEMBER);
+        c.set(Calendar.DAY_OF_MONTH, 19);
+        cartao.setDataExpiracao(c.getTime());
+        cartao = em.merge(cartao);
+        logger.log(Level.INFO, "Cartao atualizado com sucesso", cartao);
+    }
+
+    @Test
+    public void removerClienteMerge() {
+        /*
+        Remover 'Cliente' implica que seu 'Cartao' e seus 'Pedidos' serão
+        removidos do banco
+         */
+        logger.info("Executando t04: Remover Cliente");
         Cliente cliente = em.find(Cliente.class, new Long(2));
         assertNotNull(cliente.getId());
         cliente = em.merge(cliente);
@@ -158,10 +178,46 @@ public class Testes {
         assertNull(cliente);
         logger.log(Level.INFO, "Cliente removido com sucesso", cliente);
     }
+
+    @Test
+    public void atualizarClienteMerge() {
+        logger.log(Level.INFO, "Executando t05: Atualizar Cliente");
+        Cliente cliente = em.find(Cliente.class, new Long(4));
+        assertNotNull(cliente);
+        cliente.setSenha("outraSenha54321");
+        cliente.setLogin("outroLogin");
+        cliente = em.merge(cliente);
+        em.flush();
+        assertNotNull(cliente.getLogin());
+        logger.log(Level.INFO, "Cliente atualizado com sucesso", cliente);
+    }
+
+    @Test
+    public void atualizarEnderecoMerge() {
+        logger.log(Level.INFO, "Executando t06: Atualizar Endereco");
+        Cliente cliente = em.find(Cliente.class, new Long(6));
+        assertNotNull(cliente);
+        Endereco endereco = new Endereco();
+        endereco.setLogradouro("Rua Esquadrão");
+        endereco.setComplemento("Proximo ao Colegio Militar");
+        endereco.setNumero(74);
+        cliente.getEndereco().setLogradouro(endereco.getLogradouro());
+        cliente.getEndereco().setComplemento(endereco.getComplemento());
+        cliente.getEndereco().setNumero(endereco.getNumero());
+        cliente = em.merge(cliente);
+        em.flush();
+        assertNotNull(cliente.getEndereco().getLogradouro());
+        assertNotNull(cliente.getEndereco().getComplemento());
+        assertEquals(new Long(74), new Long(cliente.getEndereco().getNumero()));
+        logger.log(Level.INFO, "Endereco atualizado com sucesso", cliente.getEndereco());
+        
+    }
     
-     @Test
-     public void removerCartao(){
-         logger.log(Level.INFO, "Executando t04: Remover Cartão");
-     }
-    
+    @Test
+    public void removerCartao(){
+        logger.log(Level.INFO, "Executando t07: Remover Cartao");
+        Cartao cartao = null;
+        logger.log(Level.INFO, "Endereco atualizado com sucesso", cartao);
+    }
+
 }
