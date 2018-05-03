@@ -12,7 +12,7 @@
 
 <dataset>
     <!--Cartao id = 1-->
-    <TB_CARTAO  txt_bandeira ="VISA" dt_expiracao ="2018-04-10" 
+    <TB_CARTAO  txt_bandeira ="VISA" dt_expiracao ="2019-04-12" 
                 txt_numero ="4073020000000002"/>
     
     <!--Cartao id = 2-->
@@ -20,7 +20,19 @@
                 txt_numero ="5555666677778884"/>
     
     <!--Cartao id = 3-->
-    <TB_CARTAO  txt_bandeira ="MAESTRO" dt_expiracao ="2019-01-17" 
+    <TB_CARTAO  txt_bandeira ="ELO" dt_expiracao ="2019-01-17" 
+                txt_numero ="0759757575415452"/>
+    
+    <!--Cartao id = 4-->
+    <TB_CARTAO  txt_bandeira ="MAESTRO" dt_expiracao ="2018-01-15" 
+                txt_numero ="9876744303412345"/>
+    
+    <!--Cartao id = 5-->
+    <TB_CARTAO  txt_bandeira ="MASTERCARD" dt_expiracao ="2022-02-17" 
+                txt_numero ="6759744303415452"/>
+    
+    <!--Cartao id = 5-->
+    <TB_CARTAO  txt_bandeira ="MAESTRO" dt_expiracao ="2018-01-17" 
                 txt_numero ="6759744303415452"/>
     
     <!--Cliente id = 1-->
@@ -49,23 +61,68 @@
                 end_txt_complemento ="Apto. 302" end_int_numero ="30"
                 id_cartao ="3"/>
     
-    <!--Cliente id = 3-->
+    <!--Cliente id = 4-->
     <TB_CLIENTE txt_nome ="Fulano Silva" txt_email ="fulano@gmail.com" 
                 txt_login ="fulano" txt_senha ="fulano_mesmo" 
                 txt_telefone ="3362-9696" end_txt_cep ="50670-210" 
                 end_txt_estado ="Pernambuco" end_txt_cidade ="Recife"
                 end_txt_bairro ="Ibura" end_txt_logradouro ="Rua Ribeirão" 
-                end_txt_complemento ="Apto. 402" end_int_numero ="40"/>
+                end_txt_complemento ="Apto. 402" end_int_numero ="40"
+                id_cartao ="4"/>
+    
+    <!--Cliente id = 5-->
+    <TB_CLIENTE txt_nome ="Batman Morcego" txt_email ="batman@gmail.com" 
+                txt_login ="batman" txt_senha ="morcego_mesmo" 
+                txt_telefone ="3488-5646" end_txt_cep ="61781-321" 
+                end_txt_estado ="Pernambuco" end_txt_cidade ="Recife"
+                end_txt_bairro ="Santo Amaro" end_txt_logradouro ="Rua Ribeirão" 
+                end_txt_complemento ="Caverna no subsolo" 
+                end_int_numero ="51" id_cartao ="5"/>
+    
+    <!--Cliente id = 6-->
+    <TB_CLIENTE txt_nome ="Capitao America" txt_email ="capitao@gmail.com" 
+                txt_login ="picole" txt_senha ="escudo_boomerang" 
+                txt_telefone ="3499-6757" end_txt_cep ="72892-432" 
+                end_txt_estado ="Pernambuco" end_txt_cidade ="Recife"
+                end_txt_bairro ="Santo Amaro" end_txt_logradouro ="Rua Ribeirão" 
+                end_txt_complemento ="Proximo ao Quartel" 
+                end_int_numero ="62" id_cartao ="6"/>
     
     <!--Bebida id = 1 Não alcoólico-->
-    <TB_BEBIDA  txt_nome ="Coca-Cola" num_preco="6.50" num_estoque ="20"/>
+    <TB_BEBIDA  txt_nome ="Coca-Cola" num_preco="6.50" num_estoque ="30"/>
     
     <!--Bebida id = 2 Não alcoólico-->
-    <TB_BEBIDA  txt_nome ="Ades Uva" num_preco ="3.40" num_estoque ="20"/>
+    <TB_BEBIDA  txt_nome ="Ades Uva" num_preco ="3.40" num_estoque ="30"/>
     
-    <!--Bebida id = 3 Alcoólico-->
-    <TB_BEBIDA  alcoolico ="SIM" txt_nome ="Catuaba" num_preco ="22.00" 
-                num_estoque ="10" num_teor_alcool ="16"/>
+    <!--Bebida id = 3 Não Alcoólico-->
+    <TB_BEBIDA  txt_nome ="Pesi" num_preco ="5.50" num_estoque ="30"/>
+    
+    <!--Bebida id = 4 Não alcoólico-->
+    <TB_BEBIDA  txt_nome ="Agua" num_preco ="2.40" num_estoque ="30"/>
+    
+    <!--Bebida id = 5 Alcoólico-->
+    <TB_BEBIDA  alcoolico ="SIM" txt_nome ="Vodka" num_preco ="35.90" 
+                num_estoque ="15" num_teor_alcool ="35"/>
+    
+    <!--Bebida id = 6 Alcoólico-->
+    <TB_BEBIDA  alcoolico ="SIM" txt_nome ="Cachaça" num_preco ="59.90" 
+                num_estoque ="13" num_teor_alcool ="48"/>
+    
+    <!--Bebida id = 7 Alcoólico-->
+    <TB_BEBIDA  alcoolico ="SIM" txt_nome ="Whisky" num_preco ="109.99" 
+                num_estoque ="10" num_teor_alcool ="47"/>
+    
+    <!--Bebida id = 8 Alcoólico-->
+    <TB_BEBIDA  alcoolico ="SIM" txt_nome ="Saquê" num_preco ="60.00" 
+                num_estoque ="8" num_teor_alcool ="16"/>
+    
+    <!--Bebida id = 9 Alcoólico-->
+    <TB_BEBIDA  alcoolico ="SIM" txt_nome ="Tequila" num_preco ="59.70" 
+                num_estoque ="17" num_teor_alcool ="27"/>
+    
+    <!--Bebida id = 10 Alcoólico-->
+    <TB_BEBIDA  alcoolico ="SIM" txt_nome ="Vinho Tinto" num_preco ="24.48" 
+                num_estoque ="21" num_teor_alcool ="14"/>
     
     <!--Pedido id = 1-->
     <TB_PEDIDO  dt_pedido ="2018-06-12" hr_pedido ="16:16:50" 
@@ -78,18 +135,66 @@
     <TB_PEDIDO_BEBIDA id_pedido ="1" id_bebida ="2"/>
     
     <!--Pedido id = 3-->
-    <TB_PEDIDO  dt_pedido ="2019-10-02" hr_pedido ="06:09:01" 
+    <TB_PEDIDO  dt_pedido ="2018-03-02" hr_pedido ="06:09:01" 
                 id_cliente ="2"/>
     <TB_PEDIDO_BEBIDA id_pedido ="2" id_bebida ="3"/>
     
     <!--Pedido id = 4-->
-    <TB_PEDIDO  dt_pedido ="2020-10-02" hr_pedido ="15:18:58" 
+    <TB_PEDIDO  dt_pedido ="2018-04-02" hr_pedido ="15:18:58" 
                 id_cliente ="1"/>
     <TB_PEDIDO_BEBIDA id_pedido ="3" id_bebida ="1"/>
-    <!--Pedido id = 5-->
     
-    <TB_PEDIDO  dt_pedido ="2020-10-02" hr_pedido ="15:18:58" 
+    <!--Pedido id = 5-->
+    <TB_PEDIDO  dt_pedido ="2018-05-02" hr_pedido ="15:08:58" 
                 id_cliente ="1"/>
     <TB_PEDIDO_BEBIDA id_pedido ="4" id_bebida ="1"/>
+    
+    <!--Pedido id = 6-->
+    <TB_PEDIDO  dt_pedido ="2018-01-11" hr_pedido ="20:18:59" 
+                id_cliente ="5"/>
+    <TB_PEDIDO_BEBIDA id_pedido ="6" id_bebida ="5"/>
+    <TB_PEDIDO_BEBIDA id_pedido ="6" id_bebida ="7"/>
+    <TB_PEDIDO_BEBIDA id_pedido ="6" id_bebida ="10"/>
+    
+    <!--Pedido id = 7-->
+    <TB_PEDIDO  dt_pedido ="2018-04-02" hr_pedido ="15:28:58" 
+                id_cliente ="6"/>
+    <TB_PEDIDO_BEBIDA id_pedido ="7" id_bebida ="1"/>
+    <TB_PEDIDO_BEBIDA id_pedido ="7" id_bebida ="3"/>
+    <TB_PEDIDO_BEBIDA id_pedido ="7" id_bebida ="9"/>
+    
+    <!--Pedido id = 8-->
+    <TB_PEDIDO  dt_pedido ="2018-03-03" hr_pedido ="20:18:58" 
+                id_cliente ="5"/>
+    <TB_PEDIDO_BEBIDA id_pedido ="8" id_bebida ="10"/>
+    <TB_PEDIDO_BEBIDA id_pedido ="8" id_bebida ="4"/>
+    <TB_PEDIDO_BEBIDA id_pedido ="8" id_bebida ="5"/>
+    
+    <!--Pedido id = 9-->
+    <TB_PEDIDO  dt_pedido ="2018-04-02" hr_pedido ="15:18:58" 
+                id_cliente ="4"/>
+    <TB_PEDIDO_BEBIDA id_pedido ="9" id_bebida ="2"/>
+    <TB_PEDIDO_BEBIDA id_pedido ="9" id_bebida ="5"/>
+    <TB_PEDIDO_BEBIDA id_pedido ="9" id_bebida ="8"/>
+    <TB_PEDIDO_BEBIDA id_pedido ="9" id_bebida ="10"/>
+    
+    <!--Pedido id = 10-->
+    <TB_PEDIDO  dt_pedido ="2018-05-01" hr_pedido ="12:16:47" 
+                id_cliente ="1"/>
+    <TB_PEDIDO_BEBIDA id_pedido ="10" id_bebida ="1"/>
+    <TB_PEDIDO_BEBIDA id_pedido ="10" id_bebida ="2"/>
+    <TB_PEDIDO_BEBIDA id_pedido ="10" id_bebida ="3"/>
+    <TB_PEDIDO_BEBIDA id_pedido ="10" id_bebida ="4"/>
+    
+    <!--Pedido id = 11-->
+    <TB_PEDIDO  dt_pedido ="2018-03-02" hr_pedido ="20:19:28" 
+                id_cliente ="3"/>
+    <TB_PEDIDO_BEBIDA id_pedido ="11" id_bebida ="8"/>
+    <TB_PEDIDO_BEBIDA id_pedido ="11" id_bebida ="7"/>
+    
+    <!--Pedido id = 12-->
+    <TB_PEDIDO  dt_pedido ="2018-02-02" hr_pedido ="19:02:27" 
+                id_cliente ="4"/>
+    <TB_PEDIDO_BEBIDA id_pedido ="12" id_bebida ="6"/>
     
 </dataset>
