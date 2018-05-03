@@ -24,7 +24,7 @@
                 txt_numero ="0759757575415452"/>
     
     <!--Cartao id = 4-->
-    <TB_CARTAO  txt_bandeira ="MAESTRO" dt_expiracao ="2018-01-15" 
+    <TB_CARTAO  txt_bandeira ="AMEX" dt_expiracao ="2018-01-15" 
                 txt_numero ="9876744303412345"/>
     
     <!--Cartao id = 5-->
@@ -32,7 +32,7 @@
                 txt_numero ="6759744303415452"/>
     
     <!--Cartao id = 5-->
-    <TB_CARTAO  txt_bandeira ="MAESTRO" dt_expiracao ="2018-01-17" 
+    <TB_CARTAO  txt_bandeira ="AMEX" dt_expiracao ="2018-01-17" 
                 txt_numero ="6759744303415452"/>
     
     <!--Cliente id = 1-->
