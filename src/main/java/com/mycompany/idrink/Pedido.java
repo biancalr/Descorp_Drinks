@@ -106,8 +106,8 @@ public class Pedido implements Serializable {
     }
 
     public void setCliente(Cliente cliente) {
-//        cliente.getPedidos().add(this);
         this.cliente = cliente;
+//        cliente.getPedidos().add(this);
     }
 
 //    public Double calculaTotalCompras() {
