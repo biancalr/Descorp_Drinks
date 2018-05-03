@@ -41,8 +41,8 @@ public class Bebida implements Serializable {
 //    protected Integer quantGarrafa;
     @Column(name = "NUM_ESTOQUE", nullable = false)
     protected Integer estoque;
-    @ManyToMany(mappedBy = "bebidas")
-    protected List<Pedido> pedidos;
+//    @ManyToMany(mappedBy = "bebidas")
+//    protected List<Pedido> pedidos;
 
 
     public Long getId() {
@@ -81,17 +81,17 @@ public class Bebida implements Serializable {
         this.estoque = estoque;
     }
 
-    public List<Pedido> getPedidos() {
-        return pedidos;
-    }
-
-    public void addEmPedidos(Pedido pedido) {
-        if (this.pedidos == null) {
-            pedidos = new ArrayList<>();
-        }
-        pedido.getBebidas().add(this);
-        this.pedidos.add(pedido);
-    }
+//    public List<Pedido> getPedidos() {
+//        return pedidos;
+//    }
+//
+//    public void addEmPedidos(Pedido pedido) {
+//        if (this.pedidos == null) {
+//            pedidos = new ArrayList<>();
+//        }
+//        pedido.getBebidas().add(this);
+//        this.pedidos.add(pedido);
+//    }
     
     @Override
     public int hashCode() {
