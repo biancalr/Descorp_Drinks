@@ -1,7 +1,8 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Onde colocar um indicador de quantidade de garrafas?
+ * E o valor total de um Pedido?
+ * Adicionar Enum StatusCompra com os valores Aprovado e Negado
+ * RemoverCartao usando JPQL
  */
 package test.com.mycompany.test;
 
@@ -114,8 +115,8 @@ public class Testes {
 
     public void criarCartao(Cliente cliente) {
         Cartao cartao = new Cartao();
-        cartao.setBandeira("OUROCARD");
-        cartao.setNumero("18888281889");
+        cartao.setBandeira("GOOD CARD");
+        cartao.setNumero("1888828188900044");
         Calendar c = Calendar.getInstance();
         c.set(Calendar.YEAR, 2019);
         c.set(Calendar.MONTH, Calendar.AUGUST);
@@ -123,30 +124,6 @@ public class Testes {
         cartao.setDataExpiracao(c.getTime());
         cliente.setCartao(cartao);
         em.flush();
-    }
-
-    @Test
-    public void trocarCartao() {
-        /*
-         'Cartao' novo gera ID novo
-         */
-        logger.info("Executando t02: Trocar Cartao");
-        Cliente cliente = em.find(Cliente.class, new Long(4));
-        assertNotNull(cliente.getId());
-        Cartao cartao = new Cartao();
-        cartao.setNumero("1200001717171009");
-        cartao.setBandeira("VISA");
-        Calendar c = Calendar.getInstance();
-        c.set(Calendar.YEAR, 2020);
-        c.set(Calendar.MONTH, Calendar.JULY);
-        c.set(Calendar.DAY_OF_MONTH, 13);
-        cartao.setDataExpiracao(c.getTime());
-        cartao = em.merge(cartao);
-        cliente.setCartao(cartao);
-        em.flush();
-        assertNotNull(cartao.getId());
-        logger.log(Level.INFO, "Cartao substituído com sucesso", cartao);
-
     }
 
     @Test
@@ -166,8 +143,8 @@ public class Testes {
     @Test
     public void removerClienteMerge() {
         /*
-        Remover 'Cliente' implica que seu 'Cartao' e seus 'Pedidos' serão
-        removidos do banco
+         * Remover 'Cliente' implica que seu 'Cartao' e seus 'Pedidos' serão
+         * removidos do banco
          */
         logger.info("Executando t04: Remover Cliente");
         Cliente cliente = em.find(Cliente.class, new Long(2));
@@ -183,7 +160,7 @@ public class Testes {
     public void atualizarClienteMerge() {
         logger.log(Level.INFO, "Executando t05: Atualizar Cliente");
         Cliente cliente = em.find(Cliente.class, new Long(4));
-        assertNotNull(cliente);
+        assertNotNull(cliente.getId());
         cliente.setSenha("outraSenha54321");
         cliente.setLogin("outroLogin");
         cliente = em.merge(cliente);
@@ -213,11 +190,6 @@ public class Testes {
         
     }
     
-    @Test
-    public void removerCartao(){
-        logger.log(Level.INFO, "Executando t07: Remover Cartao");
-        Cartao cartao = null;
-        logger.log(Level.INFO, "Endereco atualizado com sucesso", cartao);
-    }
+    
 
 }
