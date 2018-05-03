@@ -1,8 +1,6 @@
 package com.mycompany.idrink;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
@@ -15,7 +13,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 /**
@@ -37,10 +34,10 @@ public class Bebida implements Serializable {
     protected String nome;
     @Column(name = "NUM_PRECO", length = 5, nullable = false)
     protected Double preco;
-//    @Column(name = "NUM_QUANTIDADE", nullable = false)
-//    protected Integer quantGarrafa;
     @Column(name = "NUM_ESTOQUE", nullable = false)
     protected Integer estoque;
+//    @Column(name = "NUM_QUANTIDADE", nullable = false)
+//    protected Integer quantGarrafa;
 //    @ManyToMany(mappedBy = "bebidas")
 //    protected List<Pedido> pedidos;
 
