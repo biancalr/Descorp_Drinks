@@ -2,7 +2,7 @@
  * Onde colocar um indicador de quantidade de garrafas?
  * E o valor total de um Pedido?
  * Adicionar Enum StatusCompra com os valores Aprovado e Negado
- * RemoverCartao usando JPQL
+ * Adicionar Cartao em JPQL
  */
 package test.com.mycompany.test;
 
@@ -115,7 +115,7 @@ public class Testes {
 
     public void criarCartao(Cliente cliente) {
         Cartao cartao = new Cartao();
-        cartao.setBandeira("GOOD CARD");
+        cartao.setBandeira("VISA");
         cartao.setNumero("1888828188900044");
         Calendar c = Calendar.getInstance();
         c.set(Calendar.YEAR, 2019);
@@ -128,7 +128,7 @@ public class Testes {
 
     @Test
     public void atualizarCartao() {
-        logger.info("Executando t03: Atualizar Cartao");
+        logger.info("Executando t02: Atualizar Cartao");
         Cartao cartao = em.find(Cartao.class, new Long(3));
         assertNotNull(cartao.getId());
         Calendar c = Calendar.getInstance();
@@ -137,6 +137,7 @@ public class Testes {
         c.set(Calendar.DAY_OF_MONTH, 19);
         cartao.setDataExpiracao(c.getTime());
         cartao = em.merge(cartao);
+        em.flush();
         logger.log(Level.INFO, "Cartao atualizado com sucesso", cartao);
     }
 
@@ -146,7 +147,7 @@ public class Testes {
          * Remover 'Cliente' implica que seu 'Cartao' e seus 'Pedidos' serão
          * removidos do banco
          */
-        logger.info("Executando t04: Remover Cliente");
+        logger.info("Executando t03: Remover Cliente");
         Cliente cliente = em.find(Cliente.class, new Long(2));
         assertNotNull(cliente.getId());
         cliente = em.merge(cliente);
@@ -158,7 +159,7 @@ public class Testes {
 
     @Test
     public void atualizarClienteMerge() {
-        logger.log(Level.INFO, "Executando t05: Atualizar Cliente");
+        logger.log(Level.INFO, "Executando t04: Atualizar Cliente");
         Cliente cliente = em.find(Cliente.class, new Long(4));
         assertNotNull(cliente.getId());
         cliente.setSenha("outraSenha54321");
@@ -171,7 +172,7 @@ public class Testes {
 
     @Test
     public void atualizarEnderecoMerge() {
-        logger.log(Level.INFO, "Executando t06: Atualizar Endereco");
+        logger.log(Level.INFO, "Executando t05: Atualizar Endereco");
         Cliente cliente = em.find(Cliente.class, new Long(6));
         assertNotNull(cliente);
         Endereco endereco = new Endereco();
@@ -184,11 +185,79 @@ public class Testes {
         cliente = em.merge(cliente);
         em.flush();
         assertNotNull(cliente.getEndereco().getLogradouro());
-        assertNotNull(cliente.getEndereco().getComplemento());
         assertEquals(new Long(74), new Long(cliente.getEndereco().getNumero()));
         logger.log(Level.INFO, "Endereco atualizado com sucesso", cliente.getEndereco());
         
     }
+    
+    @Test
+    public void removerCartao(){
+        logger.log(Level.INFO, "Executando t06: Remover Cartao");
+        Cliente cliente = em.find(Cliente.class, new Long(4));
+        Cartao cartao = em.find(Cartao.class, cliente.getCartao().getId());
+        assertNotNull(cartao.getId());
+        cartao = em.merge(cartao);
+        em.remove(cartao);
+        cliente.setCartao(null);
+        cliente = em.merge(cliente);
+        assertNull(cliente.getCartao());
+        em.flush();
+        logger.log(Level.INFO, "Cartao removido com sucesso", cartao);
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    /*@Test
+    public void adicionarCartao(){
+        logger.log(Level.INFO, "Executando t0: Adicionar Cartao");
+        Cliente cliente = em.find(Cliente.class, new Long(1));
+        assertNotNull(cliente);
+        Cartao cartao = new Cartao();
+        cartao.setNumero("2209764310875421");
+        cartao.setBandeira("VISA");
+        Calendar c = Calendar.getInstance();
+        c.set(Calendar.YEAR, 2020);
+        c.set(Calendar.MONTH, Calendar.MAY);
+        c.set(Calendar.DAY_OF_MONTH, 8);
+        cartao.setDataExpiracao(c.getTime());
+        cliente.setCartao(cartao);
+        em.persist(cartao);
+        em.persist(cliente.getCartao());
+        em.flush();
+        assertNotNull(cartao.getId());
+        assertNotNull(cliente.getCartao());
+        logger.log(Level.INFO, "Cartao adicionado com sucesso", cartao);
+    }*/
     
     
 
