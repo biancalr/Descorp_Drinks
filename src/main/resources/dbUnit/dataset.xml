@@ -5,8 +5,8 @@
         end_txt_logradouro end_txt_complemento end_int_numero 
         id_cartao -->
 <!-- CARTAO: txt_bandeira dt_expiracao txt_numero -->
-<!-- BEBIDA: alcoolico txt_nome num_preco num_estoque num_teor_alcool -->
-<!-- BEBIDA ALCOOLICA: num_teor_alcool -->
+<!-- BEBIDA: alcoolico txt_nome num_preco num_estoque -->
+<!-- BEBIDA ALCOOLICA: percent_teor_alcool -->
 <!-- PEDIDO: dt_pedido hr_pedido id_cliente -->
 <!-- PEDIDO_BEBIDA: id_pedido id_bebida -->
 
@@ -102,27 +102,27 @@
     
     <!--Bebida id = 5 Alcoólico-->
     <TB_BEBIDA  alcoolico ="SIM" txt_nome ="Vodka" num_preco ="35.90" 
-                num_estoque ="15" num_teor_alcool ="35"/>
+                num_estoque ="15" percent_teor_alcool ="35"/>
     
     <!--Bebida id = 6 Alcoólico-->
     <TB_BEBIDA  alcoolico ="SIM" txt_nome ="Cachaça" num_preco ="59.90" 
-                num_estoque ="13" num_teor_alcool ="48"/>
+                num_estoque ="13" percent_teor_alcool ="48"/>
     
     <!--Bebida id = 7 Alcoólico-->
     <TB_BEBIDA  alcoolico ="SIM" txt_nome ="Whisky" num_preco ="109.99" 
-                num_estoque ="10" num_teor_alcool ="47"/>
+                num_estoque ="10" percent_teor_alcool ="47"/>
     
     <!--Bebida id = 8 Alcoólico-->
     <TB_BEBIDA  alcoolico ="SIM" txt_nome ="Saquê" num_preco ="60.00" 
-                num_estoque ="8" num_teor_alcool ="16"/>
+                num_estoque ="8" percent_teor_alcool ="16"/>
     
     <!--Bebida id = 9 Alcoólico-->
     <TB_BEBIDA  alcoolico ="SIM" txt_nome ="Tequila" num_preco ="59.70" 
-                num_estoque ="17" num_teor_alcool ="27"/>
+                num_estoque ="17" percent_teor_alcool ="27"/>
     
     <!--Bebida id = 10 Alcoólico-->
     <TB_BEBIDA  alcoolico ="SIM" txt_nome ="Vinho Tinto" num_preco ="24.48" 
-                num_estoque ="21" num_teor_alcool ="14"/>
+                num_estoque ="21" percent_teor_alcool ="14"/>
     
     <!--Pedido id = 1-->
     <TB_PEDIDO  dt_pedido ="2018-06-12" hr_pedido ="16:16:50" 
