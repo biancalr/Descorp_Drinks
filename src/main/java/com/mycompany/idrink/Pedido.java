@@ -95,7 +95,6 @@ public class Pedido implements Serializable {
         if (this.bebidas == null) {
            this.bebidas = new ArrayList<>(); 
         }
-        bebida.getPedidos().add(this);
         this.bebidas.add(bebida);
     }
     public boolean removerBebida(Bebida bebida){
