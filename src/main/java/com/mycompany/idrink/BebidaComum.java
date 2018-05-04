@@ -7,6 +7,7 @@ package com.mycompany.idrink;
 
 import java.io.Serializable;
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
 /**
@@ -14,6 +15,7 @@ import javax.persistence.Entity;
  * @author Bianca
  */
 @Entity
+@DiscriminatorValue(value = "NAO")
 public class BebidaComum extends Bebida implements Serializable {
 
     @Column(name = "QUANT_GRAMAS_ACUCAR", nullable = true)
