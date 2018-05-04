@@ -8,6 +8,7 @@
     <class>com.mycompany.idrink.Pedido</class>
     <class>com.mycompany.idrink.Bebida</class>
     <class>com.mycompany.idrink.BebidaAlcoolica</class>
+    <class>com.mycompany.idrink.BebidaComum</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/idrink?zeroDateTimeBehavior=convertToNull"/>
       <property name="javax.persistence.jdbc.user" value="root"/>
