@@ -6,6 +6,7 @@
         id_cartao -->
 <!-- CARTAO: txt_bandeira dt_expiracao txt_numero -->
 <!-- BEBIDA: alcoolico txt_nome num_preco num_estoque -->
+<!-- BEBIDA COMUM: percent_teor_acucar-->
 <!-- BEBIDA ALCOOLICA: percent_teor_alcool -->
 <!-- PEDIDO: dt_pedido hr_pedido id_cliente -->
 <!-- PEDIDO_BEBIDA: id_pedido id_bebida -->
@@ -88,17 +89,21 @@
                 end_txt_complemento ="Proximo ao Quartel" 
                 end_int_numero ="62" id_cartao ="6"/>
     
-    <!--Bebida id = 1 Não alcoólico-->
-    <TB_BEBIDA  txt_nome ="Coca-Cola" num_preco="6.50" num_estoque ="30"/>
+    <!--Bebida id = 1 Comum-->
+    <TB_BEBIDA  alcoolico ="NAO" txt_nome ="Coca-Cola" num_preco="6.50" 
+                num_estoque ="30" quant_gramas_acucar ="37"/>
     
-    <!--Bebida id = 2 Não alcoólico-->
-    <TB_BEBIDA  txt_nome ="Ades Uva" num_preco ="3.40" num_estoque ="30"/>
+    <!--Bebida id = 2 Comum-->
+    <TB_BEBIDA  alcoolico ="NAO" txt_nome ="Ades Uva" num_preco ="3.40" 
+                num_estoque ="30" quant_gramas_acucar ="11"/>
     
-    <!--Bebida id = 3 Não Alcoólico-->
-    <TB_BEBIDA  txt_nome ="Pesi" num_preco ="5.50" num_estoque ="30"/>
+    <!--Bebida id = 3 Comum-->
+    <TB_BEBIDA  alcoolico ="NAO" txt_nome ="Pesi" num_preco ="5.50" 
+                num_estoque ="30" quant_gramas_acucar ="39"/>
     
-    <!--Bebida id = 4 Não alcoólico-->
-    <TB_BEBIDA  txt_nome ="Agua" num_preco ="2.40" num_estoque ="30"/>
+    <!--Bebida id = 4 Comum-->
+    <TB_BEBIDA  alcoolico ="NAO" txt_nome ="Agua" num_preco ="2.40" 
+                num_estoque ="30" quant_gramas_acucar ="0"/>
     
     <!--Bebida id = 5 Alcoólico-->
     <TB_BEBIDA  alcoolico ="SIM" txt_nome ="Vodka" num_preco ="35.90" 
@@ -122,7 +127,7 @@
     
     <!--Bebida id = 10 Alcoólico-->
     <TB_BEBIDA  alcoolico ="SIM" txt_nome ="Vinho Tinto" num_preco ="24.48" 
-                num_estoque ="21" percent_teor_alcool ="14"/>
+                num_estoque ="21" percent_teor_alcool ="12.5"/>
     
     <!--Pedido id = 1-->
     <TB_PEDIDO  dt_pedido ="2018-06-12" hr_pedido ="16:16:50" 
