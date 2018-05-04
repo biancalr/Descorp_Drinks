@@ -10,5 +10,5 @@ package com.mycompany.idrink;
  * @author Bianca
  */
 public enum StatusCompra {
-    APROVADA, NEGADA;
+    APROVADO, NEGADO;
 }
