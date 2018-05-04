@@ -131,53 +131,53 @@
     
     <!--Pedido id = 1-->
     <TB_PEDIDO  dt_pedido ="2018-06-12" hr_pedido ="16:16:50" 
-                id_cliente ="1"/>
+                id_cliente ="1" txt_status_compra ="APROVADO"/>
     <TB_PEDIDO_BEBIDA id_pedido ="1" id_bebida ="1"/>
     
     <!--Pedido id = 2-->
     <TB_PEDIDO  dt_pedido ="2018-07-13" hr_pedido ="13:09:23" 
-                id_cliente ="2"/>
+                id_cliente ="2" txt_status_compra ="APROVADO"/>
     <TB_PEDIDO_BEBIDA id_pedido ="1" id_bebida ="2"/>
     
     <!--Pedido id = 3-->
     <TB_PEDIDO  dt_pedido ="2018-03-02" hr_pedido ="06:09:01" 
-                id_cliente ="2"/>
+                id_cliente ="2" txt_status_compra ="APROVADO"/>
     <TB_PEDIDO_BEBIDA id_pedido ="2" id_bebida ="3"/>
     
     <!--Pedido id = 4-->
     <TB_PEDIDO  dt_pedido ="2018-04-02" hr_pedido ="15:18:58" 
-                id_cliente ="1"/>
+                id_cliente ="1" txt_status_compra ="APROVADO"/>
     <TB_PEDIDO_BEBIDA id_pedido ="3" id_bebida ="1"/>
     
     <!--Pedido id = 5-->
     <TB_PEDIDO  dt_pedido ="2018-05-02" hr_pedido ="15:08:58" 
-                id_cliente ="1"/>
+                id_cliente ="1" txt_status_compra ="APROVADO"/>
     <TB_PEDIDO_BEBIDA id_pedido ="4" id_bebida ="1"/>
     
     <!--Pedido id = 6-->
     <TB_PEDIDO  dt_pedido ="2018-01-11" hr_pedido ="20:18:59" 
-                id_cliente ="5"/>
+                id_cliente ="5" txt_status_compra ="APROVADO"/>
     <TB_PEDIDO_BEBIDA id_pedido ="6" id_bebida ="5"/>
     <TB_PEDIDO_BEBIDA id_pedido ="6" id_bebida ="7"/>
     <TB_PEDIDO_BEBIDA id_pedido ="6" id_bebida ="10"/>
     
     <!--Pedido id = 7-->
     <TB_PEDIDO  dt_pedido ="2018-04-02" hr_pedido ="15:28:58" 
-                id_cliente ="6"/>
+                id_cliente ="6" txt_status_compra ="NEGADO"/>
     <TB_PEDIDO_BEBIDA id_pedido ="7" id_bebida ="1"/>
     <TB_PEDIDO_BEBIDA id_pedido ="7" id_bebida ="3"/>
     <TB_PEDIDO_BEBIDA id_pedido ="7" id_bebida ="9"/>
     
     <!--Pedido id = 8-->
     <TB_PEDIDO  dt_pedido ="2018-03-03" hr_pedido ="20:18:58" 
-                id_cliente ="5"/>
+                id_cliente ="5" txt_status_compra ="APROVADO"/>
     <TB_PEDIDO_BEBIDA id_pedido ="8" id_bebida ="10"/>
     <TB_PEDIDO_BEBIDA id_pedido ="8" id_bebida ="4"/>
     <TB_PEDIDO_BEBIDA id_pedido ="8" id_bebida ="5"/>
     
     <!--Pedido id = 9-->
     <TB_PEDIDO  dt_pedido ="2018-04-02" hr_pedido ="15:18:58" 
-                id_cliente ="4"/>
+                id_cliente ="4" txt_status_compra ="NEGADO"/>
     <TB_PEDIDO_BEBIDA id_pedido ="9" id_bebida ="2"/>
     <TB_PEDIDO_BEBIDA id_pedido ="9" id_bebida ="5"/>
     <TB_PEDIDO_BEBIDA id_pedido ="9" id_bebida ="8"/>
@@ -185,7 +185,7 @@
     
     <!--Pedido id = 10-->
     <TB_PEDIDO  dt_pedido ="2018-05-01" hr_pedido ="12:16:47" 
-                id_cliente ="1"/>
+                id_cliente ="1" txt_status_compra ="APROVADO"/>
     <TB_PEDIDO_BEBIDA id_pedido ="10" id_bebida ="1"/>
     <TB_PEDIDO_BEBIDA id_pedido ="10" id_bebida ="2"/>
     <TB_PEDIDO_BEBIDA id_pedido ="10" id_bebida ="3"/>
@@ -193,13 +193,13 @@
     
     <!--Pedido id = 11-->
     <TB_PEDIDO  dt_pedido ="2018-03-02" hr_pedido ="20:19:28" 
-                id_cliente ="3"/>
+                id_cliente ="3" txt_status_compra ="APROVADO"/>
     <TB_PEDIDO_BEBIDA id_pedido ="11" id_bebida ="8"/>
     <TB_PEDIDO_BEBIDA id_pedido ="11" id_bebida ="7"/>
     
     <!--Pedido id = 12-->
     <TB_PEDIDO  dt_pedido ="2018-02-02" hr_pedido ="19:02:27" 
-                id_cliente ="4"/>
+                id_cliente ="4" txt_status_compra ="NEGADO"/>
     <TB_PEDIDO_BEBIDA id_pedido ="12" id_bebida ="6"/>
     
 </dataset>
