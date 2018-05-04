@@ -6,7 +6,7 @@
         id_cartao -->
 <!-- CARTAO: txt_bandeira dt_expiracao txt_numero -->
 <!-- BEBIDA: alcoolico txt_nome num_preco num_estoque -->
-<!-- BEBIDA COMUM: percent_teor_acucar-->
+<!-- BEBIDA COMUM: quant_gramas_acucar-->
 <!-- BEBIDA ALCOOLICA: percent_teor_alcool -->
 <!-- PEDIDO: dt_pedido hr_pedido id_cliente -->
 <!-- PEDIDO_BEBIDA: id_pedido id_bebida -->
@@ -98,7 +98,7 @@
                 num_estoque ="30" quant_gramas_acucar ="11"/>
     
     <!--Bebida id = 3 Comum-->
-    <TB_BEBIDA  alcoolico ="NAO" txt_nome ="Pesi" num_preco ="5.50" 
+    <TB_BEBIDA  alcoolico ="NAO" txt_nome ="Pepsi" num_preco ="5.50" 
                 num_estoque ="30" quant_gramas_acucar ="39"/>
     
     <!--Bebida id = 4 Comum-->
