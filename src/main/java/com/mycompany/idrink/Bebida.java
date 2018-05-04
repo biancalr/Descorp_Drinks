@@ -7,7 +7,6 @@ import javax.persistence.AccessType;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
-import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -118,7 +117,7 @@ public class Bebida implements Serializable {
 
     @Override
     public String toString() {
-        StringBuffer sb = new StringBuffer("Bebida: \n");
+        StringBuilder sb = new StringBuilder("Bebida: \n");
         sb.append(" ID:");
         sb.append(this.id);
         sb.append("\n Nome:");
