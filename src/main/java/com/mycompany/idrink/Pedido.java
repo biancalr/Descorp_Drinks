@@ -9,6 +9,8 @@ import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -46,6 +48,9 @@ public class Pedido implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false)
     @JoinColumn(name = "ID_CLIENTE", referencedColumnName = "ID")
     private Cliente cliente;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "TXT_STATUS_COMPRA", length = 20, nullable = false)
+    private StatusCompra statusCompra;
 //    private Double total;
 
     
@@ -108,6 +113,14 @@ public class Pedido implements Serializable {
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
 //        cliente.getPedidos().add(this);
+    }
+
+    public StatusCompra getStatusCompra() {
+        return statusCompra;
+    }
+
+    public void setStatusCompra(StatusCompra statusCompra) {
+        this.statusCompra = statusCompra;
     }
 
 //    public Double calculaTotalCompras() {
