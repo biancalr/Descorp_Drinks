@@ -16,22 +16,22 @@ import javax.persistence.Entity;
 @Entity
 public class BebidaComum extends Bebida implements Serializable {
 
-    @Column(name = "PERCENT_TEOR_ACUCAR", nullable = true)
-    private Float teor;
+    @Column(name = "QUANT_GRAMAS_ACUCAR", nullable = true)
+    private Integer quantidade;
 
-    public Float getTeor() {
-        return teor;
+    public Integer getQuantidade() {
+        return quantidade;
     }
 
-    public void setTeor(Float teor) {
-        this.teor = teor;
+    public void setQuantidade(Integer quantidade) {
+        this.quantidade = quantidade;
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder(super.toString());
         sb.append(" Alcoólica: Nao\n Percentual Teor Açúcar:");
-        sb.append(this.teor);
+        sb.append(this.quantidade);
         return sb.toString();
     }
 }
