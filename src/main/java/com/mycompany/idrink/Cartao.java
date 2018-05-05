@@ -34,7 +34,7 @@ public class Cartao implements Serializable {
     @Column(name = "DT_EXPIRACAO")
     private Date dataExpiracao;
     @NotBlank
-    @Size(min = 16, max = 16)
+    @Size(min = 16, max = 20)
     @Column(name = "TXT_NUMERO")
     private String numero;
 
