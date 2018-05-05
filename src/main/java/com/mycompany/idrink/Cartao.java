@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.NotBlank;
 
@@ -29,7 +30,7 @@ public class Cartao implements Serializable {
     @Size(min = 4, max = 20)
     @Column(name = "TXT_BANDEIRA")
     private String bandeira;
-    @NotBlank
+    @NotNull
     @Temporal(TemporalType.DATE)
     @Column(name = "DT_EXPIRACAO")
     private Date dataExpiracao;
