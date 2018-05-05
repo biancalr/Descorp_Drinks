@@ -19,12 +19,16 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import org.hibernate.validator.constraints.NotBlank;
+//import javax.persistence.NamedQueries;
+//import javax.persistence.NamedQuery;
 /**
  *
  * @author Bianca
@@ -36,10 +40,12 @@ public class Pedido implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "DT_PEDIDO", nullable = false)
+    @NotNull
+    @Column(name = "DT_PEDIDO")
     @Temporal(TemporalType.DATE)
     private Date dataPedido;
-    @Column(name = "HR_PEDIDO", nullable = false)
+    @NotNull
+    @Column(name = "HR_PEDIDO")
     @Temporal(TemporalType.TIME)
     private Date horaPedido;
     @ManyToMany(fetch = FetchType.LAZY)
@@ -48,14 +54,18 @@ public class Pedido implements Serializable {
             inverseJoinColumns = {
                 @JoinColumn(name = "ID_BEBIDA", referencedColumnName = "ID")})
     private List<Bebida> bebidas;
+    @NotNull
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false)
     @JoinColumn(name = "ID_CLIENTE", referencedColumnName = "ID")
     private Cliente cliente;
+    @NotNull
+    @Size(min = 6, max = 8)
     @Enumerated(EnumType.STRING)
-    @Column(name = "TXT_STATUS_COMPRA", length = 20, nullable = false)
+    @Column(name = "TXT_STATUS_COMPRA")
     private StatusCompra statusCompra;
+    @DecimalMin(value = "0.0")
     @Transient
-    private Double total;
+    private Double total = 0.0;
     
     
     public Pedido() {
@@ -105,9 +115,11 @@ public class Pedido implements Serializable {
            this.bebidas = new ArrayList<>(); 
         }
         this.bebidas.add(bebida);
+        bebida.setEstoque(bebida.getEstoque() - bebida.getQuantGarrafa());
 //        calculaSubTotal(bebida);
     }
     public boolean removerBebida(Bebida bebida){
+        bebida.setEstoque(bebida.getEstoque() - bebida.getQuantGarrafa());
         return this.bebidas.remove(bebida);
     }
 
@@ -135,20 +147,21 @@ public class Pedido implements Serializable {
      * @param bebida
      * @return calculaTotalCompras(subtotal)
      */
-    public Double calculaSubTotal(Bebida bebida){
-       Double subtotal;
-       double preco = 0;
-       int quantidade = 0;
-       if(temBebidas() == false){
-           System.out.println("Não há bebidas para calcular");
-           return null;
-       }
+    public boolean calculaSubTotal(Bebida bebida) {
+        Double subtotal;
+        double preco;
+        int quantidade;
+        if (temBebidas() == false) {
+            System.out.println("Não há bebidas para calcular");
+            return false;
+        }
         for (Bebida b : this.bebidas) {
             preco = b.getPreco();
             quantidade = b.getQuantGarrafa();
+            subtotal = preco * quantidade;
+            calculaTotalCompras(subtotal);
         }
-       subtotal = preco * quantidade;
-       return calculaTotalCompras(subtotal);
+        return true;
     }
     
     /**
