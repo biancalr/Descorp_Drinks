@@ -1,6 +1,12 @@
 /*
- * Onde colocar um indicador de quantidade de garrafas?
- * E o valor total de um Pedido?
+ * RemoverBebida() interfere no cálculo dos métodos:
+ * Bebida.calculaTotalCompras() e Bebida.calculaSubtotal()
+ * Como mudar o valor do total e do subtotal de acordo com a
+ * "quantidade de bebidas" adicionadas e/ou removidas
+ * Essa quantidade de Bebidas refere-se tanto à quantidade de 
+ * bebidas de uma mesma bebida ou às diferentes bebidas adicionadas
+
+ * Automatizar comtrole de Estoque
  */
 package test.com.mycompany.test;
 
@@ -130,7 +136,7 @@ public class Testes {
         cliente.setTelefone("3016-2564");
         cliente.setLogin("Xuxis");
         cliente.setEmail("xuxa@gmail.com");
-        cliente.setSenha("6666");
+        cliente.setSenha("xu6666");
         criarEndereco(cliente);
         criarCartao(cliente);
         em.persist(cliente);
@@ -143,7 +149,7 @@ public class Testes {
     public void t02_atualizarCartao() {
         logger.info("Executando t02: Atualizar Cartao");
         Cartao cartao = em.find(Cartao.class, new Long(3));
-        assertNotNull(cartao.getId());
+        assertNotNull(cartao);
         Calendar c = Calendar.getInstance();
         c.set(Calendar.YEAR, 2021);
         c.set(Calendar.MONTH, Calendar.NOVEMBER);
@@ -208,7 +214,7 @@ public class Testes {
         logger.log(Level.INFO, "Executando t06: Remover Cartao");
         Cliente cliente = em.find(Cliente.class, new Long(4));
         Cartao cartao = em.find(Cartao.class, cliente.getCartao().getId());
-        assertNotNull(cartao.getId());
+        assertNotNull(cartao);
         cartao = em.merge(cartao);
         em.remove(cartao);
         cliente.setCartao(null);
@@ -250,21 +256,25 @@ public class Testes {
     }
     
     @Test
-    public void t09_adicionarPedido(){
+    public void t09_persistirPedido(){
         logger.log(Level.INFO, "Executando t10: Adicionar Pedido");
         Pedido pedido = new Pedido();
         Cliente cliente = em.find(Cliente.class, new Long(1));
         assertNotNull(cliente);
         pedido.setCliente(cliente);
-        pedido.setStatusCompra(StatusCompra.APROVADO);
         BebidaComum comum = em.find(BebidaComum.class, new Long(3));
         assertNotNull(comum);
-        BebidaAlcoolica alcoolica = em.find(BebidaAlcoolica.class, new Long(11));
-        assertNotNull(alcoolica);
+        comum.setQuantGarrafa(1);
         pedido.addBebida(comum);
-        pedido.addBebida(alcoolica);
-        comum.setEstoque(comum.getEstoque() - 1);
-        alcoolica.setEstoque(alcoolica.getEstoque() - 1);
+        BebidaAlcoolica alcoolico = em.find(BebidaAlcoolica.class, new Long(11));
+        assertNotNull(alcoolico);
+        alcoolico.setQuantGarrafa(2);
+        pedido.addBebida(alcoolico);
+        if (cliente.getCartao().getDataExpiracao().compareTo(new Date()) < 0) {
+            pedido.setStatusCompra(StatusCompra.NEGADO);
+        } else {
+            pedido.setStatusCompra(StatusCompra.APROVADO);
+        }
         em.persist(pedido);
         em.flush();
         assertEquals(2, pedido.getBebidas().size());
@@ -321,7 +331,46 @@ public class Testes {
         assertEquals(4, clientes.size());
     }
 
+    @Test
+    public void t13_quantidadePedidosPorCliente(){
+        
+//        logger.info("Executando t14: QuantidadePedidos.PorCliente");
+//        TypedQuery<Cliente> query;
+//        query = em.createNamedQuery("QuantidadePedidos.PorCliente", Cliente.class);
+//        List<Cliente> clientes = query.getResultList();
+//        assertNotNull(clientes);
+    }
     
+    @Test
+    public void t14_clienteCartao(){
+        
+    }
     
+    @Test
+    public void t15_bebidasEmPedido(){
     
+    }
+            
+    @Test       
+    public void t16_pedidosNegados(){
+//        logger.info("Executando t16: SELECT p FROM Pedido p WHERE p.statusCompra LIKE :statusCompra");
+//        TypedQuery<Pedido> query;
+//        query = em.createQuery(""
+//                + "SELECT p FROM Pedido p "
+//                + "WHERE p.statusCompra = NEGADO"
+//                + "ORDER BY p.id",
+//                Pedido.class);
+//        List<Pedido> negados = query.getResultList();
+//        
+//        assertTrue(negados.get(1).getId() == 7);
+//        assertEquals(3, negados.size());
+    }        
+            
+    @Test       
+    public void t16_pedidoMaisRecente(){
+        
+    }        
+            
+            
+            
 }
