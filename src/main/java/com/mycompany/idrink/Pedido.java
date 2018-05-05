@@ -59,7 +59,6 @@ public class Pedido implements Serializable {
     @JoinColumn(name = "ID_CLIENTE", referencedColumnName = "ID")
     private Cliente cliente;
     @NotNull
-    @Size(min = 6, max = 8)
     @Enumerated(EnumType.STRING)
     @Column(name = "TXT_STATUS_COMPRA")
     private StatusCompra statusCompra;
