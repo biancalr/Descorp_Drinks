@@ -4,6 +4,7 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.validation.constraints.Min;
 
 
 /**
@@ -14,6 +15,7 @@ import javax.persistence.Entity;
 @DiscriminatorValue(value = "SIM")
 public class BebidaAlcoolica extends Bebida implements Serializable {
     
+    @Min(value = 0)
     @Column(name = "PERCENT_TEOR_ALCOOL", nullable = true)
     private Float teor;
 
