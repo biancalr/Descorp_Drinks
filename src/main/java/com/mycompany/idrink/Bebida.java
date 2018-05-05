@@ -17,6 +17,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.NotBlank;
 
 /**
@@ -37,11 +38,11 @@ public class Bebida implements Serializable {
     @NotBlank
     @Column(name = "TXT_NOME", length = 50, nullable = false)
     protected String nome;
-    @NotBlank
+    @NotNull
     @DecimalMin(value = "0.0")
     @Column(name = "NUM_PRECO", length = 5, nullable = false)
     protected Double preco;
-    @NotBlank
+    @NotNull
     @Min(value = 0)
     @Column(name = "NUM_ESTOQUE", nullable = false)
     protected Integer estoque;
