@@ -19,9 +19,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 /**
  *
  * @author Bianca
@@ -51,8 +54,9 @@ public class Pedido implements Serializable {
     @Enumerated(EnumType.STRING)
     @Column(name = "TXT_STATUS_COMPRA", length = 20, nullable = false)
     private StatusCompra statusCompra;
-//    private Double total;
-
+    @Transient
+    private Double total;
+    
     
     public Pedido() {
         this.addDataPedido();
@@ -101,6 +105,7 @@ public class Pedido implements Serializable {
            this.bebidas = new ArrayList<>(); 
         }
         this.bebidas.add(bebida);
+//        calculaSubTotal(bebida);
     }
     public boolean removerBebida(Bebida bebida){
         return this.bebidas.remove(bebida);
@@ -112,25 +117,49 @@ public class Pedido implements Serializable {
 
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
-//        cliente.getPedidos().add(this);
     }
 
     public StatusCompra getStatusCompra() {
+        if (cliente.getCartao().getDataExpiracao().compareTo(new Date()) < 0) {
+            setStatusCompra(StatusCompra.NEGADO);
+        }
         return statusCompra;
     }
 
     public void setStatusCompra(StatusCompra statusCompra) {
         this.statusCompra = statusCompra;
     }
-
-//    public Double calculaTotalCompras() {
-//        List<Bebida> bebida = (List<Bebida>) bebidas;
-//        for (int i = 0; i < bebida.size(); i++) {
-//            Bebida b = (Bebida) bebida.get(i);
-//            this.total = this.total + (b.getPreco() /* b.getQuantGarrafa()*/);
-//        }
-//        return this.total;
-//    }
+    
+    /**
+     * Calcula o preço da bebida multiplicado pela quantidade de garrafas
+     * @param bebida
+     * @return calculaTotalCompras(subtotal)
+     */
+    public Double calculaSubTotal(Bebida bebida){
+       Double subtotal;
+       double preco = 0;
+       int quantidade = 0;
+       if(temBebidas() == false){
+           System.out.println("Não há bebidas para calcular");
+           return null;
+       }
+        for (Bebida b : this.bebidas) {
+            preco = b.getPreco();
+            quantidade = b.getQuantGarrafa();
+        }
+       subtotal = preco * quantidade;
+       return calculaTotalCompras(subtotal);
+    }
+    
+    /**
+     * Soma de todos os subtotais de um Pedido
+     * @param subTotal
+     * @return Total = Total + subTotal;
+     */
+    public Double calculaTotalCompras(Double subTotal) {
+        this.total += subTotal;
+        return this.total;
+    }
     
     @Override
     public int hashCode() {
