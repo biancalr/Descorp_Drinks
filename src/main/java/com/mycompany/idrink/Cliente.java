@@ -13,14 +13,28 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 /**
  *
  * @author Bianca
  */
+//@NamedQueries(
+//        {
+//            @NamedQuery(
+//                    name = "QuantidadePedidos.PorCliente",
+//                    query = "SELECT c.nome "
+//                            + "FROM Cliente c "
+//                            + "JOIN c.numPedidos "
+//                            + "ORDER BY c.id"
+//            )
+//        }
+//)
 @Entity
 @Table(name = "TB_CLIENTE")
 public class Cliente implements Serializable {
@@ -47,6 +61,8 @@ public class Cliente implements Serializable {
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "cliente", 
             orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Pedido> pedidos;
+    @Transient
+    private int numPedidos = 0; 
     
     public Long getId() {
         return id;
@@ -125,9 +141,11 @@ public class Cliente implements Serializable {
         }
         pedido.setCliente(this);
         this.pedidos.add(pedido);
+        this.numPedidos++;
     }
     
     public boolean removerPedido(Pedido pedido){
+        this.numPedidos--;
         return this.pedidos.remove(pedido);
     }
     
