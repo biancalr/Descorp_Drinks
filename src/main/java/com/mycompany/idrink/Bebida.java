@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 /**
  *
@@ -36,10 +37,8 @@ public class Bebida implements Serializable {
     protected Double preco;
     @Column(name = "NUM_ESTOQUE", nullable = false)
     protected Integer estoque;
-//    @Column(name = "NUM_QUANTIDADE", nullable = false)
-//    protected Integer quantGarrafa;
-//    @ManyToMany(mappedBy = "bebidas")
-//    protected List<Pedido> pedidos;
+    @Transient
+    protected Integer quantGarrafas;
 
 
     public Long getId() {
@@ -70,25 +69,14 @@ public class Bebida implements Serializable {
         this.estoque = estoque;
     }
     
-//    public Integer getQuantGarrafa() {
-//        return quantGarrafa;
-//    }
-//
-//    public void setQuantGarrafa(Integer quantGarrafa) {
-//        this.quantGarrafa = quantGarrafa;
-//    }
-    
-//    public List<Pedido> getPedidos() {
-//        return pedidos;
-//    }
-//
-//    public void addEmPedidos(Pedido pedido) {
-//        if (this.pedidos == null) {
-//            pedidos = new ArrayList<>();
-//        }
-//        pedido.getBebidas().add(this);
-//        this.pedidos.add(pedido);
-//    }
+    public Integer getQuantGarrafa() {
+        return quantGarrafas;
+    }
+
+    public void setQuantGarrafa(Integer quantidade) {
+        this.quantGarrafas = quantidade;
+    }
+
     
     @Override
     public int hashCode() {
