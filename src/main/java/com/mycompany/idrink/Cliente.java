@@ -48,11 +48,11 @@ public class Cliente implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotBlank
-    @Column(name = "TXT_NOME", length = 255, nullable = false)
+    @Column(name = "TXT_NOME", length = 255)
     private String nome;
-    @Column(name = "TXT_EMAIL", length = 50, nullable = false)
-    @NotNull
+    @NotBlank
     @Email
+    @Column(name = "TXT_EMAIL", length = 50)
     private String email;
     @NotBlank
     @Size(max = 15)
