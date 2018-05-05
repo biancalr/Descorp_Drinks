@@ -10,7 +10,6 @@ import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.validation.constraints.Min;
-import org.hibernate.validator.constraints.NotBlank;
 
 /**
  *
@@ -21,8 +20,7 @@ import org.hibernate.validator.constraints.NotBlank;
 public class BebidaComum extends Bebida implements Serializable {
 
     @Min(value = 0)
-    @NotBlank
-    @Column(name = "QUANT_GRAMAS_ACUCAR")
+    @Column(name = "QUANT_GRAMAS_ACUCAR", nullable = true)
     private Integer gramas;
 
     public Integer getQuantidade() {
