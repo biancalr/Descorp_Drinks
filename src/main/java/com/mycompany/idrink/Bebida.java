@@ -112,8 +112,8 @@ public class Bebida implements Serializable {
         sb.append(this.nome);
         sb.append("\n Preco:");
         sb.append(this.preco);
-//        sb.append("\n Quantidade:");
-//        sb.append(this.quantGarrafa);
+        sb.append("\n Quantidade:");
+        sb.append(this.quantGarrafas);
         sb.append("\n");
         return sb.toString();
     }
