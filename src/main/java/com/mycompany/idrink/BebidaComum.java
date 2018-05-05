@@ -19,21 +19,21 @@ import javax.persistence.Entity;
 public class BebidaComum extends Bebida implements Serializable {
 
     @Column(name = "QUANT_GRAMAS_ACUCAR", nullable = true)
-    private Integer quantidade;
+    private Integer gramas;
 
     public Integer getQuantidade() {
-        return quantidade;
+        return gramas;
     }
 
-    public void setQuantidade(Integer quantidade) {
-        this.quantidade = quantidade;
+    public void setQuantidade(Integer gramas) {
+        this.gramas = gramas;
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder(super.toString());
         sb.append(" Alcoólica: Nao\n Percentual Teor Açúcar:");
-        sb.append(this.quantidade);
+        sb.append(this.gramas);
         return sb.toString();
     }
 }
