@@ -36,7 +36,7 @@ public class Endereco implements Serializable {
     @Column(name = "END_TXT_LOGRADOURO")
     private String logradouro;
     @Size(max = 100)
-    @Column(name = "END_TXT_COMPLEMENTO")
+    @Column(name = "END_TXT_COMPLEMENTO", nullable = true)
     private String complemento;
     @NotBlank
     @Min(value = 1)
