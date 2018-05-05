@@ -13,12 +13,17 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
+//import javax.persistence.NamedQueries;
+//import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotBlank;
 
 /**
  *
@@ -42,25 +47,36 @@ public class Cliente implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NotBlank
     @Column(name = "TXT_NOME", length = 255, nullable = false)
     private String nome;
     @Column(name = "TXT_EMAIL", length = 50, nullable = false)
+    @NotNull
+    @Email
     private String email;
-    @Column(name = "TXT_LOGIN", length = 50, nullable = false)
+    @NotBlank
+    @Size(max = 15)
+    @Column(name = "TXT_LOGIN")
     private String login;
-    @Column(name = "TXT_SENHA", length = 20, nullable = false)
+    @NotBlank
+    @Size(min = 6, max = 20)
+    @Column(name = "TXT_SENHA")
     private String senha;
-    @Column(name = "TXT_TELEFONE", length = 20, nullable = false)
+    @NotBlank
+    @Size(min = 8, max = 15)
+    @Column(name = "TXT_TELEFONE")
     private String telefone;
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, 
             optional = false, orphanRemoval = true)
     @JoinColumn(name = "ID_CARTAO", referencedColumnName = "ID")
     private Cartao cartao;
+    @NotNull
     @Embedded
     private Endereco endereco;
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "cliente", 
             orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Pedido> pedidos;
+    @Min(value = 0)
     @Transient
     private int numPedidos = 0; 
     
@@ -185,8 +201,11 @@ public class Cliente implements Serializable {
         sb.append("\n Login:");
         sb.append(this.login);
         sb.append("\n ");
-        sb.append(this.cartao.toString());
-        sb.append("\n ");
+        if (this.cartao != null) {
+            sb.append(this.cartao.toString());
+            sb.append("\n ");
+
+        }
         sb.append(this.endereco.toString());
         sb.append("\n");
         return sb.toString();
