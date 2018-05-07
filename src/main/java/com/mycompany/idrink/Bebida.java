@@ -36,20 +36,16 @@ public class Bebida implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
     @NotBlank
-    @Column(name = "TXT_NOME", length = 50, nullable = false)
+    @Column(name = "TXT_NOME", length = 50)
     protected String nome;
     @NotNull
     @DecimalMin(value = "0.0")
-    @Column(name = "NUM_PRECO", length = 5, nullable = false)
+    @Column(name = "NUM_PRECO", length = 5)
     protected Double preco;
     @NotNull
     @Min(value = 0)
-    @Column(name = "NUM_ESTOQUE", nullable = false)
+    @Column(name = "NUM_ESTOQUE")
     protected Integer estoque;
-    @Transient
-    @Min(value = 0)
-    protected Integer quantGarrafas = 1;
-
 
     public Long getId() {
         return id;
@@ -78,15 +74,6 @@ public class Bebida implements Serializable {
     public void setEstoque(Integer estoque) {
         this.estoque = estoque;
     }
-    
-    public Integer getQuantGarrafa() {
-        return quantGarrafas;
-    }
-
-    public void setQuantGarrafa(Integer quantidade) {
-        this.quantGarrafas = quantidade;
-    }
-
     
     @Override
     public int hashCode() {
@@ -120,10 +107,8 @@ public class Bebida implements Serializable {
         sb.append(this.id);
         sb.append("\n Nome:");
         sb.append(this.nome);
-        sb.append("\n Preco:");
+        sb.append("\n Preco Unitário:");
         sb.append(this.preco);
-        sb.append("\n Quantidade:");
-        sb.append(this.quantGarrafas);
         sb.append("\n");
         return sb.toString();
     }
