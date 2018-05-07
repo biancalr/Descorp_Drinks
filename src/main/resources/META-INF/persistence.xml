@@ -6,6 +6,7 @@
     <class>com.mycompany.idrink.Endereco</class>
     <class>com.mycompany.idrink.Cartao</class>
     <class>com.mycompany.idrink.Pedido</class>
+    <class>com.mycompany.idrink.Item</class>
     <class>com.mycompany.idrink.Bebida</class>
     <class>com.mycompany.idrink.BebidaAlcoolica</class>
     <class>com.mycompany.idrink.BebidaComum</class>
