@@ -1,18 +1,23 @@
 package com.mycompany.idrink;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Min;
@@ -41,10 +46,13 @@ public class Bebida implements Serializable {
     @DecimalMin(value = "0.0")
     @Column(name = "NUM_PRECO", length = 5)
     protected Double preco;
-    @NotNull
+    @NotBlank
     @Min(value = 0)
     @Column(name = "NUM_ESTOQUE")
     protected Integer estoque;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, 
+            mappedBy = "bebida", orphanRemoval = true)
+    protected List<Item> itens;
 
     public Long getId() {
         return id;
@@ -72,6 +80,31 @@ public class Bebida implements Serializable {
 
     public void setEstoque(Integer estoque) {
         this.estoque = estoque;
+    }
+    
+    public void adicionaNoEstoque(Integer reserva){
+        this.estoque = getEstoque() + reserva;
+    }
+    
+    public void subtraiDoEstoque(Integer reserva){
+        this.estoque = getEstoque() - reserva;
+    }
+
+    public List<Item> getItens() {
+        return itens;
+    }
+
+    public void addItem(Item item) {
+        if (this.itens == null) {
+           this.itens = new ArrayList<>(); 
+        }
+        subtraiDoEstoque(item.getQuantidade());
+        item.setBebida(this);
+        this.itens.add(item);
+    }
+    public boolean removerItem(Item item){
+        adicionaNoEstoque(item.getQuantidade());
+        return this.itens.remove(item);
     }
     
     @Override

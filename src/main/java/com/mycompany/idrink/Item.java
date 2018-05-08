@@ -7,50 +7,77 @@ package com.mycompany.idrink;
 
 import java.io.Serializable;
 import java.util.Objects;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 /**
  *
- * @author bibil
+ * @author Bianca
  */
 @Entity
+@Table(name = "TB_ITEM")
 public class Item implements Serializable {   
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
-    private int quantidade;
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, 
+            optional = true)
+    @JoinColumn(name = "ID_BEBIDA", referencedColumnName = "ID")
+    private Bebida bebida;
+    @Column(name = "NUM_QUANTIDADE", nullable = false)
+    private Integer quantidade;
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, 
+            optional = false)
+    @JoinColumn(name = "ID_PEDIDO", referencedColumnName = "ID")
+    private Pedido pedido;
 
-    public Item(int quantidade){
+    public Item(Bebida bebida, int quantidade){
+        this.bebida = bebida;
         this.quantidade = quantidade;
+        this.bebida.subtraiDoEstoque(quantidade);
     }
     
     public Long getId() {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public Bebida getBebida() {
+        return bebida;
     }
 
-    public int getQuantidade() {
+    public void setBebida(Bebida bebida) {
+        this.bebida = bebida;
+    }
+    
+    public Integer getQuantidade() {
         return quantidade;
     }
 
     public void setQuantidade(int quantidade) {
         this.quantidade = quantidade;
     }
-    
-    
-    
-    
-    
-    
 
+    public Pedido getPedido() {
+        return pedido;
+    }
+
+    public void setPedido(Pedido pedido) {
+        this.pedido = pedido;
+    }
+    
+    public Double calculaSubTotal(){
+        return this.bebida.preco * this.quantidade;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 3;

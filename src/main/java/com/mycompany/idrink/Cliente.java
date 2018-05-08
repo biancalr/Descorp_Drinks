@@ -13,8 +13,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-//import javax.persistence.NamedQueries;
-//import javax.persistence.NamedQuery;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -29,19 +29,19 @@ import org.hibernate.validator.constraints.NotBlank;
  *
  * @author Bianca
  */
-//@NamedQueries(
-//        {
-//            @NamedQuery(
-//                    name = "QuantidadePedidos.PorCliente",
-//                    query = "SELECT c.nome "
-//                            + "FROM Cliente c "
-//                            + "JOIN c.numPedidos "
-//                            + "ORDER BY c.id"
-//            )
-//        }
-//)
 @Entity
 @Table(name = "TB_CLIENTE")
+@NamedQueries(
+        {
+            @NamedQuery(
+                    name = "ClienteCartao",
+                    query = "SELECT c.nome "
+                            + "FROM Cliente c "
+//                            + "JOIN FETCH c.cartao.numero "
+//                            + "ORDER BY c.id"
+            )
+        }
+)
 public class Cliente implements Serializable {
 
     @Id
@@ -73,19 +73,12 @@ public class Cliente implements Serializable {
     @NotNull
     @Embedded
     private Endereco endereco;
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "cliente", 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "cliente", 
             orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Pedido> pedidos;
-    @Min(value = 0)
-    @Transient
-    private int numPedidos = 0; 
     
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getNome() {
@@ -157,11 +150,9 @@ public class Cliente implements Serializable {
         }
         pedido.setCliente(this);
         this.pedidos.add(pedido);
-        this.numPedidos++;
     }
     
     public boolean removerPedido(Pedido pedido){
-        this.numPedidos--;
         return this.pedidos.remove(pedido);
     }
     

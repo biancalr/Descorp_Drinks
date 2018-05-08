@@ -8,9 +8,8 @@ id_cartao -->
 <!-- BEBIDA: alcoolico txt_nome num_preco num_estoque -->
 <!-- BEBIDA COMUM: quant_gramas_acucar-->
 <!-- BEBIDA ALCOOLICA: percent_teor_alcool -->
-<!-- ITEM: id_bebida num_quantidade-->
+<!-- ITEM SELECIONADO: id_bebida num_quantidade-->
 <!-- PEDIDO: dt_pedido hr_pedido id_cliente -->
-<!-- ITEM_PEDIDO: id_pedido id_item -->
 
 <dataset>
     <!--Cartao id = 1-->
@@ -130,125 +129,6 @@ id_cartao -->
     <TB_BEBIDA  alcoolico ="SIM" txt_nome ="Vinho Tinto" num_preco ="24.48" 
                 num_estoque ="21" percent_teor_alcool ="12.5"/>
     
-    <!--Item id = 1-->
-    <TB_ITEM id_bebida ="1" num_quantidade ="3"/>
     
-    <!--Item id = 2-->
-    <TB_ITEM id_bebida ="2" num_quantidade ="1"/>
-    
-    <!--Item id = 3-->
-    <TB_ITEM id_bebida ="10" num_quantidade ="4"/>
-    
-    <!--Item id = 4-->
-    <TB_ITEM id_bebida ="5" num_quantidade ="2"/>
-    
-    <!--Item id = 5-->
-    <TB_ITEM id_bebida ="3" num_quantidade ="5"/>
-    
-    <!--Item id = 6-->
-    <TB_ITEM id_bebida ="4" num_quantidade ="8"/>
-    
-    <!--Item id = 7-->
-    <TB_ITEM id_bebida ="8" num_quantidade ="1"/>
-    
-    <!--Item id = 8-->
-    <TB_ITEM id_bebida ="7" num_quantidade ="1"/>
-    
-    <!--Item id = 9-->
-    <TB_ITEM id_bebida ="6" num_quantidade ="2"/>
-    
-    <!--Item id = 10-->
-    <TB_ITEM id_bebida ="9" num_quantidade ="2"/>
-    
-    <!--Item id = 11-->
-    <TB_ITEM id_bebida ="10" num_quantidade ="1"/>
-    
-    <!--Item id = 12-->
-    <TB_ITEM id_bebida ="1" num_quantidade ="5"/>
-    
-    <!--Item id = 13-->
-    <TB_ITEM id_bebida ="2" num_quantidade ="2"/>
-    
-    <!--Item id = 14-->
-    <TB_ITEM id_bebida ="5" num_quantidade ="3"/>
-    
-    <!--Item id = 15-->
-    <TB_ITEM id_bebida ="6" num_quantidade ="1"/>
-    
-    <!--Item id = 16-->
-    <TB_ITEM id_bebida ="3" num_quantidade ="4"/>
-    
-    <!--Pedido id = 1-->
-    <TB_PEDIDO  dt_pedido ="2018-06-12" hr_pedido ="16:16:50" 
-                id_cliente ="1" txt_status_compra ="APROVADO"/>
-    <TB_ITEM_PEDIDO id_pedido ="1" id_item ="1"/>
-    
-    <!--Pedido id = 2-->
-    <TB_PEDIDO  dt_pedido ="2018-07-13" hr_pedido ="13:09:23" 
-                id_cliente ="2" txt_status_compra ="APROVADO"/>
-    <TB_ITEM_PEDIDO id_pedido ="2" id_item ="2"/>
-    
-    <!--Pedido id = 3-->
-    <TB_PEDIDO  dt_pedido ="2018-03-02" hr_pedido ="06:09:01" 
-                id_cliente ="2" txt_status_compra ="APROVADO"/>
-    <TB_ITEM_PEDIDO id_pedido ="3" id_item ="3"/>
-    
-    <!--Pedido id = 4-->
-    <TB_PEDIDO  dt_pedido ="2018-04-02" hr_pedido ="15:18:58" 
-                id_cliente ="1" txt_status_compra ="APROVADO"/>
-    <TB_ITEM_PEDIDO id_pedido ="4" id_item ="16"/>
-    
-    <!--Pedido id = 5-->
-    <TB_PEDIDO  dt_pedido ="2018-05-02" hr_pedido ="15:08:58" 
-                id_cliente ="1" txt_status_compra ="APROVADO"/>
-    <TB_ITEM_PEDIDO id_pedido ="5" id_item ="4"/>
-    
-    <!--Pedido id = 6-->
-    <TB_PEDIDO  dt_pedido ="2018-01-11" hr_pedido ="20:18:59" 
-                id_cliente ="5" txt_status_compra ="APROVADO"/>
-    <TB_ITEM_PEDIDO id_pedido ="6" id_item ="5"/>
-    <TB_ITEM_PEDIDO id_pedido ="6" id_item ="7"/>
-    <TB_ITEM_PEDIDO id_pedido ="6" id_item ="10"/>
-    
-    <!--Pedido id = 7-->
-    <TB_PEDIDO  dt_pedido ="2018-04-02" hr_pedido ="15:28:58" 
-                id_cliente ="6" txt_status_compra ="NEGADO"/>
-    <TB_ITEM_PEDIDO id_pedido ="7" id_item ="6"/>
-    <TB_ITEM_PEDIDO id_pedido ="7" id_item ="14"/>
-    <TB_ITEM_PEDIDO id_pedido ="7" id_item ="9"/>
-    
-    <!--Pedido id = 8-->
-    <TB_PEDIDO  dt_pedido ="2018-03-03" hr_pedido ="20:18:58" 
-                id_cliente ="5" txt_status_compra ="APROVADO"/>
-    <TB_ITEM_PEDIDO id_pedido ="8" id_item ="15"/>
-    <TB_ITEM_PEDIDO id_pedido ="8" id_item ="8"/>
-    <TB_ITEM_PEDIDO id_pedido ="8" id_item ="11"/>
-    
-    <!--Pedido id = 9-->
-    <TB_PEDIDO  dt_pedido ="2018-04-02" hr_pedido ="15:18:58" 
-                id_cliente ="4" txt_status_compra ="NEGADO"/>
-    <TB_ITEM_PEDIDO id_pedido ="9" id_item ="13"/>
-    <TB_ITEM_PEDIDO id_pedido ="9" id_item ="12"/>
-    <TB_ITEM_PEDIDO id_pedido ="9" id_item ="16"/>
-    <TB_ITEM_PEDIDO id_pedido ="9" id_item ="6"/>
-    
-    <!--Pedido id = 10-->
-    <TB_PEDIDO  dt_pedido ="2018-05-01" hr_pedido ="12:16:47" 
-                id_cliente ="1" txt_status_compra ="APROVADO"/>
-    <TB_ITEM_PEDIDO id_pedido ="10" id_item ="4"/>
-    <TB_ITEM_PEDIDO id_pedido ="10" id_item ="8"/>
-    <TB_ITEM_PEDIDO id_pedido ="10" id_item ="9"/>
-    <TB_ITEM_PEDIDO id_pedido ="10" id_item ="10"/>
-    
-    <!--Pedido id = 11-->
-    <TB_PEDIDO  dt_pedido ="2018-03-02" hr_pedido ="20:19:28" 
-                id_cliente ="3" txt_status_compra ="APROVADO"/>
-    <TB_ITEM_PEDIDO id_pedido ="11" id_item ="7"/>
-    <TB_ITEM_PEDIDO id_pedido ="11" id_item ="11"/>
-    
-    <!--Pedido id = 12-->
-    <TB_PEDIDO  dt_pedido ="2018-02-02" hr_pedido ="19:02:27" 
-                id_cliente ="4" txt_status_compra ="NEGADO"/>
-    <TB_ITEM_PEDIDO id_pedido ="12" id_item ="8"/>
            
 </dataset>

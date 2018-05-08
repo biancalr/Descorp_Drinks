@@ -19,16 +19,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.Transient;
-import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import org.hibernate.validator.constraints.NotBlank;
-//import javax.persistence.NamedQueries;
-//import javax.persistence.NamedQuery;
+
 /**
  *
  * @author Bianca
@@ -48,12 +44,9 @@ public class Pedido implements Serializable {
     @Column(name = "HR_PEDIDO")
     @Temporal(TemporalType.TIME)
     private Date horaPedido;
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "TB_PEDIDO_BEBIDA", joinColumns = {
-        @JoinColumn(name = "ID_PEDIDO", referencedColumnName = "ID")}, 
-            inverseJoinColumns = {
-                @JoinColumn(name = "ID_BEBIDA", referencedColumnName = "ID")})
-    private List<Bebida> bebidas;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pedido", 
+            orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<Item> itens;
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false)
     @JoinColumn(name = "ID_CLIENTE", referencedColumnName = "ID")
@@ -62,11 +55,7 @@ public class Pedido implements Serializable {
     @Enumerated(EnumType.STRING)
     @Column(name = "TXT_STATUS_COMPRA")
     private StatusCompra statusCompra;
-    @DecimalMin(value = "0.0")
-    @Transient
-    private Double total = 0.0;
-    
-    
+
     public Pedido() {
         this.addDataPedido();
         this.addHoraPedido();
@@ -83,7 +72,7 @@ public class Pedido implements Serializable {
     public void setDataPedido(Date dataPedido) {
         this.dataPedido = dataPedido;
     }
-    
+
     private void addDataPedido() {
         Calendar c = Calendar.getInstance();
         this.dataPedido = c.getTime();
@@ -96,30 +85,30 @@ public class Pedido implements Serializable {
     public void setHoraPedido(Date horaPedido) {
         this.horaPedido = horaPedido;
     }
-    
+
     private void addHoraPedido() {
         Calendar c = Calendar.getInstance();
         this.horaPedido = c.getTime();
     }
-
-    public List<Bebida> getBebidas() {
-        return bebidas;
-    }
-    public boolean temBebidas(){
-        return !this.bebidas.isEmpty();
+    
+    public boolean temItens() {
+        return !this.itens.isEmpty();
     }
 
-    public void addBebida(Bebida bebida) {
-        if (this.bebidas == null) {
-           this.bebidas = new ArrayList<>(); 
+    public List<Item> getItens() {
+        return this.itens;
+    }
+
+    public void addItem(Item item) {
+        if (this.itens == null) {
+            this.itens = new ArrayList<>();
         }
-        this.bebidas.add(bebida);
-        bebida.setEstoque(bebida.getEstoque() - bebida.getQuantGarrafa());
-//        calculaSubTotal(bebida);
+        item.setPedido(this);
+        this.itens.add(item);
     }
-    public boolean removerBebida(Bebida bebida){
-        bebida.setEstoque(bebida.getEstoque() - bebida.getQuantGarrafa());
-        return this.bebidas.remove(bebida);
+
+    public boolean removerItem(Item item) {
+        return itens.remove(item);
     }
 
     public Cliente getCliente() {
@@ -131,48 +120,24 @@ public class Pedido implements Serializable {
     }
 
     public StatusCompra getStatusCompra() {
-        if (cliente.getCartao().getDataExpiracao().compareTo(new Date()) < 0) {
-            setStatusCompra(StatusCompra.NEGADO);
-        }
         return statusCompra;
     }
 
     public void setStatusCompra(StatusCompra statusCompra) {
+        if (cliente.getCartao().getDataExpiracao().compareTo(new Date()) < 0) {
+            setStatusCompra(StatusCompra.NEGADO);
+        }
         this.statusCompra = statusCompra;
     }
     
-    /**
-     * Calcula o preço da bebida multiplicado pela quantidade de garrafas
-     * @param bebida
-     * @return calculaTotalCompras(subtotal)
-     */
-    public boolean calculaSubTotal(Bebida bebida) {
-        Double subtotal;
-        double preco;
-        int quantidade;
-        if (temBebidas() == false) {
-            System.out.println("Não há bebidas para calcular");
-            return false;
+    public Double calculaTotalCompras(){
+        Double total = null;
+        for (Item i : itens) {
+            total += i.calculaSubTotal();
         }
-        for (Bebida b : this.bebidas) {
-            preco = b.getPreco();
-            quantidade = b.getQuantGarrafa();
-            subtotal = preco * quantidade;
-            calculaTotalCompras(subtotal);
-        }
-        return true;
+        return total;
     }
-    
-    /**
-     * Soma de todos os subtotais de um Pedido
-     * @param subTotal
-     * @return Total = Total + subTotal;
-     */
-    public Double calculaTotalCompras(Double subTotal) {
-        this.total += subTotal;
-        return this.total;
-    }
-    
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -197,7 +162,6 @@ public class Pedido implements Serializable {
         }
         return true;
     }
-    
 
     @Override
     public String toString() {
@@ -211,10 +175,10 @@ public class Pedido implements Serializable {
         sb.append("\n Hora do pedido:");
         sb.append(this.horaPedido);
         sb.append("\n ");
-        sb.append(this.bebidas);
-//        sb.append("\n Total:");
-//        sb.append(this.calculaTotalCompras());
+        sb.append(this.itens);
+        sb.append("\n Total:");
+        sb.append(this.calculaTotalCompras());
         return sb.toString();
     }
-    
+
 }

@@ -1,22 +1,14 @@
-/*
- * RemoverBebida() interfere no cálculo dos métodos:
- * Bebida.calculaTotalCompras() e Bebida.calculaSubtotal()
- * Como mudar o valor do total e do subtotal de acordo com a
- * "quantidade de bebidas" adicionadas e/ou removidas
- * Essa quantidade de Bebidas refere-se tanto à quantidade de 
- * bebidas de uma mesma bebida ou às diferentes bebidas adicionadas
-
- * Automatizar comtrole de Estoque
- */
 package test.com.mycompany.test;
 
 import com.mycompany.idrink.BebidaAlcoolica;
-import com.mycompany.idrink.BebidaComum;
+//import com.mycompany.idrink.BebidaComum;
 import com.mycompany.idrink.Cartao;
 import com.mycompany.idrink.Cliente;
 import com.mycompany.idrink.Endereco;
 import com.mycompany.idrink.Pedido;
 import com.mycompany.idrink.StatusCompra;
+//import com.mycompany.idrink.Pedido;
+//import com.mycompany.idrink.StatusCompra;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -142,6 +134,7 @@ public class Testes {
         em.persist(cliente);
         em.flush();
         assertNotNull(cliente.getId());
+        assertNotNull(cliente.getCartao().getId());
         logger.log(Level.INFO, "Cliente {0} incluído com sucesso.", cliente);
     }
 
@@ -155,8 +148,13 @@ public class Testes {
         c.set(Calendar.MONTH, Calendar.NOVEMBER);
         c.set(Calendar.DAY_OF_MONTH, 19);
         cartao.setDataExpiracao(c.getTime());
-        cartao = em.merge(cartao);
+        cartao.setBandeira("GOOD CARD");
+        cartao.setNumero("6161616161616155");
+        em.merge(cartao);
         em.flush();
+        em.clear();
+        cartao = em.find(Cartao.class, new Long(3));
+        assertEquals("GOOD CARD", cartao.getBandeira());
         logger.log(Level.INFO, "Cartao atualizado com sucesso", cartao);
     }
 
@@ -165,14 +163,18 @@ public class Testes {
         /*
          * Remover 'Cliente' implica que seu 'Cartao' e seus 'Pedidos' serão
          * removidos do banco
+        
+         Checar se os pedidos também foram removidos;
          */
         logger.info("Executando t03: Remover Cliente");
         Cliente cliente = em.find(Cliente.class, new Long(2));
+        Cartao cartao = cliente.getCartao();
         assertNotNull(cliente.getId());
-        cliente = em.merge(cliente);
         em.remove(cliente);
         cliente = em.find(Cliente.class, new Long(2));
+        cartao = em.find(Cartao.class, cartao.getId());
         assertNull(cliente);
+        assertNull(cartao);
         logger.log(Level.INFO, "Cliente removido com sucesso", cliente);
     }
 
@@ -255,31 +257,7 @@ public class Testes {
         logger.log(Level.INFO, "Cartao adicionado com sucesso", cartao);
     }
     
-    @Test
-    public void t09_persistirPedido(){
-        logger.log(Level.INFO, "Executando t10: Adicionar Pedido");
-        Pedido pedido = new Pedido();
-        Cliente cliente = em.find(Cliente.class, new Long(1));
-        assertNotNull(cliente);
-        pedido.setCliente(cliente);
-        BebidaComum comum = em.find(BebidaComum.class, new Long(3));
-        assertNotNull(comum);
-        comum.setQuantGarrafa(1);
-        pedido.addBebida(comum);
-        BebidaAlcoolica alcoolico = em.find(BebidaAlcoolica.class, new Long(11));
-        assertNotNull(alcoolico);
-        alcoolico.setQuantGarrafa(2);
-        pedido.addBebida(alcoolico);
-        if (cliente.getCartao().getDataExpiracao().compareTo(new Date()) < 0) {
-            pedido.setStatusCompra(StatusCompra.NEGADO);
-        } else {
-            pedido.setStatusCompra(StatusCompra.APROVADO);
-        }
-        em.persist(pedido);
-        em.flush();
-        assertEquals(2, pedido.getBebidas().size());
-        logger.log(Level.INFO, "Pedido Adicionado com sucesso", pedido);
-    }
+//    
     
     @Test
     public void t10_cartoesExpirados(){
@@ -288,7 +266,7 @@ public class Testes {
                 "SELECT c FROM Cartao c WHERE c.dataExpiracao < CURRENT_DATE",
                 Cartao.class);
         List<Cartao> cartoesExpirados = query.getResultList();
-        assertEquals(1, cartoesExpirados.size());
+        assertEquals(2, cartoesExpirados.size());
     }
     
     @Test
@@ -306,15 +284,13 @@ public class Testes {
         logger.info("Executando t08: SELECT c FROM Cliente c "
                 + "WHERE c.cartao.bandeira LIKE ?1 OR c.cartao.bandeira LIKE ?2" 
                 + " ORDER BY c.nome DESC");
+        
         TypedQuery<Cliente> query;
         query = em.createQuery(
-                 "SELECT c FROM Cliente c "
-                + "WHERE c.cartao.bandeira LIKE ?1 OR c.cartao.bandeira LIKE ?2" 
-                + " ORDER BY c.nome DESC", Cliente.class);
+                 "SELECT c FROM Cliente c WHERE c.cartao.bandeira LIKE ?1 OR c.cartao.bandeira LIKE ?2 ORDER BY c.nome DESC", Cliente.class);
         query.setParameter(1, "VISA");
         query.setParameter(2, "MASTERCARD");
         List<Cliente> clientes = query.getResultList();
-        
         for (Cliente cliente : clientes) {
             switch(cliente.getCartao().getBandeira()){
                 case "VISA":
@@ -332,13 +308,13 @@ public class Testes {
     }
 
     @Test
-    public void t13_quantidadePedidosPorCliente(){
+    public void t13_ClienteCartao(){
         
-//        logger.info("Executando t14: QuantidadePedidos.PorCliente");
-//        TypedQuery<Cliente> query;
-//        query = em.createNamedQuery("QuantidadePedidos.PorCliente", Cliente.class);
-//        List<Cliente> clientes = query.getResultList();
-//        assertNotNull(clientes);
+        logger.info("Executando t14: ClienteCartao");
+        TypedQuery<Cliente> query;
+        query = em.createNamedQuery("ClienteCartao", Cliente.class);
+        List<Cliente> clientes = query.getResultList();
+        assertNotNull(clientes);
     }
     
     @Test
@@ -353,17 +329,21 @@ public class Testes {
             
     @Test       
     public void t16_pedidosNegados(){
-//        logger.info("Executando t16: SELECT p FROM Pedido p WHERE p.statusCompra LIKE :statusCompra");
-//        TypedQuery<Pedido> query;
-//        query = em.createQuery(""
-//                + "SELECT p FROM Pedido p "
-//                + "WHERE p.statusCompra = NEGADO"
-//                + "ORDER BY p.id",
-//                Pedido.class);
-//        List<Pedido> negados = query.getResultList();
-//        
-//        assertTrue(negados.get(1).getId() == 7);
-//        assertEquals(3, negados.size());
+        logger.info("Executando t16: SELECT p FROM Pedido p WHERE p.statusCompra = NEGADO");
+        TypedQuery<Pedido> query;
+        query = em.createQuery(""
+                + "SELECT p FROM Pedido p "
+                + "WHERE p.statusCompra = :negado "
+                + ""
+                + "ORDER BY p.id",
+                Pedido.class);
+        query.setParameter("negado", StatusCompra.NEGADO);
+        List<Pedido> negados = query.getResultList();
+        
+        assertTrue(negados.get(0).getId() == 7);
+        assertTrue(negados.get(1).getId() == 9);
+        assertTrue(negados.get(2).getId() == 12);
+        assertEquals(3, negados.size());
     }        
             
     @Test       
