@@ -9,20 +9,17 @@
     <class>com.mycompany.idrink.Bebida</class>
     <class>com.mycompany.idrink.BebidaAlcoolica</class>
     <class>com.mycompany.idrink.BebidaComum</class>
-    <class>com.mycompany.idrink.Item</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/idrink?zeroDateTimeBehavior=convertToNull"/>
       <property name="javax.persistence.jdbc.user" value="root"/>
       <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
-      <property name="javax.persistence.jdbc.password" value="1730"/>
+      <property name="javax.persistence.jdbc.password" value="root"/>
       <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
       <property name="eclipselink.logging.level" value="FINEST"/>
       <property name="eclipselink.ddl-generation" value="drop-and-create-tables"/>
       <property name="eclipselink.ddl-generation.output-mode" value="both"/>
       <property name="eclipselink.create-ddl-jdbc-file-name" value="create.sql"/>
       <property name="eclipselink.drop-ddl-jdbc-file-name" value="drop.sql"/>
-      <property name="eclipselink.logging.logger" value="JavaLogger"/>
-      <property name="eclipselink.logging.file" value="output.log"/>
     </properties>
   </persistence-unit>
 </persistence>
