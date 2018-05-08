@@ -38,16 +38,17 @@ id_cartao -->
     
     <!--Cliente id = 1-->
     <TB_CLIENTE txt_nome ="Bianca Leopoldo" txt_email ="bianca@gmail.com"
-                txt_login ="Bianks" txt_senha ="1234" txt_telefone ="3035-2523"
-                end_txt_cep ="50670-210" end_txt_estado ="Pernambuco"
-                end_txt_cidade ="Recife" end_txt_bairro ="Espinheiro" 
-                end_txt_logradouro ="Rua da Hora" end_txt_complemento ="Apto. 203"
-                end_int_numero ="20" id_cartao ="1"/>
+                txt_login ="Bianks" txt_senha ="1234" 
+                txt_telefone ="(81)3035-2523" end_txt_cep ="50670-210"
+                end_txt_estado ="Pernambuco" end_txt_cidade ="Recife" 
+                end_txt_bairro ="Espinheiro" end_txt_logradouro ="Rua da Hora" 
+                end_txt_complemento ="Apto. 203" end_int_numero ="20" 
+                id_cartao ="1"/>
     
     <!--Cliente id = 2-->
     <TB_CLIENTE txt_nome ="Sicrano Silva" txt_email ="sicrano@gmail.com"
                 txt_login ="sicrano" txt_senha ="sicrano123" 
-                txt_telefone ="3857-2485" end_txt_cep ="50670-210"
+                txt_telefone ="(81)3857-2485" end_txt_cep ="50670-210"
                 end_txt_estado ="Pernambuco" end_txt_cidade ="Recife" 
                 end_txt_bairro ="Iputinga" end_txt_logradouro ="Rua Ribeirão"
                 end_txt_complemento ="Apto. 202" end_int_numero ="20"
@@ -56,7 +57,7 @@ id_cartao -->
     <!--Cliente id = 3-->
     <TB_CLIENTE txt_nome ="Beltrano Silva" txt_email ="beltrano@gmail.com" 
                 txt_login ="beltrano" txt_senha ="beltrano_mesmo" 
-                txt_telefone ="3362-9696" end_txt_cep ="50670-210" 
+                txt_telefone ="(81)3362-9696" end_txt_cep ="50670-210" 
                 end_txt_estado ="Pernambuco" end_txt_cidade ="Recife"
                 end_txt_bairro ="Iputinga" end_txt_logradouro ="Rua Ribeirão" 
                 end_txt_complemento ="Apto. 302" end_int_numero ="30"
@@ -65,7 +66,7 @@ id_cartao -->
     <!--Cliente id = 4-->
     <TB_CLIENTE txt_nome ="Fulano Silva" txt_email ="fulano@gmail.com" 
                 txt_login ="fulano" txt_senha ="fulano_mesmo" 
-                txt_telefone ="3362-9696" end_txt_cep ="50670-210" 
+                txt_telefone ="(81)3362-9696" end_txt_cep ="50670-210" 
                 end_txt_estado ="Pernambuco" end_txt_cidade ="Recife"
                 end_txt_bairro ="Ibura" end_txt_logradouro ="Rua Ribeirão" 
                 end_txt_complemento ="Apto. 402" end_int_numero ="40"
@@ -74,7 +75,7 @@ id_cartao -->
     <!--Cliente id = 5-->
     <TB_CLIENTE txt_nome ="Batman Morcego" txt_email ="batman@gmail.com" 
                 txt_login ="batman" txt_senha ="morcego_mesmo" 
-                txt_telefone ="3488-5646" end_txt_cep ="61781-321" 
+                txt_telefone ="(81)3488-5646" end_txt_cep ="61781-321" 
                 end_txt_estado ="Pernambuco" end_txt_cidade ="Recife"
                 end_txt_bairro ="Santo Amaro" end_txt_logradouro ="Rua Ribeirão" 
                 end_txt_complemento ="Caverna no subsolo" 
@@ -83,7 +84,7 @@ id_cartao -->
     <!--Cliente id = 6-->
     <TB_CLIENTE txt_nome ="Capitao America" txt_email ="capitao@gmail.com" 
                 txt_login ="picole" txt_senha ="escudo_boomerang" 
-                txt_telefone ="3499-6757" end_txt_cep ="72892-432" 
+                txt_telefone ="(81)3499-6757" end_txt_cep ="72892-432" 
                 end_txt_estado ="Pernambuco" end_txt_cidade ="Recife"
                 end_txt_bairro ="Santo Amaro" end_txt_logradouro ="Rua Ribeirão" 
                 end_txt_complemento ="Proximo ao Quartel" 
