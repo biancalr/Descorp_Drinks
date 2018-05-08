@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!-- CLIENTE: txt_nome txt_email txt_login txt_senha txt_telefone 
-        end_txt_cep end_txt_estado end_txt_cidade end_txt_bairro 
-        end_txt_logradouro end_txt_complemento end_int_numero 
-        id_cartao -->
+end_txt_cep end_txt_estado end_txt_cidade end_txt_bairro 
+end_txt_logradouro end_txt_complemento end_int_numero 
+id_cartao -->
 <!-- CARTAO: txt_bandeira dt_expiracao txt_numero -->
 <!-- BEBIDA: alcoolico txt_nome num_preco num_estoque -->
 <!-- BEBIDA COMUM: quant_gramas_acucar-->
