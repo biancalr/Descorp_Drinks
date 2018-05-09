@@ -81,55 +81,55 @@ public class TestesCliente {
             fail(ex.getMessage());
         }
     }
-//
-//    public Endereco criarEndereco(Cliente cliente) {
-//        Endereco endereco = new Endereco();
-//        endereco.setCep("50690-220");
-//        endereco.setEstado("Pernambuco");
-//        endereco.setCidade("Recife");
-//        endereco.setBairro("Iputinga");
-//        endereco.setLogradouro("Rua Iolanda Rodrigues Sobral");
-//        endereco.setNumero(550);
-//        endereco.setComplemento("Apto. 109");
-//        cliente.setEndereco(endereco);
-//        em.flush();
-//        return endereco;
-//    }
-//
-//    public void criarCartao(Cliente cliente) {
-//        Cartao cartao = new Cartao();
-//        cartao.setBandeira("VISA");
-//        cartao.setNumero("1888828188900044");
-//        cartao.setDataExpiracao(getData(4, 8, 2019));
-//        cliente.setCartao(cartao);
-//        em.flush();
-//    }
-//
-//    private Date getData(Integer dia, Integer mes, Integer ano) {
-//        Calendar c = Calendar.getInstance();
-//        c.set(Calendar.YEAR, ano);
-//        c.set(Calendar.MONTH, mes);
-//        c.set(Calendar.DAY_OF_MONTH, dia);
-//        return c.getTime();
-//    }
-//
-//    @Test
-//    public void t01_persistirCliente() {
-//        logger.info("Executando t01: persistir Cliente");
-//        Cliente cliente = new Cliente();
-//        cliente.setNome("Xuxa");
-//        cliente.setTelefone("3016-2564");
-//        cliente.setLogin("Xuxis");
-//        cliente.setEmail("xuxa@gmail.com");
-//        cliente.setSenha("xu6666");
-//        criarEndereco(cliente);
-//        criarCartao(cliente);
-//        em.persist(cliente);
-//        em.flush();
-//        assertNotNull(cliente.getId());
-//        assertNotNull(cliente.getCartao().getId());
-//        logger.log(Level.INFO, "Cliente {0} incluído com sucesso.", cliente);
-//    }
+
+    public Endereco criarEndereco(Cliente cliente) {
+        Endereco endereco = new Endereco();
+        endereco.setCep("50690-220");
+        endereco.setEstado("Pernambuco");
+        endereco.setCidade("Recife");
+        endereco.setBairro("Iputinga");
+        endereco.setLogradouro("Rua Iolanda Rodrigues Sobral");
+        endereco.setNumero(550);
+        endereco.setComplemento("Apto. 109");
+        cliente.setEndereco(endereco);
+        em.flush();
+        return endereco;
+    }
+
+    public void criarCartao(Cliente cliente) {
+        Cartao cartao = new Cartao();
+        cartao.setBandeira("VISA");
+        cartao.setNumero("1888828188900044");
+        cartao.setDataExpiracao(getData(4, 8, 2019));
+        cliente.setCartao(cartao);
+        em.flush();
+    }
+
+    private Date getData(Integer dia, Integer mes, Integer ano) {
+        Calendar c = Calendar.getInstance();
+        c.set(Calendar.YEAR, ano);
+        c.set(Calendar.MONTH, mes);
+        c.set(Calendar.DAY_OF_MONTH, dia);
+        return c.getTime();
+    }
+
+    @Test
+    public void t01_persistirCliente() {
+        logger.info("Executando t01: persistir Cliente");
+        Cliente cliente = new Cliente();
+        cliente.setNome("Xuxa");
+        cliente.setTelefone("3016-2564");
+        cliente.setLogin("Xuxis");
+        cliente.setEmail("xuxa@gmail.com");
+        cliente.setSenha("xu6666");
+        criarEndereco(cliente);
+        criarCartao(cliente);
+        em.persist(cliente);
+        em.flush();
+        assertNotNull(cliente.getId());
+        assertNotNull(cliente.getCartao().getId());
+        logger.log(Level.INFO, "Cliente {0} incluído com sucesso.", cliente);
+    }
 //
 //    @Test
 //    public void t03_removerClienteMerge() {
