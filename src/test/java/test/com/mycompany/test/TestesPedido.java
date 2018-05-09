@@ -5,12 +5,16 @@
  */
 package test.com.mycompany.test;
 
+import com.mycompany.idrink.Pedido;
+import com.mycompany.idrink.StatusCompra;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import javax.persistence.TypedQuery;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -76,11 +80,24 @@ public class TestesPedido {
             fail(ex.getMessage());
         }
     }
-
-
-    // TODO add test methods here.
-    // The methods must be annotated with annotation @Test. For example:
-    //
-    // @Test
-    // public void hello() {}
+//
+//    @Test
+//    public void t16_pedidosNegados() {
+//        logger.info("Executando t16: SELECT p FROM Pedido p WHERE p.statusCompra = NEGADO");
+//        TypedQuery<Pedido> query;
+//        query = em.createQuery(""
+//                + "SELECT p FROM Pedido p "
+//                + "WHERE p.statusCompra = :negado "
+//                + ""
+//                + "ORDER BY p.id",
+//                Pedido.class);
+//        query.setParameter("negado", StatusCompra.NEGADO);
+//        List<Pedido> negados = query.getResultList();
+//
+//        assertTrue(negados.get(0).getId() == 7);
+//        assertTrue(negados.get(1).getId() == 9);
+//        assertTrue(negados.get(2).getId() == 12);
+//        assertEquals(3, negados.size());
+//    }
+//
 }

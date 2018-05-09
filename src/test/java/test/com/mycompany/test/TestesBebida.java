@@ -5,6 +5,7 @@
  */
 package test.com.mycompany.test;
 
+import com.mycompany.idrink.BebidaAlcoolica;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
@@ -76,11 +77,19 @@ public class TestesBebida {
             fail(ex.getMessage());
         }
     }
-
-
-    // TODO add test methods here.
-    // The methods must be annotated with annotation @Test. For example:
-    //
-    // @Test
-    // public void hello() {}
+//
+//    @Test
+//    public void t07_persistirBebida() {
+//        logger.log(Level.INFO, "Executando t07: Persistir Bebida");
+//        BebidaAlcoolica bebida = new BebidaAlcoolica();
+//        bebida.setEstoque(25);
+//        bebida.setNome("Hidromel");
+//        bebida.setPreco(45.00);
+//        bebida.setTeor(8.00f);
+//        em.persist(bebida);
+//        em.flush();
+//        assertNotNull(bebida.getId());
+//        logger.log(Level.INFO, "Bebida Adicionada com sucesso", bebida);
+//    }
+//
 }
