@@ -1,11 +1,7 @@
 package test.com.mycompany.test;
 
-import com.mycompany.idrink.BebidaAlcoolica;
 import com.mycompany.idrink.Cartao;
 import com.mycompany.idrink.Cliente;
-import com.mycompany.idrink.Endereco;
-import com.mycompany.idrink.Pedido;
-import com.mycompany.idrink.StatusCompra;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -82,28 +78,28 @@ public class Testes {
         }
     }
 
-    public Endereco criarEndereco(Cliente cliente) {
-        Endereco endereco = new Endereco();
-        endereco.setCep("50690-220");
-        endereco.setEstado("Pernambuco");
-        endereco.setCidade("Recife");
-        endereco.setBairro("Iputinga");
-        endereco.setLogradouro("Rua Iolanda Rodrigues Sobral");
-        endereco.setNumero(550);
-        endereco.setComplemento("Apto. 109");
-        cliente.setEndereco(endereco);
-        em.flush();
-        return endereco;
-    }
+//    public Endereco criarEndereco(Cliente cliente) {
+//        Endereco endereco = new Endereco();
+//        endereco.setCep("50690-220");
+//        endereco.setEstado("Pernambuco");
+//        endereco.setCidade("Recife");
+//        endereco.setBairro("Iputinga");
+//        endereco.setLogradouro("Rua Iolanda Rodrigues Sobral");
+//        endereco.setNumero(550);
+//        endereco.setComplemento("Apto. 109");
+//        cliente.setEndereco(endereco);
+//        em.flush();
+//        return endereco;
+//    }
 
-    public void criarCartao(Cliente cliente) {
-        Cartao cartao = new Cartao();
-        cartao.setBandeira("VISA");
-        cartao.setNumero("1888828188900044");
-        cartao.setDataExpiracao(getData(4, Calendar.AUGUST, 2019));
-        cliente.setCartao(cartao);
-        em.flush();
-    }
+//    public void criarCartao(Cliente cliente) {
+//        Cartao cartao = new Cartao();
+//        cartao.setBandeira("VISA");
+//        cartao.setNumero("1888828188900044");
+//        cartao.setDataExpiracao(getData(4, Calendar.AUGUST, 2019));
+//        cliente.setCartao(cartao);
+//        em.flush();
+//    }
     
     private Date getData(Integer dia, Integer mes, Integer ano) {
         Calendar c = Calendar.getInstance();
@@ -113,8 +109,8 @@ public class Testes {
         return c.getTime();
     }
     
-//    @Test
-//    public void t01_persistirCliente() {
+    @Test
+    public void t01_persistirCliente() {
 //        logger.info("Executando t01: persistir Cliente");
 //        Cliente cliente = new Cliente();
 //        cliente.setNome("Xuxa");
@@ -129,7 +125,7 @@ public class Testes {
 //        assertNotNull(cliente.getId());
 //        assertNotNull(cliente.getCartao().getId());
 //        logger.log(Level.INFO, "Cliente {0} incluído com sucesso.", cliente);
-//    }
+    }
 
     @Test
     public void t02_atualizarCartao() {
@@ -184,26 +180,26 @@ public class Testes {
 
     @Test
     public void t05_atualizarEnderecoMerge() {
-        logger.log(Level.INFO, "Executando t05: Atualizar Endereco");
-        Cliente cliente = em.find(Cliente.class, new Long(6));
-        assertNotNull(cliente);
-        Endereco endereco = new Endereco();
-        endereco.setLogradouro("Rua Esquadrão");
-        endereco.setComplemento("Proximo ao Colegio Militar");
-        endereco.setNumero(74);
-        cliente.getEndereco().setLogradouro(endereco.getLogradouro());
-        cliente.getEndereco().setComplemento(endereco.getComplemento());
-        cliente.getEndereco().setNumero(endereco.getNumero());
-        cliente = em.merge(cliente);
-        em.flush();
-        assertNotNull(cliente.getEndereco().getLogradouro());
-        assertEquals(new Long(74), new Long(cliente.getEndereco().getNumero()));
-        logger.log(Level.INFO, "Endereco atualizado com sucesso", cliente.getEndereco());
+//        logger.log(Level.INFO, "Executando t05: Atualizar Endereco");
+//        Cliente cliente = em.find(Cliente.class, new Long(6));
+//        assertNotNull(cliente);
+//        Endereco endereco = new Endereco();
+//        endereco.setLogradouro("Rua Esquadrão");
+//        endereco.setComplemento("Proximo ao Colegio Militar");
+//        endereco.setNumero(74);
+//        cliente.getEndereco().setLogradouro(endereco.getLogradouro());
+//        cliente.getEndereco().setComplemento(endereco.getComplemento());
+//        cliente.getEndereco().setNumero(endereco.getNumero());
+//        cliente = em.merge(cliente);
+//        em.flush();
+//        assertNotNull(cliente.getEndereco().getLogradouro());
+//        assertEquals(new Long(74), new Long(cliente.getEndereco().getNumero()));
+//        logger.log(Level.INFO, "Endereco atualizado com sucesso", cliente.getEndereco());
         
     }
     
-//    @Test
-//    public void t06_removerCartao(){
+    @Test
+    public void t06_removerCartao(){
 //        logger.log(Level.INFO, "Executando t06: Remover Cartao");
 //        Cliente cliente = em.find(Cliente.class, new Long(4));
 //        Cartao cartao = em.find(Cartao.class, cliente.getCartao().getId());
@@ -215,10 +211,10 @@ public class Testes {
 //        em.flush();
 //        assertNull(cliente.getCartao());
 //        logger.log(Level.INFO, "Cartao removido com sucesso", cartao);
-//    }
+    }
     
-//    @Test
-//    public void t07_persistirBebida(){
+    @Test
+    public void t07_persistirBebida(){
 //        logger.log(Level.INFO, "Executando t07: Persistir Bebida");
 //        BebidaAlcoolica bebida = new BebidaAlcoolica();
 //        bebida.setEstoque(25);
@@ -229,23 +225,23 @@ public class Testes {
 //        em.flush();
 //        assertNotNull(bebida.getId());
 //        logger.log(Level.INFO, "Bebida Adicionada com sucesso", bebida);
-//    }
+    }
     
     @Test
     public void t08_persistirCartao(){
-        logger.log(Level.INFO, "Executando t11 : Adicionar Cartao");
-        Cartao cartao = new Cartao();
-        Cliente cliente = em.find(Cliente.class, new Long(4));
-        assertNotNull(cliente);
-        cartao.setBandeira("MASTERCARD");
-        cartao.setNumero("7951301472583690");
-        cartao.setDataExpiracao(new Date());
-        cliente.setCartao(cartao);
-        em.merge(cliente);
-        em.persist(cartao);
-        em.flush();
-        assertNotNull(cliente.getCartao());
-        logger.log(Level.INFO, "Cartao adicionado com sucesso", cartao);
+//        logger.log(Level.INFO, "Executando t11 : Adicionar Cartao");
+//        Cartao cartao = new Cartao();
+//        Cliente cliente = em.find(Cliente.class, new Long(4));
+//        assertNotNull(cliente);
+//        cartao.setBandeira("MASTERCARD");
+//        cartao.setNumero("7951301472583690");
+//        cartao.setDataExpiracao(new Date());
+//        cliente.setCartao(cartao);
+//        em.merge(cliente);
+//        em.persist(cartao);
+//        em.flush();
+//        assertNotNull(cliente.getCartao());
+//        logger.log(Level.INFO, "Cartao adicionado com sucesso", cartao);
     }
     
     @Test
@@ -318,21 +314,21 @@ public class Testes {
             
     @Test       
     public void t16_pedidosNegados(){
-        logger.info("Executando t16: SELECT p FROM Pedido p WHERE p.statusCompra = NEGADO");
-        TypedQuery<Pedido> query;
-        query = em.createQuery(""
-                + "SELECT p FROM Pedido p "
-                + "WHERE p.statusCompra = :negado "
-                + ""
-                + "ORDER BY p.id",
-                Pedido.class);
-        query.setParameter("negado", StatusCompra.NEGADO);
-        List<Pedido> negados = query.getResultList();
-        
-        assertTrue(negados.get(0).getId() == 7);
-        assertTrue(negados.get(1).getId() == 9);
-        assertTrue(negados.get(2).getId() == 12);
-        assertEquals(3, negados.size());
+//        logger.info("Executando t16: SELECT p FROM Pedido p WHERE p.statusCompra = NEGADO");
+//        TypedQuery<Pedido> query;
+//        query = em.createQuery(""
+//                + "SELECT p FROM Pedido p "
+//                + "WHERE p.statusCompra = :negado "
+//                + ""
+//                + "ORDER BY p.id",
+//                Pedido.class);
+//        query.setParameter("negado", StatusCompra.NEGADO);
+//        List<Pedido> negados = query.getResultList();
+//        
+//        assertTrue(negados.get(0).getId() == 7);
+//        assertTrue(negados.get(1).getId() == 9);
+//        assertTrue(negados.get(2).getId() == 12);
+//        assertEquals(3, negados.size());
     }        
             
 //    @Test       
