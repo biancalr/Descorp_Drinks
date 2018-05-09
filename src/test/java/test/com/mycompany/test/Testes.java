@@ -100,11 +100,7 @@ public class Testes {
         Cartao cartao = new Cartao();
         cartao.setBandeira("VISA");
         cartao.setNumero("1888828188900044");
-        Calendar c = Calendar.getInstance();
-        c.set(Calendar.YEAR, 2019);
-        c.set(Calendar.MONTH, Calendar.AUGUST);
-        c.set(Calendar.DAY_OF_MONTH, 04);
-        cartao.setDataExpiracao(c.getTime());
+        cartao.setDataExpiracao(getData(4, Calendar.AUGUST, 2019));
         cliente.setCartao(cartao);
         em.flush();
     }
@@ -117,34 +113,29 @@ public class Testes {
         return c.getTime();
     }
     
-    @Test
-    public void t01_persistirCliente() {
-        logger.info("Executando t01: persistir Cliente");
-        Cliente cliente = new Cliente();
-        cliente.setNome("Xuxa");
-        cliente.setTelefone("3016-2564");
-        cliente.setLogin("Xuxis");
-        cliente.setEmail("xuxa@gmail.com");
-        cliente.setSenha("xu6666");
-        criarEndereco(cliente);
-        criarCartao(cliente);
-        em.persist(cliente);
-        em.flush();
-        assertNotNull(cliente.getId());
-        assertNotNull(cliente.getCartao().getId());
-        logger.log(Level.INFO, "Cliente {0} incluído com sucesso.", cliente);
-    }
+//    @Test
+//    public void t01_persistirCliente() {
+//        logger.info("Executando t01: persistir Cliente");
+//        Cliente cliente = new Cliente();
+//        cliente.setNome("Xuxa");
+//        cliente.setTelefone("3016-2564");
+//        cliente.setLogin("Xuxis");
+//        cliente.setEmail("xuxa@gmail.com");
+//        cliente.setSenha("xu6666");
+//        criarEndereco(cliente);
+//        criarCartao(cliente);
+//        em.persist(cliente);
+//        em.flush();
+//        assertNotNull(cliente.getId());
+//        assertNotNull(cliente.getCartao().getId());
+//        logger.log(Level.INFO, "Cliente {0} incluído com sucesso.", cliente);
+//    }
 
     @Test
     public void t02_atualizarCartao() {
         logger.info("Executando t02: Atualizar Cartao");
         Cartao cartao = em.find(Cartao.class, new Long(3));
         assertNotNull(cartao);
-        Calendar c = Calendar.getInstance();
-        c.set(Calendar.YEAR, 2021);
-        c.set(Calendar.MONTH, Calendar.NOVEMBER);
-        c.set(Calendar.DAY_OF_MONTH, 19);
-        cartao.setDataExpiracao(c.getTime());
         cartao.setDataExpiracao(getData(19, 11, 2021));
         cartao.setBandeira("GOOD CARD");
         cartao.setNumero("6161616161616155");
@@ -156,25 +147,25 @@ public class Testes {
         logger.log(Level.INFO, "Cartao atualizado com sucesso", cartao);
     }
 
-    @Test
-    public void t03_removerClienteMerge() {
-        /*
-         * Remover 'Cliente' implica que seu 'Cartao' e seus 'Pedidos' serão
-         * removidos do banco
-        
-         Checar se os pedidos também foram removidos;
-         */
-        logger.info("Executando t03: Remover Cliente");
-        Cliente cliente = em.find(Cliente.class, new Long(2));
-        Cartao cartao = cliente.getCartao();
-        assertNotNull(cliente.getId());
-        em.remove(cliente);
-        cliente = em.find(Cliente.class, new Long(2));
-        cartao = em.find(Cartao.class, cartao.getId());
-        assertNull(cliente);
-        assertNull(cartao);
-        logger.log(Level.INFO, "Cliente removido com sucesso", cliente);
-    }
+//    @Test
+//    public void t03_removerClienteMerge() {
+//        /*
+//         * Remover 'Cliente' implica que seu 'Cartao' e seus 'Pedidos' serão
+//         * removidos do banco
+//        
+//         Checar se os pedidos também foram removidos;
+//         */
+//        logger.info("Executando t03: Remover Cliente");
+//        Cliente cliente = em.find(Cliente.class, new Long(2));
+//        Cartao cartao = cliente.getCartao();
+//        assertNotNull(cliente.getId());
+//        em.remove(cliente);
+//        cliente = em.find(Cliente.class, new Long(2));
+//        cartao = em.find(Cartao.class, cartao.getId());
+//        assertNull(cliente);
+//        assertNull(cartao);
+//        logger.log(Level.INFO, "Cliente removido com sucesso", cliente);
+//    }
 
     @Test
     public void t04_atualizarClienteMerge() {
@@ -183,9 +174,11 @@ public class Testes {
         assertNotNull(cliente.getId());
         cliente.setSenha("outraSenha54321");
         cliente.setLogin("outroLogin");
-        cliente = em.merge(cliente);
         em.flush();
-        assertNotNull(cliente.getLogin());
+        em.clear();
+        cliente = em.find(Cliente.class, new Long(4));
+        assertEquals("outraSenha54321", cliente.getSenha());
+        assertEquals("outroLogin", cliente.getLogin());
         logger.log(Level.INFO, "Cliente atualizado com sucesso", cliente);
     }
 
@@ -209,34 +202,34 @@ public class Testes {
         
     }
     
-    @Test
-    public void t06_removerCartao(){
-        logger.log(Level.INFO, "Executando t06: Remover Cartao");
-        Cliente cliente = em.find(Cliente.class, new Long(4));
-        Cartao cartao = em.find(Cartao.class, cliente.getCartao().getId());
-        assertNotNull(cartao);
-        cartao = em.merge(cartao);
-        em.remove(cartao);
-        cliente.setCartao(null);
-        cliente = em.merge(cliente);
-        em.flush();
-        assertNull(cliente.getCartao());
-        logger.log(Level.INFO, "Cartao removido com sucesso", cartao);
-    }
+//    @Test
+//    public void t06_removerCartao(){
+//        logger.log(Level.INFO, "Executando t06: Remover Cartao");
+//        Cliente cliente = em.find(Cliente.class, new Long(4));
+//        Cartao cartao = em.find(Cartao.class, cliente.getCartao().getId());
+//        assertNotNull(cartao);
+//        cartao = em.merge(cartao);
+//        em.remove(cartao);
+//        cliente.setCartao(null);
+//        cliente = em.merge(cliente);
+//        em.flush();
+//        assertNull(cliente.getCartao());
+//        logger.log(Level.INFO, "Cartao removido com sucesso", cartao);
+//    }
     
-    @Test
-    public void t07_persistirBebida(){
-        logger.log(Level.INFO, "Executando t07: Persistir Bebida");
-        BebidaAlcoolica bebida = new BebidaAlcoolica();
-        bebida.setEstoque(25);
-        bebida.setNome("Hidromel");
-        bebida.setPreco(45.00);
-        bebida.setTeor(8.00f);
-        em.persist(bebida);
-        em.flush();
-        assertNotNull(bebida.getId());
-        logger.log(Level.INFO, "Bebida Adicionada com sucesso", bebida);
-    }
+//    @Test
+//    public void t07_persistirBebida(){
+//        logger.log(Level.INFO, "Executando t07: Persistir Bebida");
+//        BebidaAlcoolica bebida = new BebidaAlcoolica();
+//        bebida.setEstoque(25);
+//        bebida.setNome("Hidromel");
+//        bebida.setPreco(45.00);
+//        bebida.setTeor(8.00f);
+//        em.persist(bebida);
+//        em.flush();
+//        assertNotNull(bebida.getId());
+//        logger.log(Level.INFO, "Bebida Adicionada com sucesso", bebida);
+//    }
     
     @Test
     public void t08_persistirCartao(){
@@ -254,32 +247,6 @@ public class Testes {
         assertNotNull(cliente.getCartao());
         logger.log(Level.INFO, "Cartao adicionado com sucesso", cartao);
     }
-    
-//    @Test
-//    public void t09_persistirPedido(){
-//        logger.log(Level.INFO, "Executando t10: Adicionar Pedido");
-//        Pedido pedido = new Pedido();
-//        Cliente cliente = em.find(Cliente.class, new Long(1));
-//        assertNotNull(cliente);
-//        pedido.setCliente(cliente);
-//        BebidaComum comum = em.find(BebidaComum.class, new Long(3));
-//        assertNotNull(comum);
-//        comum.setQuantGarrafa(1);
-//        pedido.addBebida(comum);
-//        BebidaAlcoolica alcoolico = em.find(BebidaAlcoolica.class, new Long(11));
-//        assertNotNull(alcoolico);
-//        alcoolico.setQuantGarrafa(2);
-//        pedido.addBebida(alcoolico);
-//        if (cliente.getCartao().getDataExpiracao().compareTo(new Date()) < 0) {
-//            pedido.setStatusCompra(StatusCompra.NEGADO);
-//        } else {
-//            pedido.setStatusCompra(StatusCompra.APROVADO);
-//        }
-//        em.persist(pedido);
-//        em.flush();
-//        assertEquals(2, pedido.getBebidas().size());
-//        logger.log(Level.INFO, "Pedido Adicionado com sucesso", pedido);
-//    }
     
     @Test
     public void t10_cartoesExpirados(){
@@ -329,15 +296,15 @@ public class Testes {
 //        assertEquals(4, clientes.size());
 //    }
 
-    @Test
-    public void t13_ClienteCartao(){
-        
-        logger.info("Executando t14: ClienteCartao");
-        TypedQuery<Cliente> query;
-        query = em.createNamedQuery("ClienteCartao", Cliente.class);
-        List<Cliente> clientes = query.getResultList();
-        assertNotNull(clientes);
-    }
+//    @Test
+//    public void t13_ClienteCartao(){
+//        
+//        logger.info("Executando t14: ClienteCartao");
+//        TypedQuery<Cliente> query;
+//        query = em.createNamedQuery("ClienteCartao", Cliente.class);
+//        List<Cliente> clientes = query.getResultList();
+//        assertNotNull(clientes);
+//    }
     
 //    @Test
 //    public void t14_clienteCartao(){

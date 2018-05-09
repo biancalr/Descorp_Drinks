@@ -34,8 +34,9 @@ public class Item implements Serializable {
     private Long id;
     @NotNull(message = "{idrink.Item.bebida}")
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, 
-            optional = true)
-    @JoinColumn(name = "ID_BEBIDA", referencedColumnName = "ID")
+            optional = false)
+    @JoinColumn(name = "ID_BEBIDA", referencedColumnName = "ID",
+            nullable = false)
     private Bebida bebida;
     @Min(value = 0, message = "{idrink.Item.quantidade}")
     @NotBlank
@@ -44,7 +45,8 @@ public class Item implements Serializable {
     @NotNull
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, 
             optional = false)
-    @JoinColumn(name = "ID_PEDIDO", referencedColumnName = "ID")
+    @JoinColumn(name = "ID_PEDIDO", referencedColumnName = "ID",
+            nullable = false)
     private Pedido pedido;
 
     public Item(Bebida bebida, Integer quant){

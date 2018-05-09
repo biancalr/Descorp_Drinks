@@ -28,7 +28,7 @@ public class Cartao implements Serializable {
     private Long id;
     @NotBlank
     @Size(min = 4, max = 15, message = "{idrink.Cartao.bandeira}")
-    @Column(name = "TXT_BANDEIRA")
+    @Column(name = "TXT_BANDEIRA", nullable = false)
     private String bandeira;
     @NotNull
     @Temporal(TemporalType.DATE)

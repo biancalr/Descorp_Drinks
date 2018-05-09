@@ -70,7 +70,6 @@ public class Cliente implements Serializable {
     @JoinColumn(name = "ID_CARTAO", referencedColumnName = "ID")
     private Cartao cartao;
     @NotNull
-    @ValidaEstado
     @Embedded
     private Endereco endereco;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "cliente", 

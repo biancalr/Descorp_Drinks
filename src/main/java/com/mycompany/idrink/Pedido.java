@@ -123,10 +123,13 @@ public class Pedido implements Serializable {
     }
 
     public void setStatusCompra(StatusCompra statusCompra) {
-        if (cliente.getCartao().getDataExpiracao().compareTo(new Date()) < 0) {
-            setStatusCompra(StatusCompra.NEGADO);
-        }
         this.statusCompra = statusCompra;
+        if (cliente.getCartao() == null) {
+            this.statusCompra = StatusCompra.NEGADO;
+        }
+        if (cliente.getCartao().getDataExpiracao().compareTo(new Date()) < 0) {
+            this.statusCompra = StatusCompra.NEGADO;
+        }
     }
     
     public Double calculaTotalCompras(){
