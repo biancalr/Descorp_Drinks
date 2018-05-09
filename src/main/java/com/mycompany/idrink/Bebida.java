@@ -22,6 +22,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.NotBlank;
 
 /**
@@ -40,14 +41,14 @@ public class Bebida implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
     @NotBlank
-    @Column(name = "TXT_NOME", length = 50)
+    @Size(min = 4, max = 20, message = "{idrink.Bebida.nome}")
+    @Column(name = "TXT_NOME")
     protected String nome;
     @NotNull
-    @DecimalMin(value = "0.0")
     @Column(name = "NUM_PRECO", length = 5)
     protected Double preco;
     @NotBlank
-    @Min(value = 0)
+    @Min(value = 0, message = "{idrink.Bebida.estoque}")
     @Column(name = "NUM_ESTOQUE")
     protected Integer estoque;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, 

@@ -18,8 +18,6 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.Transient;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.Email;
@@ -48,22 +46,23 @@ public class Cliente implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotBlank
+    @Size(min = 3, max = 50)
     @Column(name = "TXT_NOME", length = 255)
     private String nome;
     @NotBlank
     @Email
-    @Column(name = "TXT_EMAIL", length = 50)
+    @Column(name = "TXT_EMAIL", length = 30, nullable = false)
     private String email;
     @NotBlank
-    @Size(max = 15)
+    @Size(min = 6, max = 15)
     @Column(name = "TXT_LOGIN")
     private String login;
     @NotBlank
-    @Size(min = 6, max = 20)
+    @Size(min = 6, max = 20, message = "{idrink.Cliente.senha}")
     @Column(name = "TXT_SENHA")
     private String senha;
     @NotBlank
-    @Size(min = 8, max = 15)
+    @Size(min = 8, max = 12)
     @Column(name = "TXT_TELEFONE")
     private String telefone;
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, 
@@ -71,6 +70,7 @@ public class Cliente implements Serializable {
     @JoinColumn(name = "ID_CARTAO", referencedColumnName = "ID")
     private Cartao cartao;
     @NotNull
+    @ValidaEstado
     @Embedded
     private Endereco endereco;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "cliente", 

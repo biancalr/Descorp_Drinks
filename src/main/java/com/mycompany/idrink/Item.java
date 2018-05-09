@@ -17,6 +17,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import org.hibernate.validator.constraints.NotBlank;
 
 /**
  *
@@ -29,21 +32,23 @@ public class Item implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NotNull(message = "{idrink.Item.bebida}")
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, 
             optional = true)
     @JoinColumn(name = "ID_BEBIDA", referencedColumnName = "ID")
     private Bebida bebida;
+    @Min(value = 0, message = "{idrink.Item.quantidade}")
+    @NotBlank
     @Column(name = "NUM_QUANTIDADE", nullable = false)
     private Integer quantidade;
+    @NotNull
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, 
             optional = false)
     @JoinColumn(name = "ID_PEDIDO", referencedColumnName = "ID")
     private Pedido pedido;
 
-    public Item(Bebida bebida, int quantidade){
-        this.bebida = bebida;
-        this.quantidade = quantidade;
-        this.bebida.subtraiDoEstoque(quantidade);
+    public Item(Bebida bebida, Integer quant){
+        this.verificaEstoque(bebida, quant);
     }
     
     public Long getId() {
@@ -65,19 +70,43 @@ public class Item implements Serializable {
     public void setQuantidade(int quantidade) {
         this.quantidade = quantidade;
     }
+    
+    public final void subtraiDoEstoque(Integer reserva){
+        bebida.subtraiDoEstoque(reserva);
+    }
+    
+    public void adicionaNoEstoque(Integer reserva){
+        bebida.adicionaNoEstoque(reserva);
+    }
 
+    private void verificaEstoque(Bebida bebida, Integer quant) {
+        if (bebida.getEstoque() > 0 && this.quantidade <= bebida.getEstoque()) {
+            this.bebida = bebida;
+            this.quantidade = quant;
+            this.subtraiDoEstoque(quant);
+        } else {
+            this.bebida = null;
+            this.quantidade = null;
+        }
+    }
+    
     public Pedido getPedido() {
         return pedido;
     }
 
     public void setPedido(Pedido pedido) {
         this.pedido = pedido;
+        this.subtraiDoEstoque(quantidade);
     }
     
     public Double calculaSubTotal(){
         return this.bebida.preco * this.quantidade;
     }
     
+    /**
+     *
+     * @return hash
+     */
     @Override
     public int hashCode() {
         int hash = 3;
@@ -85,6 +114,11 @@ public class Item implements Serializable {
         return hash;
     }
 
+    /**
+     *
+     * @param obj
+     * @return true or false
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -103,9 +137,23 @@ public class Item implements Serializable {
         return true;
     }
 
+    /**
+     *
+     * @return Class.toString
+     */
     @Override
     public String toString() {
-        return "com.mycompany.idrink.Item[ id=" + id + " ]";
+        StringBuilder sb = new StringBuilder("Item: \n");
+        sb.append(" ID:");
+        sb.append(this.id);
+        sb.append("\n Bebida:");
+        sb.append(this.bebida);
+        sb.append("\n Quantidade:");
+        sb.append(this.quantidade);
+        sb.append("\n Subtotal:");
+        sb.append(this.calculaSubTotal());
+        return sb.toString();
     }
+
     
 }

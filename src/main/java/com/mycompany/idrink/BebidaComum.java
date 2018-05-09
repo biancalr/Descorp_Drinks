@@ -19,7 +19,7 @@ import javax.validation.constraints.Min;
 @DiscriminatorValue(value = "NAO")
 public class BebidaComum extends Bebida implements Serializable {
 
-    @Min(value = 0)
+    @Min(value = 0, message = "{idrink.BebidaComum.gramas}")
     @Column(name = "QUANT_GRAMAS_ACUCAR", nullable = true)
     private Integer gramas;
 

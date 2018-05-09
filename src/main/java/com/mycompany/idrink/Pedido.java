@@ -16,8 +16,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -44,6 +42,7 @@ public class Pedido implements Serializable {
     @Column(name = "HR_PEDIDO")
     @Temporal(TemporalType.TIME)
     private Date horaPedido;
+    @NotNull
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "pedido", 
             orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Item> itens;
