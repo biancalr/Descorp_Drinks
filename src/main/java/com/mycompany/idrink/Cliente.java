@@ -46,6 +46,7 @@ public class Cliente implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotBlank
+    @NotNull
     @Size(min = 3, max = 50)
     @Column(name = "TXT_NOME", length = 255)
     private String nome;
@@ -54,11 +55,11 @@ public class Cliente implements Serializable {
     @Column(name = "TXT_EMAIL", length = 30, nullable = false)
     private String email;
     @NotBlank
-    @Size(min = 6, max = 15)
+    @Size(min = 4, max = 15)
     @Column(name = "TXT_LOGIN")
     private String login;
     @NotBlank
-    @Size(min = 6, max = 20, message = "{idrink.Cliente.senha}")
+    @Size(min = 6, max = 20)
     @Column(name = "TXT_SENHA")
     private String senha;
     @NotBlank

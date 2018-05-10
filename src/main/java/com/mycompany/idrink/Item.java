@@ -32,21 +32,17 @@ public class Item implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotNull(message = "{idrink.Item.bebida}")
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, 
             optional = false)
-    @JoinColumn(name = "ID_BEBIDA", referencedColumnName = "ID",
-            nullable = false)
+    @JoinColumn(name = "ID_BEBIDA", referencedColumnName = "ID")
     private Bebida bebida;
-    @Min(value = 0, message = "{idrink.Item.quantidade}")
+    @Min(value = 0)
     @NotBlank
     @Column(name = "NUM_QUANTIDADE", nullable = false)
     private Integer quantidade;
-    @NotNull
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, 
             optional = false)
-    @JoinColumn(name = "ID_PEDIDO", referencedColumnName = "ID",
-            nullable = false)
+    @JoinColumn(name = "ID_PEDIDO", referencedColumnName = "ID")
     private Pedido pedido;
 
     public Item(Bebida bebida, Integer quant){
@@ -86,9 +82,12 @@ public class Item implements Serializable {
             this.bebida = bebida;
             this.quantidade = quant;
             this.subtraiDoEstoque(quant);
+            this.calculaSubTotal();
         } else {
-            this.bebida = null;
-            this.quantidade = null;
+            this.bebida = bebida;
+            this.quantidade = bebida.getEstoque();
+            this.subtraiDoEstoque(quant);
+            this.calculaSubTotal();
         }
     }
     

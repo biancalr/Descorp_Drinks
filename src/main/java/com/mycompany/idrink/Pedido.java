@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 import javax.persistence.CascadeType;
@@ -134,7 +135,8 @@ public class Pedido implements Serializable {
     
     public Double calculaTotalCompras(){
         Double total = null;
-        for (Item i : itens) {
+        for (Iterator<Item> it = itens.iterator(); it.hasNext();) {
+            Item i = it.next();
             total += i.calculaSubTotal();
         }
         return total;

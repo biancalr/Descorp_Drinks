@@ -40,14 +40,14 @@ public class Bebida implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
     @NotBlank
-    @Size(min = 4, max = 20, message = "{idrink.Bebida.nome}")
+    @Size(min = 4, max = 20)
     @Column(name = "TXT_NOME")
     protected String nome;
     @NotNull
     @Column(name = "NUM_PRECO", length = 5)
     protected Double preco;
-    @NotBlank
-    @Min(value = 0, message = "{idrink.Bebida.estoque}")
+    @NotNull
+    @Min(value = 0)
     @Column(name = "NUM_ESTOQUE")
     protected Integer estoque;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, 

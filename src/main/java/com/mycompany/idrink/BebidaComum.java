@@ -19,23 +19,23 @@ import javax.validation.constraints.Min;
 @DiscriminatorValue(value = "NAO")
 public class BebidaComum extends Bebida implements Serializable {
 
-    @Min(value = 0, message = "{idrink.BebidaComum.gramas}")
+    @Min(value = 0)
     @Column(name = "QUANT_GRAMAS_ACUCAR", nullable = true)
-    private Integer gramas;
+    private Integer acucar;
 
-    public Integer getQuantidade() {
-        return gramas;
+    public Integer getAcucar() {
+        return acucar;
     }
 
-    public void setQuantidade(Integer gramas) {
-        this.gramas = gramas;
+    public void setAcucar(Integer gramas) {
+        this.acucar = gramas;
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder(super.toString());
         sb.append(" Alcoólica: Nao\n Percentual Teor Açúcar:");
-        sb.append(this.gramas);
+        sb.append(this.acucar);
         return sb.toString();
     }
 }

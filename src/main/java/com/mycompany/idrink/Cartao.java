@@ -27,7 +27,7 @@ public class Cartao implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotBlank
-    @Size(min = 4, max = 15, message = "{idrink.Cartao.bandeira}")
+    @Size(min = 4, max = 15)
     @Column(name = "TXT_BANDEIRA", nullable = false)
     private String bandeira;
     @NotNull
@@ -35,7 +35,7 @@ public class Cartao implements Serializable {
     @Column(name = "DT_EXPIRACAO")
     private Date dataExpiracao;
     @NotBlank
-    @Size(min = 16, max = 16, message = "{idrink.Cartao.numero}")
+    @Size(min = 16, max = 16)
     @Column(name = "TXT_NUMERO")
     private String numero;
 

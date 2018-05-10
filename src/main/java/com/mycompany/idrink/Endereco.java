@@ -21,7 +21,6 @@ public class Endereco implements Serializable {
     private String cep;
     @NotBlank
     @ValidaEstado
-    @Size(min = 4, max = 20)
     @Column(name = "END_TXT_ESTADO")
     private String estado;
     @NotBlank
