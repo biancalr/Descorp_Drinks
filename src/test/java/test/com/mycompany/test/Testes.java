@@ -10,6 +10,7 @@
  */
 package test.com.mycompany.test;
 
+import com.mycompany.idrink.Bebida;
 import com.mycompany.idrink.BebidaAlcoolica;
 import com.mycompany.idrink.BebidaComum;
 //import com.mycompany.idrink.BebidaComum;
@@ -338,14 +339,26 @@ public class Testes {
     }
 
     @Test
-    public void t13_NomesClientes() {
+    public void t13_NomesClientesSQL() {
         Query query = em.createNamedQuery("Nomes.Clientes");
         List<Object> resultados = query.getResultList();
         assertEquals(6, resultados.size());
 
     }
+     
+    @Test
+    public void t14_maximoMinimoPreco(){
+        Query query;
+        query = em.createQuery(
+                "SELECT max(b.preco), min(b.preco) FROM BebidaAlcoolica b ORDER BY b.id");
+        Object[] resultado = (Object[]) query.getSingleResult();
+        assertEquals(2, resultado.length);
+        Double preco = (Double)resultado[0];
+        assertTrue(preco.longValue() == 109);
+        
+    }
+        
     
-                
-            
-            
+
+    
 }
