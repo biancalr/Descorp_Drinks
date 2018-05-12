@@ -10,24 +10,15 @@
  */
 package test.com.mycompany.test;
 
-import com.mycompany.idrink.Bebida;
 import com.mycompany.idrink.BebidaAlcoolica;
-import com.mycompany.idrink.BebidaComum;
-//import com.mycompany.idrink.BebidaComum;
 import com.mycompany.idrink.Cartao;
 import com.mycompany.idrink.Cliente;
 import com.mycompany.idrink.Endereco;
 import com.mycompany.idrink.Pedido;
 import com.mycompany.idrink.StatusCompra;
-import com.mysql.fabric.xmlrpc.Client;
-import java.util.ArrayList;
-//import com.mycompany.idrink.Pedido;
-//import com.mycompany.idrink.StatusCompra;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
@@ -36,8 +27,6 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
-import javax.validation.ConstraintViolation;
-import javax.validation.ConstraintViolationException;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -184,7 +173,7 @@ public class Testes {
          * removidos do banco
         
          Checar se os pedidos também foram removidos;
-        Checado
+        ***Checado
          */
         logger.info("Executando t03: Remover Cliente");
         Cliente cliente = em.find(Cliente.class, new Long(2));
@@ -209,7 +198,6 @@ public class Testes {
         assertNotNull(cliente.getId());
         cliente.setSenha("outraSenha54321");
         cliente.setLogin("outroLogin");
-        em.merge(cliente);
         em.flush();
         em.clear();
         cliente = em.find(Cliente.class, cliente.getId());
@@ -393,6 +381,17 @@ public class Testes {
             }
         }
     }
+    
+    @Test
+    public void t16_delete(){
+        Query query = em.createQuery("DELETE FROM Pedido p WHERE p.dataPedido < ?1");
+        query.setParameter(1, getData(28, Calendar.FEBRUARY, 2018));
+        query.executeUpdate();
+        Pedido pedido = em.find(Pedido.class, new Long(12));
+        assertNull(pedido);
+    }
+    
+    
 
     
 }
