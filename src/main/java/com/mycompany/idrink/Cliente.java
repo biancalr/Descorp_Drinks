@@ -13,11 +13,15 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.NamedNativeQueries;
+import javax.persistence.NamedNativeQuery;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.Email;
@@ -32,11 +36,17 @@ import org.hibernate.validator.constraints.NotBlank;
 @NamedQueries(
         {
             @NamedQuery(
-                    name = "ClienteCartao",
-                    query = "SELECT c.nome "
-                            + "FROM Cliente c "
-//                            + "JOIN FETCH c.cartao.numero "
-//                            + "ORDER BY c.id"
+                    name = "Nomes.Clientes",
+                    query = "SELECT c.nome FROM Cliente c ORDER BY c.id"
+            )
+        }
+)
+@NamedNativeQueries(
+        {
+            @NamedNativeQuery(
+                    name = "Nomes.ClienteSQL",
+                    query = "SELECT txt_nome FROM tb_cliente",
+                    resultClass = String.class
             )
         }
 )
@@ -46,16 +56,14 @@ public class Cliente implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotBlank
-    @NotNull
-    @Size(min = 3, max = 50)
     @Column(name = "TXT_NOME", length = 255)
     private String nome;
     @NotBlank
     @Email
-    @Column(name = "TXT_EMAIL", length = 30, nullable = false)
+    @Column(name = "TXT_EMAIL", length = 50)
     private String email;
     @NotBlank
-    @Size(min = 4, max = 15)
+    @Size(max = 15)
     @Column(name = "TXT_LOGIN")
     private String login;
     @NotBlank
@@ -63,22 +71,28 @@ public class Cliente implements Serializable {
     @Column(name = "TXT_SENHA")
     private String senha;
     @NotBlank
-    @Size(min = 8, max = 12)
+    @Size(min = 8, max = 15)
     @Column(name = "TXT_TELEFONE")
     private String telefone;
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, 
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL,
             optional = false, orphanRemoval = true)
     @JoinColumn(name = "ID_CARTAO", referencedColumnName = "ID")
     private Cartao cartao;
     @NotNull
     @Embedded
     private Endereco endereco;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "cliente", 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "cliente",
             orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Pedido> pedidos;
-    
+    @Transient
+    private int numPedidos = 0;
+
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getNome() {
@@ -112,7 +126,7 @@ public class Cliente implements Serializable {
     public void setSenha(String senha) {
         this.senha = senha;
     }
-    
+
     public String getTelefone() {
         return telefone;
     }
@@ -140,7 +154,8 @@ public class Cliente implements Serializable {
     public List<Pedido> getPedidos() {
         return pedidos;
     }
-    public boolean temPedidos(){
+
+    public boolean temPedidos() {
         return this.pedidos.isEmpty();
     }
 
@@ -150,18 +165,21 @@ public class Cliente implements Serializable {
         }
         pedido.setCliente(this);
         this.pedidos.add(pedido);
+        this.numPedidos++;
     }
-    
-    public boolean removerPedido(Pedido pedido){
+
+    public boolean removerPedido(Pedido pedido) {
+        this.numPedidos--;
         return this.pedidos.remove(pedido);
     }
-    
+
     @Override
     public int hashCode() {
         int hash = 5;
         hash = 29 * hash + Objects.hashCode(this.id);
         return hash;
     }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -186,7 +204,7 @@ public class Cliente implements Serializable {
         sb.append(" ID:");
         sb.append(this.id);
         sb.append("\n Nome:");
-        sb.append(this.nome);        
+        sb.append(this.nome);
         sb.append("\n Telefone:");
         sb.append(this.telefone);
         sb.append("\n Login:");
@@ -201,5 +219,5 @@ public class Cliente implements Serializable {
         sb.append("\n");
         return sb.toString();
     }
-    
+
 }

@@ -19,6 +19,7 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -39,20 +40,16 @@ public class Bebida implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
-    @NotBlank
-    @Size(min = 4, max = 20)
-    @Column(name = "TXT_NOME")
+    @NotBlank(message = "Deve conter nome")
+    @Column(name = "TXT_NOME", length = 50, nullable = false)
     protected String nome;
-    @NotNull
-    @Column(name = "NUM_PRECO", length = 5)
+    @NotNull(message = "deve conter preço acima de 0.00 reais")
+    @Column(name = "NUM_PRECO", length = 5, nullable = false)
     protected Double preco;
     @NotNull
-    @Min(value = 0)
-    @Column(name = "NUM_ESTOQUE")
+    @Min(value = 0, message = "deve conter como valor valido um numero natural")
+    @Column(name = "NUM_ESTOQUE", nullable = false)
     protected Integer estoque;
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, 
-            mappedBy = "bebida", orphanRemoval = true)
-    protected List<Item> itens;
 
     public Long getId() {
         return id;
@@ -80,31 +77,6 @@ public class Bebida implements Serializable {
 
     public void setEstoque(Integer estoque) {
         this.estoque = estoque;
-    }
-    
-    public void adicionaNoEstoque(Integer reserva){
-        this.estoque = getEstoque() + reserva;
-    }
-    
-    public void subtraiDoEstoque(Integer reserva){
-        this.estoque = getEstoque() - reserva;
-    }
-
-    public List<Item> getItens() {
-        return itens;
-    }
-
-    public void addItem(Item item) {
-        if (this.itens == null) {
-           this.itens = new ArrayList<>(); 
-        }
-        subtraiDoEstoque(item.getQuantidade());
-        item.setBebida(this);
-        this.itens.add(item);
-    }
-    public boolean removerItem(Item item){
-        adicionaNoEstoque(item.getQuantidade());
-        return this.itens.remove(item);
     }
     
     @Override
@@ -139,7 +111,7 @@ public class Bebida implements Serializable {
         sb.append(this.id);
         sb.append("\n Nome:");
         sb.append(this.nome);
-        sb.append("\n Preco Unitário:");
+        sb.append("\n Preco:");
         sb.append(this.preco);
         sb.append("\n");
         return sb.toString();

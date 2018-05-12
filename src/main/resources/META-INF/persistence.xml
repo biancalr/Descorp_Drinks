@@ -6,7 +6,6 @@
     <class>com.mycompany.idrink.Endereco</class>
     <class>com.mycompany.idrink.Cartao</class>
     <class>com.mycompany.idrink.Pedido</class>
-    <class>com.mycompany.idrink.Item</class>
     <class>com.mycompany.idrink.Bebida</class>
     <class>com.mycompany.idrink.BebidaAlcoolica</class>
     <class>com.mycompany.idrink.BebidaComum</class>
@@ -17,10 +16,12 @@
       <property name="javax.persistence.jdbc.password" value="1730"/>
       <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
       <property name="eclipselink.logging.level" value="FINEST"/>
+      <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
+      <property name="eclipselink.logging.level" value="FINEST"/>
       <property name="eclipselink.ddl-generation" value="drop-and-create-tables"/>
       <property name="eclipselink.ddl-generation.output-mode" value="both"/>
       <property name="eclipselink.create-ddl-jdbc-file-name" value="create.sql"/>
-      <property name="eclipselink.drop-ddl-jdbc-file-name" value="drop.sql"/>
+      <property name="eclipselink.drop-ddl-jdbc-file-name" value="drop.sql"/> 
     </properties>
   </persistence-unit>
 </persistence>

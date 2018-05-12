@@ -9,7 +9,6 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.validation.constraints.Min;
 
 /**
  *
@@ -19,10 +18,9 @@ import javax.validation.constraints.Min;
 @DiscriminatorValue(value = "NAO")
 public class BebidaComum extends Bebida implements Serializable {
 
-    @Min(value = 0)
     @Column(name = "QUANT_GRAMAS_ACUCAR", nullable = true)
     private Integer acucar;
-
+    
     public Integer getAcucar() {
         return acucar;
     }
