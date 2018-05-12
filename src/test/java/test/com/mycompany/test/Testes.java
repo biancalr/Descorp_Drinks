@@ -26,6 +26,7 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
@@ -34,6 +35,8 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -126,7 +129,7 @@ public class Testes {
         cliente.setCartao(cartao);
         em.flush();
     }
-    
+
     private Date getData(Integer dia, Integer mes, Integer ano) {
         Calendar c = Calendar.getInstance();
         c.set(Calendar.YEAR, ano);
@@ -134,7 +137,7 @@ public class Testes {
         c.set(Calendar.DAY_OF_MONTH, dia);
         return c.getTime();
     }
-    
+
     @Test
     public void t01_persistirCliente() {
         logger.info("Executando t01: persistir Cliente");
@@ -189,7 +192,6 @@ public class Testes {
         cartao = em.find(Cartao.class, cartao.getId());
         assertNull(cliente);
         assertNull(cartao);
-        
         logger.log(Level.INFO, "Cliente removido com sucesso", cliente);
     }
 
@@ -229,11 +231,11 @@ public class Testes {
         assertNotNull(cliente.getEndereco().getLogradouro());
         assertNotNull(cliente.getEndereco().getComplemento());
         logger.log(Level.INFO, "Endereco atualizado com sucesso", cliente.getEndereco());
-        
+
     }
-    
+
     @Test
-    public void t06_removerCartao(){
+    public void t06_removerCartao() {
         logger.log(Level.INFO, "Executando t06: Remover Cartao");
         Cliente cliente = em.find(Cliente.class, new Long(4));
         Cartao cartao = em.find(Cartao.class, cliente.getCartao().getId());
@@ -243,12 +245,14 @@ public class Testes {
         em.flush();
         em.clear();
         cliente = em.find(Cliente.class, cliente.getId());
+        cartao = em.find(Cartao.class, cartao.getId());
         assertNull(cliente.getCartao());
+        assertNull(cartao);
         logger.log(Level.INFO, "Cartao removido com sucesso", cartao);
     }
-    
+
     @Test
-    public void t07_persistirBebida(){
+    public void t07_persistirBebida() {
         logger.log(Level.INFO, "Executando t07: Persistir Bebida");
         BebidaAlcoolica bebida = new BebidaAlcoolica();
         bebida.setEstoque(25);
@@ -262,9 +266,9 @@ public class Testes {
         assertNotNull(bebida.getId());
         logger.log(Level.INFO, "Bebida Adicionada com sucesso", bebida);
     }
-    
+
     @Test
-    public void t08_persistirCartao(){
+    public void t08_persistirCartao() {
         logger.log(Level.INFO, "Executando t11 : Adicionar Cartao");
         Cartao cartao = new Cartao();
         Cliente cliente = em.find(Cliente.class, new Long(4));
@@ -282,9 +286,9 @@ public class Testes {
         assertEquals(cliente.getCartao().getId(), cartao.getId());
         logger.log(Level.INFO, "Cartao adicionado com sucesso", cartao);
     }
-    
+
     @Test
-    public void t09_cartoesExpirados(){
+    public void t09_cartoesExpirados() {
         logger.log(Level.INFO, "Executando t08: SELECT c FROM Cartao c WHERE c.dataExpiracao < CURRENT_DATE");
         TypedQuery<Cartao> query = em.createQuery(
                 "SELECT c FROM Cartao c WHERE c.dataExpiracao < CURRENT_DATE",
@@ -292,31 +296,30 @@ public class Testes {
         List<Cartao> cartoesExpirados = query.getResultList();
         assertEquals(1, cartoesExpirados.size());
     }
-    
+
     @Test
-    public void t10_bandeirasDistintas(){
+    public void t10_bandeirasDistintas() {
         logger.log(Level.INFO, "Executando t09: SELECT DISTINCT(c.bandeira) FROM CartaoCredito c ORDER BY c.bandeira");
-        TypedQuery<String> query = 
-                em.createQuery("SELECT DISTINCT(c.bandeira) FROM Cartao c ORDER BY c.bandeira",
+        TypedQuery<String> query
+                = em.createQuery("SELECT DISTINCT(c.bandeira) FROM Cartao c ORDER BY c.bandeira",
                         String.class);
         List<String> bandeiras = query.getResultList();
         assertEquals(4, bandeiras.size());
     }
-        
+
     @Test
-    public void t11_cartoesMastercard(){
+    public void t11_cartoesMastercard() {
         logger.info("Executando t15: SELECT c FROM Cartao c WHERE c.bandeira = MASTERCARD ORDER BY c.id");
         TypedQuery<Cartao> query;
         query = em.createQuery("SELECT c FROM Cartao c WHERE c.bandeira LIKE ?1", Cartao.class);
         query.setParameter(1, "MASTERCARD");
         List<Cartao> master = query.getResultList();
         assertEquals(2, master.size());
-        
-        
+
     }
-            
-    @Test       
-    public void t12_pedidosNegados(){
+
+    @Test
+    public void t12_pedidosNegados() {
         logger.info("Executando t16: SELECT p FROM Pedido p WHERE p.statusCompra = NEGADO");
         TypedQuery<Pedido> query;
         query = em.createQuery(""
@@ -327,32 +330,22 @@ public class Testes {
                 Pedido.class);
         query.setParameter("negado", StatusCompra.NEGADO);
         List<Pedido> negados = query.getResultList();
-        
+
         assertTrue(negados.get(0).getId() == 7);
         assertTrue(negados.get(1).getId() == 9);
         assertTrue(negados.get(2).getId() == 12);
         assertEquals(3, negados.size());
     }
-    
+
     @Test
-    public void t13_clientesNomes(){
-        TypedQuery<String> query = em.createNamedQuery("Nomes.Clientes", String.class);
-        List<String> clientes = query.getResultList();
-        assertEquals(6, clientes.size());
-        assertTrue("Bianca Leopoldo".equals(clientes.get(0)));
+    public void t13_NomesClientes() {
+        Query query = em.createNamedQuery("Nomes.Clientes");
+        List<Object> resultados = query.getResultList();
+        assertEquals(6, resultados.size());
+
     }
     
-    @Test
-    public void t17_clientesNomesSQLNomeada(){
-        Query query;
-        query = em.createNativeQuery("Nomes.ClienteSQL");
-        List<String> clientes = query.getResultList();
-        assertEquals(6, clientes.size());
-        
-    }
-            
-      
-            
+                
             
             
 }

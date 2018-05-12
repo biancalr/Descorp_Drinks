@@ -22,8 +22,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.Transient;
-import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
 /**
  *
@@ -62,10 +60,7 @@ public class Pedido implements Serializable {
     public Pedido(Bebida bebida) {
         this.addDataPedido();
         this.addHoraPedido();
-        this.addBebida(bebida);
-    }
-
-    public Pedido() {
+        
     }
 
     public Long getId() {

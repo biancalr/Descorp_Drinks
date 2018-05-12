@@ -18,21 +18,15 @@ import javax.validation.Payload;
  *
  * @author Bianca
  */
-@Target(
-        {
-            ElementType.FIELD,
-            ElementType.METHOD,
-            ElementType.ANNOTATION_TYPE
-        }
-)
+@Target( {ElementType.FIELD, ElementType.METHOD, ElementType.ANNOTATION_TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = ValidadorEstado.class)
 @Documented
 public @interface ValidaEstado {
     
     String message() default "{exemplo.main.java.com.mycompany.idrink.Endereco.estado}";
-    
+
     Class<?>[] groups() default {};
-    
+
     Class<? extends Payload>[] payload() default {};
 }

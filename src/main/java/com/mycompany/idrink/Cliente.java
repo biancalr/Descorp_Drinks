@@ -6,8 +6,10 @@ import java.util.List;
 import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.ColumnResult;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.EntityResult;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -19,6 +21,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.SqlResultSetMapping;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.Min;
@@ -37,16 +40,7 @@ import org.hibernate.validator.constraints.NotBlank;
         {
             @NamedQuery(
                     name = "Nomes.Clientes",
-                    query = "SELECT c.nome FROM Cliente c ORDER BY c.id"
-            )
-        }
-)
-@NamedNativeQueries(
-        {
-            @NamedNativeQuery(
-                    name = "Nomes.ClienteSQL",
-                    query = "SELECT txt_nome FROM tb_cliente",
-                    resultClass = String.class
+                    query = "SELECT c.id, c.nome FROM Cliente c ORDER BY c.id"
             )
         }
 )
@@ -63,15 +57,15 @@ public class Cliente implements Serializable {
     @Column(name = "TXT_EMAIL", length = 50)
     private String email;
     @NotBlank
-    @Size(max = 15)
+    @Size(max = 15, message = "deve conter no maximo 15 caracteres")
     @Column(name = "TXT_LOGIN")
     private String login;
     @NotBlank
-    @Size(min = 6, max = 20)
+    @Size(min = 6, max = 20, message = "deve conter entre 6 e 20 digitos")
     @Column(name = "TXT_SENHA")
     private String senha;
     @NotBlank
-    @Size(min = 8, max = 15)
+    @Size(min = 8, max = 15, message = "nao deve conter menos do que 8 digitos")
     @Column(name = "TXT_TELEFONE")
     private String telefone;
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL,

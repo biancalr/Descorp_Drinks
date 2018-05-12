@@ -16,26 +16,22 @@ import org.hibernate.validator.constraints.NotBlank;
 public class Endereco implements Serializable {
 
     @NotBlank
-    @Size(min = 8, max = 9)
+    @Size(min = 8, max = 9, message = "deve conter, sem o hifem, 8 digitos")
     @Column(name = "END_TXT_CEP")
     private String cep;
     @NotBlank
-    @ValidaEstado
-    @Column(name = "END_TXT_ESTADO")
-    private String estado;
-    @NotBlank
-    @Size(min = 4, max = 20)
+    @Size(min = 4, max = 20, message = "deve ser comosto de 4 letras pelo menos")
     @Column(name = "END_TXT_CIDADE")
     private String cidade;
     @NotBlank
-    @Size(min = 4, max = 20)
+    @Size(min = 4, max = 20, message = "deve ser composto de 4 letras pelo menos")
     @Column(name = "END_TXT_BAIRRO")
     private String bairro;
     @NotBlank
-    @Size(min = 5, max = 100)
+    @Size(min = 5, max = 100, message = "espaco minimo de 5 caracteres")
     @Column(name = "END_TXT_LOGRADOURO")
     private String logradouro;
-    @Size(max = 100)
+    @Size(max = 100, message = "espaco maximo de 100 caracteres")
     @Column(name = "END_TXT_COMPLEMENTO", nullable = true)
     private String complemento;
     @NotBlank
@@ -43,6 +39,11 @@ public class Endereco implements Serializable {
     @Max(value = 999)
     @Column(name = "END_INT_NUMERO")
     private Integer numero;
+    @NotBlank
+    @ValidaEstado
+    @Size(min = 4, message = "deve conter no minimo 4 letras")
+    @Column(name = "END_TXT_ESTADO")
+    private String estado;
 
     public String getCep() {
         return cep;
