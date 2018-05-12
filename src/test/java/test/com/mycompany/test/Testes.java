@@ -183,6 +183,7 @@ public class Testes {
          * removidos do banco
         
          Checar se os pedidos também foram removidos;
+        Checado
          */
         logger.info("Executando t03: Remover Cliente");
         Cliente cliente = em.find(Cliente.class, new Long(2));
@@ -193,6 +194,10 @@ public class Testes {
         cartao = em.find(Cartao.class, cartao.getId());
         assertNull(cliente);
         assertNull(cartao);
+        TypedQuery<Pedido> query;
+        query = em.createQuery("SELECT p FROM Pedido p WHERE p.cliente.id = null", Pedido.class);
+        List<Pedido> resultado = query.getResultList();
+        assertTrue(resultado.isEmpty());
         logger.log(Level.INFO, "Cliente removido com sucesso", cliente);
     }
 
