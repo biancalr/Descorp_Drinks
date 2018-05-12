@@ -173,6 +173,7 @@ public class Testes {
         em.clear();
         cartao = em.find(Cartao.class, new Long(3));
         assertEquals("GOOD CARD", cartao.getBandeira());
+        assertEquals("6161616161616155", cartao.getNumero());
         logger.log(Level.INFO, "Cartao atualizado com sucesso", cartao);
     }
 
@@ -344,7 +345,7 @@ public class Testes {
     }
 
     @Test
-    public void t13_NomesClientesSQL() {
+    public void t13_findAllClientesNomesSQL() {
         Query query = em.createNamedQuery("Nomes.Clientes");
         List<Object> resultados = query.getResultList();
         assertEquals(6, resultados.size());
@@ -362,8 +363,36 @@ public class Testes {
         assertTrue(preco.longValue() == 109);
         
     }
-        
     
+    @Test
+    public void t15_clienteCartao(){
+        TypedQuery<Object[]> query;
+        query = em.createQuery(
+                "SELECT c.nome, cc.bandeira FROM Cliente c LEFT OUTER JOIN c.cartao cc"
+                , Object[].class);
+        List<Object[]> resultados = query.getResultList();
+        assertEquals(6, resultados.size());
+        if (logger.isLoggable(Level.INFO)) {
+            for (Object[] resultado : resultados) {
+                logger.log(Level.INFO, "{0}: {1}", new Object[]{resultado[0], resultado[1]});
+            }
+        }
+    }
+    
+    @Test
+    public void t15_clientePedidos(){
+        TypedQuery<Object[]> query;
+        query = em.createQuery(
+                "SELECT c.nome, p.id FROM Cliente c JOIN FETCH c.pedidos p WHERE c.id = 4"
+                , Object[].class);
+        List<Object[]> resultados = query.getResultList();
+        assertEquals(2, resultados.size());
+        if (logger.isLoggable(Level.INFO)) {
+            for (Object[] resultado : resultados) {
+                logger.log(Level.INFO, "{0}: {1}", new Object[]{resultado[0], resultado[1]});
+            }
+        }
+    }
 
     
 }
