@@ -11,19 +11,12 @@ import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Transient;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import org.hibernate.validator.constraints.NotBlank;
 
 /**
  *
@@ -40,14 +33,10 @@ public class Bebida implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
-    @NotBlank(message = "Deve conter nome")
     @Column(name = "TXT_NOME", length = 50, nullable = false)
     protected String nome;
-    @NotNull(message = "deve conter preço acima de 0.00 reais")
     @Column(name = "NUM_PRECO", length = 5, nullable = false)
     protected Double preco;
-    @NotNull
-    @Min(value = 0, message = "deve conter como valor valido um numero natural")
     @Column(name = "NUM_ESTOQUE", nullable = false)
     protected Integer estoque;
 

@@ -129,7 +129,7 @@ public class Testes {
     }
 
     @Test
-    public void t01_persistirCliente() {
+    public void t01_persistirClienteValido() {
         logger.info("Executando t01: persistir Cliente");
         Cliente cliente = new Cliente();
         cliente.setNome("Xuxa");
@@ -192,7 +192,7 @@ public class Testes {
     }
 
     @Test
-    public void t04_atualizarClienteMerge() {
+    public void t04_atualizarCliente() {
         logger.log(Level.INFO, "Executando t04: Atualizar Cliente");
         Cliente cliente = em.find(Cliente.class, new Long(4));
         assertNotNull(cliente.getId());
@@ -382,6 +382,7 @@ public class Testes {
         }
     }
     
+    /*
     @Test
     public void t16_delete(){
         Query query = em.createQuery("DELETE FROM Pedido p WHERE p.dataPedido < ?1");
@@ -390,8 +391,17 @@ public class Testes {
         Pedido pedido = em.find(Pedido.class, new Long(12));
         assertNull(pedido);
     }
+    */
     
-    
+    @Test
+    public void t16_quantidadeClientesSQL(){
+        logger.info("Executando t16: Quantidade.Clientes");
+        TypedQuery<Long> query;
+        query = em.createNamedQuery("Quantidade.Clientes", Long.class);
+        Long resultado = query.getSingleResult();
+        assertEquals(new Long(6), resultado);
+
+    }
 
     
 }

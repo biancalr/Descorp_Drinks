@@ -3,10 +3,6 @@ package com.mycompany.idrink;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.Size;
-import org.hibernate.validator.constraints.NotBlank;
 
 /**
  *
@@ -14,36 +10,21 @@ import org.hibernate.validator.constraints.NotBlank;
  */
 @Embeddable
 public class Endereco implements Serializable {
-
-    @NotBlank
-    @Size(min = 8, max = 9, message = "deve conter, sem o hifem, 8 digitos")
-    @Column(name = "END_TXT_CEP")
+    
+    @Column(name = "END_TXT_CEP", length = 9, nullable = false)
     private String cep;
-    @NotBlank
-    @Size(min = 4, max = 20, message = "deve ser comosto de 4 letras pelo menos")
-    @Column(name = "END_TXT_CIDADE")
-    private String cidade;
-    @NotBlank
-    @Size(min = 4, max = 20, message = "deve ser composto de 4 letras pelo menos")
-    @Column(name = "END_TXT_BAIRRO")
-    private String bairro;
-    @NotBlank
-    @Size(min = 5, max = 100, message = "espaco minimo de 5 caracteres")
-    @Column(name = "END_TXT_LOGRADOURO")
-    private String logradouro;
-    @Size(max = 100, message = "espaco maximo de 100 caracteres")
-    @Column(name = "END_TXT_COMPLEMENTO", nullable = true)
-    private String complemento;
-    @NotBlank
-    @Min(value = 1)
-    @Max(value = 999)
-    @Column(name = "END_INT_NUMERO")
-    private Integer numero;
-    @NotBlank
-    @ValidaEstado
-    @Size(min = 4, message = "deve conter no minimo 4 letras")
-    @Column(name = "END_TXT_ESTADO")
+    @Column(name = "END_TXT_ESTADO", length = 50, nullable = false)
     private String estado;
+    @Column(name = "END_TXT_CIDADE", length = 50, nullable = false)
+    private String cidade;
+    @Column(name = "END_TXT_BAIRRO", length = 50, nullable = false)
+    private String bairro;
+    @Column(name = "END_TXT_LOGRADOURO", length = 100, nullable = false)
+    private String logradouro;
+    @Column(name = "END_TXT_COMPLEMENTO", length = 255, nullable = true)
+    private String complemento;
+    @Column(name = "END_INT_NUMERO", nullable = false)
+    private Integer numero;
 
     public String getCep() {
         return cep;
@@ -103,7 +84,7 @@ public class Endereco implements Serializable {
 
     @Override
     public String toString() {
-        StringBuffer sb = new StringBuffer("Endereço: \n");
+        StringBuilder sb = new StringBuilder("Endereço: \n");
         sb.append(" CEP:");
         sb.append(this.cep);
         sb.append("\n Estado:");

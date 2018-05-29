@@ -6,10 +6,8 @@ import java.util.List;
 import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.ColumnResult;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
-import javax.persistence.EntityResult;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -21,14 +19,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.SqlResultSetMapping;
 import javax.persistence.Table;
-import javax.persistence.Transient;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.NotBlank;
 
 /**
  *
@@ -44,42 +35,37 @@ import org.hibernate.validator.constraints.NotBlank;
             )
         }
 )
+@NamedNativeQueries(
+    {
+        @NamedNativeQuery(name = "Quantidade.Clientes", 
+        query = "SELECT COUNT(id) FROM tb_cliente", 
+        resultClass = Long.class)
+    }
+)
 public class Cliente implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotBlank
-    @Column(name = "TXT_NOME", length = 255)
+    @Column(name = "TXT_NOME", length = 255, nullable = false)
     private String nome;
-    @NotBlank
-    @Email
-    @Column(name = "TXT_EMAIL", length = 50)
+    @Column(name = "TXT_EMAIL", length = 50, nullable = false)
     private String email;
-    @NotBlank
-    @Size(max = 15, message = "deve conter no maximo 15 caracteres")
-    @Column(name = "TXT_LOGIN")
+    @Column(name = "TXT_LOGIN", length = 20, nullable = false)
     private String login;
-    @NotBlank
-    @Size(min = 6, max = 20, message = "deve conter entre 6 e 20 digitos")
-    @Column(name = "TXT_SENHA")
+    @Column(name = "TXT_SENHA", length = 20, nullable = false)
     private String senha;
-    @NotBlank
-    @Size(min = 8, max = 15, message = "nao deve conter menos do que 8 digitos")
-    @Column(name = "TXT_TELEFONE")
+    @Column(name = "TXT_TELEFONE", length = 20, nullable = false)
     private String telefone;
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL,
             optional = false, orphanRemoval = true)
     @JoinColumn(name = "ID_CARTAO", referencedColumnName = "ID")
     private Cartao cartao;
-    @NotNull
     @Embedded
     private Endereco endereco;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "cliente",
             orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Pedido> pedidos;
-    @Transient
-    private int numPedidos = 0;
 
     public Long getId() {
         return id;
@@ -159,11 +145,9 @@ public class Cliente implements Serializable {
         }
         pedido.setCliente(this);
         this.pedidos.add(pedido);
-        this.numPedidos++;
     }
 
     public boolean removerPedido(Pedido pedido) {
-        this.numPedidos--;
         return this.pedidos.remove(pedido);
     }
 

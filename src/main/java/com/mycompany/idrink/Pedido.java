@@ -22,7 +22,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
 /**
  *
  * @author Bianca
@@ -34,12 +33,10 @@ public class Pedido implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotNull
-    @Column(name = "DT_PEDIDO")
+    @Column(name = "DT_PEDIDO", nullable = false)
     @Temporal(TemporalType.DATE)
     private Date dataPedido;
-    @NotNull
-    @Column(name = "HR_PEDIDO")
+    @Column(name = "HR_PEDIDO", nullable = false)
     @Temporal(TemporalType.TIME)
     private Date horaPedido;
     @ManyToMany(fetch = FetchType.LAZY)
@@ -51,9 +48,8 @@ public class Pedido implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false)
     @JoinColumn(name = "ID_CLIENTE", referencedColumnName = "ID")
     private Cliente cliente;
-    @NotNull
     @Enumerated(EnumType.STRING)
-    @Column(name = "TXT_STATUS_COMPRA")
+    @Column(name = "TXT_STATUS_COMPRA", nullable = false)
     private StatusCompra statusCompra;
     
     
