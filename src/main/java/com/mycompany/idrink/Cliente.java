@@ -37,9 +37,9 @@ import javax.persistence.Table;
 )
 @NamedNativeQueries(
     {
-        @NamedNativeQuery(name = "Quantidade.Clientes", 
-        query = "SELECT COUNT(id) FROM tb_cliente", 
-        resultClass = Long.class)
+        @NamedNativeQuery(name = "Nomes.ClientesSQL", 
+        query = "SELECT id, txt_nome FROM tb_cliente ORDER BY id", 
+        resultClass = Cliente.class)
     }
 )
 public class Cliente implements Serializable {

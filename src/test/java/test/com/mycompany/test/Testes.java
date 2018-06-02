@@ -10,6 +10,7 @@
  */
 package test.com.mycompany.test;
 
+import com.mycompany.idrink.Bebida;
 import com.mycompany.idrink.BebidaAlcoolica;
 import com.mycompany.idrink.Cartao;
 import com.mycompany.idrink.Cliente;
@@ -130,7 +131,7 @@ public class Testes {
 
     @Test
     public void t01_persistirClienteValido() {
-        logger.info("Executando t01: persistir Cliente");
+        logger.info("Executando t01: persistir Cliente Válido");
         Cliente cliente = new Cliente();
         cliente.setNome("Xuxa");
         cliente.setTelefone("3016-2564");
@@ -150,8 +151,8 @@ public class Testes {
     }
 
     @Test
-    public void t02_atualizarCartao() {
-        logger.info("Executando t02: Atualizar Cartao");
+    public void t02_atualizarCartaoMerge() {
+        logger.info("Executando t02: Atualizar Cartao Merge");
         Cartao cartao = em.find(Cartao.class, new Long(3));
         assertNotNull(cartao);
         cartao.setDataExpiracao(getData(19, Calendar.NOVEMBER, 2021));
@@ -167,13 +168,13 @@ public class Testes {
     }
 
     @Test
-    public void t03_removerClienteMerge() {
+    public void t03_removerCliente() {
         /*
          * Remover 'Cliente' implica que seu 'Cartao' e seus 'Pedidos' serão
          * removidos do banco
         
          Checar se os pedidos também foram removidos;
-        ***Checado
+        
          */
         logger.info("Executando t03: Remover Cliente");
         Cliente cliente = em.find(Cliente.class, new Long(2));
@@ -184,20 +185,18 @@ public class Testes {
         cartao = em.find(Cartao.class, cartao.getId());
         assertNull(cliente);
         assertNull(cartao);
-        TypedQuery<Pedido> query;
-        query = em.createQuery("SELECT p FROM Pedido p WHERE p.cliente.id = null", Pedido.class);
-        List<Pedido> resultado = query.getResultList();
-        assertTrue(resultado.isEmpty());
+        
         logger.log(Level.INFO, "Cliente removido com sucesso", cliente);
     }
 
     @Test
-    public void t04_atualizarCliente() {
-        logger.log(Level.INFO, "Executando t04: Atualizar Cliente");
+    public void t04_atualizarClienteMerge() {
+        logger.log(Level.INFO, "Executando t04: Atualizar Cliente Merge");
         Cliente cliente = em.find(Cliente.class, new Long(4));
         assertNotNull(cliente.getId());
         cliente.setSenha("outraSenha54321");
         cliente.setLogin("outroLogin");
+        em.merge(cliente);
         em.flush();
         em.clear();
         cliente = em.find(Cliente.class, cliente.getId());
@@ -247,8 +246,8 @@ public class Testes {
     }
 
     @Test
-    public void t07_persistirBebida() {
-        logger.log(Level.INFO, "Executando t07: Persistir Bebida");
+    public void t07_persistirBebidaValida() {
+        logger.log(Level.INFO, "Executando t07: Persistir Bebida Valida");
         BebidaAlcoolica bebida = new BebidaAlcoolica();
         bebida.setEstoque(25);
         bebida.setNome("Hidromel");
@@ -263,8 +262,8 @@ public class Testes {
     }
 
     @Test
-    public void t08_persistirCartao() {
-        logger.log(Level.INFO, "Executando t11 : Adicionar Cartao");
+    public void t08_persistirCartaoValido() {
+        logger.log(Level.INFO, "Executando t08 : Adicionar Cartao");
         Cartao cartao = new Cartao();
         Cliente cliente = em.find(Cliente.class, new Long(4));
         assertNotNull(cliente);
@@ -284,7 +283,7 @@ public class Testes {
 
     @Test
     public void t09_cartoesExpirados() {
-        logger.log(Level.INFO, "Executando t08: SELECT c FROM Cartao c WHERE c.dataExpiracao < CURRENT_DATE");
+        logger.log(Level.INFO, "Executando t09: SELECT c FROM Cartao c WHERE c.dataExpiracao < CURRENT_DATE");
         TypedQuery<Cartao> query = em.createQuery(
                 "SELECT c FROM Cartao c WHERE c.dataExpiracao < CURRENT_DATE",
                 Cartao.class);
@@ -294,7 +293,7 @@ public class Testes {
 
     @Test
     public void t10_bandeirasDistintas() {
-        logger.log(Level.INFO, "Executando t09: SELECT DISTINCT(c.bandeira) FROM CartaoCredito c ORDER BY c.bandeira");
+        logger.log(Level.INFO, "Executando t10: SELECT DISTINCT(c.bandeira) FROM CartaoCredito c ORDER BY c.bandeira");
         TypedQuery<String> query
                 = em.createQuery("SELECT DISTINCT(c.bandeira) FROM Cartao c ORDER BY c.bandeira",
                         String.class);
@@ -304,7 +303,7 @@ public class Testes {
 
     @Test
     public void t11_cartoesMastercard() {
-        logger.info("Executando t15: SELECT c FROM Cartao c WHERE c.bandeira = MASTERCARD ORDER BY c.id");
+        logger.info("Executando t11: SELECT c FROM Cartao c WHERE c.bandeira = MASTERCARD ORDER BY c.id");
         TypedQuery<Cartao> query;
         query = em.createQuery("SELECT c FROM Cartao c WHERE c.bandeira LIKE ?1", Cartao.class);
         query.setParameter(1, "MASTERCARD");
@@ -315,7 +314,7 @@ public class Testes {
 
     @Test
     public void t12_pedidosNegados() {
-        logger.info("Executando t16: SELECT p FROM Pedido p WHERE p.statusCompra = NEGADO");
+        logger.info("Executando t12: SELECT p FROM Pedido p WHERE p.statusCompra = NEGADO");
         TypedQuery<Pedido> query;
         query = em.createQuery(""
                 + "SELECT p FROM Pedido p "
@@ -333,31 +332,51 @@ public class Testes {
     }
 
     @Test
-    public void t13_findAllClientesNomesSQL() {
+    public void t13_findAllClientsNames() {
+        logger.log(Level.INFO, "Executando t013 : Find All Clients Names");
         Query query = em.createNamedQuery("Nomes.Clientes");
         List<Object> resultados = query.getResultList();
         assertEquals(6, resultados.size());
 
     }
-     
     @Test
-    public void t14_maximoMinimoPreco(){
+    public void t14_findAllClientsNamesSQL() {
+        logger.log(Level.INFO, "Executando t14: Nomes.ClientesSQL");
+        Query query = em.createNamedQuery("Nomes.ClientesSQL");
+        List<Cliente> clientes = query.getResultList();
+        assertEquals(6, clientes.size());
+
+    }
+
+    @Test
+    public void t15_maximoPreco() {
+        logger.log(Level.INFO, "Executando t15: SELECT max(ba.preco) FROM BebidaAlcoolica ba");
         Query query;
-        query = em.createQuery(
-                "SELECT max(b.preco), min(b.preco) FROM BebidaAlcoolica b ORDER BY b.id");
-        Object[] resultado = (Object[]) query.getSingleResult();
-        assertEquals(2, resultado.length);
-        Double preco = (Double)resultado[0];
+        query = em.createQuery("SELECT max(ba.preco) FROM BebidaAlcoolica ba");
+        Object resultado = (Object) query.getSingleResult();
+        Double preco = (Double) resultado;
         assertTrue(preco.longValue() == 109);
-        
+
     }
     
     @Test
-    public void t15_clienteCartao(){
+    public void t16_minimoPreco() {
+        logger.log(Level.INFO, "Executando t16: SELECT min(bc.preco) FROM BebidaComum bc");
+        Query query;
+        query = em.createQuery("SELECT min(bc.preco) FROM BebidaComum bc");
+        Object resultado = (Object) query.getSingleResult();
+        Double preco = (Double) resultado;
+        assertTrue(preco.longValue() == 2);
+
+    }
+
+    @Test
+    public void t17_clienteCartao() {
+        logger.log(Level.INFO, "Executando t17: SELECT c.nome, cc.bandeira FROM Cliente c LEFT OUTER JOIN c.cartao cc");
         TypedQuery<Object[]> query;
         query = em.createQuery(
-                "SELECT c.nome, cc.bandeira FROM Cliente c LEFT OUTER JOIN c.cartao cc"
-                , Object[].class);
+                "SELECT c.nome, cc.bandeira FROM Cliente c LEFT OUTER JOIN c.cartao cc",
+                 Object[].class);
         List<Object[]> resultados = query.getResultList();
         assertEquals(6, resultados.size());
         if (logger.isLoggable(Level.INFO)) {
@@ -366,13 +385,14 @@ public class Testes {
             }
         }
     }
-    
+
     @Test
-    public void t15_clientePedidos(){
+    public void t18_clientePedidos() {
+        logger.log(Level.INFO, "Executando t18: SELECT c.nome, p.id FROM Cliente c JOIN FETCH c.pedidos p WHERE c.id = 4");
         TypedQuery<Object[]> query;
         query = em.createQuery(
-                "SELECT c.nome, p.id FROM Cliente c JOIN FETCH c.pedidos p WHERE c.id = 4"
-                , Object[].class);
+                "SELECT c.nome, p.id FROM Cliente c JOIN FETCH c.pedidos p WHERE c.id = 4",
+                 Object[].class);
         List<Object[]> resultados = query.getResultList();
         assertEquals(2, resultados.size());
         if (logger.isLoggable(Level.INFO)) {
@@ -381,27 +401,44 @@ public class Testes {
             }
         }
     }
-    
-    /*
-    @Test
-    public void t16_delete(){
-        Query query = em.createQuery("DELETE FROM Pedido p WHERE p.dataPedido < ?1");
-        query.setParameter(1, getData(28, Calendar.FEBRUARY, 2018));
-        query.executeUpdate();
-        Pedido pedido = em.find(Pedido.class, new Long(12));
-        assertNull(pedido);
-    }
-    */
-    
-    @Test
-    public void t16_quantidadeClientesSQL(){
-        logger.info("Executando t16: Quantidade.Clientes");
-        TypedQuery<Long> query;
-        query = em.createNamedQuery("Quantidade.Clientes", Long.class);
-        Long resultado = query.getSingleResult();
-        assertEquals(new Long(6), resultado);
 
+    @Test
+    public void t19_persistirPedidoValido(){
+        Pedido pedido = new Pedido();
+        pedido.setDataPedido(getData(2, Calendar.APRIL, 2018));
+        Calendar c = Calendar.getInstance();
+        c.set(Calendar.HOUR_OF_DAY, 17);
+        c.set(Calendar.MINUTE, 29);
+        c.set(Calendar.SECOND, 11);
+        pedido.setHoraPedido(c.getTime());
+        pedido.setStatusCompra(StatusCompra.APROVADO);
+        Cliente cliente = em.find(Cliente.class, new Long(3));
+        assertNotNull(cliente.getCartao().getId());
+        pedido.setCliente(cliente);
+        Bebida bebida = em.find(Bebida.class, new Long(7));
+        assertNotNull(bebida);
+        pedido.addBebida(bebida);
+        bebida = em.find(Bebida.class, new Long(3));
+        assertNotNull(bebida);
+        pedido.addBebida(bebida);
+        em.persist(pedido);
+        em.flush();
+        em.clear();
+        assertNotNull(pedido.getId());
+        assertNotNull(pedido.getCliente().getId());
+        assertTrue(pedido.temBebidas());
+        assertNotNull(pedido.getBebidas().get(0).getId());
+        assertNotNull(pedido.getBebidas().get(1).getId());
     }
-
     
+//    @Test
+//    public void t20_delete(){
+//        Query query = em.createQuery("DELETE FROM Pedido p WHERE p.dataPedido < ?1");
+//        query.setParameter(1, getData(28, Calendar.FEBRUARY, 2018));
+//        query.executeUpdate();
+//        em.clear();
+//        Pedido pedido = em.find(Pedido.class, new Long(12));
+//        assertNull(pedido);
+//    }
+
 }

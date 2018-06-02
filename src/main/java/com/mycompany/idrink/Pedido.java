@@ -53,13 +53,10 @@ public class Pedido implements Serializable {
     private StatusCompra statusCompra;
     
     
-    public Pedido(Bebida bebida) {
+    public Pedido() {
         this.addDataPedido();
         this.addHoraPedido();
         
-    }
-
-    public Pedido() {
     }
 
     public Long getId() {
@@ -123,12 +120,6 @@ public class Pedido implements Serializable {
 
     public void setStatusCompra(StatusCompra statusCompra) {
         this.statusCompra = statusCompra;
-        if(cliente.getCartao() == null){
-            this.statusCompra = StatusCompra.NEGADO;       
-        }
-        if (cliente.getCartao().getDataExpiracao().compareTo(new Date()) < 0) {
-            this.statusCompra = StatusCompra.NEGADO;
-        }
     }
     
     @Override
