@@ -1,13 +1,3 @@
-/*
- * RemoverBebida() interfere no cálculo dos métodos:
- * Bebida.calculaTotalCompras() e Bebida.calculaSubtotal()
- * Como mudar o valor do total e do subtotal de acordo com a
- * "quantidade de bebidas" adicionadas e/ou removidas
- * Essa quantidade de Bebidas refere-se tanto à quantidade de 
- * bebidas de uma mesma bebida ou às diferentes bebidas adicionadas
-
- * Automatizar controle de Estoque
- */
 package test.com.mycompany.test;
 
 import com.mycompany.idrink.Bebida;
