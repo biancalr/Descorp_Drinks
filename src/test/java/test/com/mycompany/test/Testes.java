@@ -20,6 +20,7 @@ import com.mycompany.idrink.StatusCompra;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
@@ -28,6 +29,10 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
+import javax.validation.Validation;
+import javax.validation.Validator;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -89,8 +94,8 @@ public class Testes {
             et.commit();
         } catch (Exception ex) {
             logger.log(Level.SEVERE, ex.getMessage(), ex);
-            et.rollback();
-            fail(ex.getMessage());
+            if (et.isActive())
+                et.rollback();
         }
     }
 
@@ -107,6 +112,20 @@ public class Testes {
         em.flush();
         return endereco;
     }
+    
+    private Endereco criarEnderecoInvalido(Cliente cliente) {
+        Endereco endereco = new Endereco();
+        endereco.setCep("50690-220");
+        endereco.setEstado("Pernambuco1");
+        endereco.setCidade("Recife");
+        endereco.setBairro("Iputinga");
+        endereco.setLogradouro("Rua Iolanda Rodrigues Sobral");
+        endereco.setNumero(550);
+        endereco.setComplemento("Apto. 109");
+        cliente.setEndereco(endereco);
+        em.flush();
+        return endereco;
+    }    
 
     public void criarCartao(Cliente cliente) {
         Cartao cartao = new Cartao();
@@ -151,6 +170,54 @@ public class Testes {
     }
 
     @Test
+    public void t01_persistirClienteInValido() {
+        logger.info("Executando t01: persistir Cliente Válido");
+        Cliente cliente = new Cliente();
+        cliente.setNome("Xuxa");
+        cliente.setTelefone("3016-2564");
+        cliente.setLogin("Xuxis");
+        cliente.setEmail("xuxa@gmail.com");
+        cliente.setSenha("xu6666");
+        criarEnderecoInvalido(cliente);
+        criarCartao(cliente);
+        try {
+            em.persist(cliente);
+            assertTrue(false);
+        } catch (ConstraintViolationException ex) {
+            Set<ConstraintViolation<?>> constraintViolations = ex.getConstraintViolations();
+            assertEquals(1, constraintViolations.size());
+            ConstraintViolation violation = constraintViolations.iterator().next();
+            assertEquals(violation.getMessage(), "Estado invalido");
+        } catch (Exception ex) {
+            fail(ex.getMessage());
+        }
+        
+        logger.log(Level.INFO, "Cliente invalido invalidado com sucesso.", cliente);
+    }
+
+    @Test
+    public void t01_persistirClienteInValido2() {
+        logger.info("Executando t01: checando cliente inválido");
+        Cliente cliente = new Cliente();
+        cliente.setNome("Xuxa");
+        cliente.setTelefone("3016-2564");
+        cliente.setLogin("Xuxis");
+        cliente.setEmail("xuxa@gmail.com");
+        cliente.setSenha("xu6666");
+        criarEnderecoInvalido(cliente);
+        criarCartao(cliente);
+        
+        Validator validator = Validation.buildDefaultValidatorFactory().getValidator();       
+        
+        Set<ConstraintViolation<Cliente>> constraintViolations = validator.validate(cliente);
+        assertEquals(1, constraintViolations.size());
+        ConstraintViolation violation = constraintViolations.iterator().next();
+        assertEquals(violation.getMessage(), "Estado invalido");
+        logger.log(Level.INFO, "Cliente invalido invalidado com sucesso.", cliente);
+    }
+
+
+    @Test
     public void t02_atualizarCartaoMerge() {
         logger.info("Executando t02: Atualizar Cartao Merge");
         Cartao cartao = em.find(Cartao.class, new Long(3));
@@ -185,7 +252,7 @@ public class Testes {
         cartao = em.find(Cartao.class, cartao.getId());
         assertNull(cliente);
         assertNull(cartao);
-        
+
         logger.log(Level.INFO, "Cliente removido com sucesso", cliente);
     }
 
@@ -339,6 +406,7 @@ public class Testes {
         assertEquals(6, resultados.size());
 
     }
+
     @Test
     public void t14_findAllClientsNamesSQL() {
         logger.log(Level.INFO, "Executando t14: Nomes.ClientesSQL");
@@ -358,7 +426,7 @@ public class Testes {
         assertTrue(preco.longValue() == 109);
 
     }
-    
+
     @Test
     public void t16_minimoPreco() {
         logger.log(Level.INFO, "Executando t16: SELECT min(bc.preco) FROM BebidaComum bc");
@@ -376,7 +444,7 @@ public class Testes {
         TypedQuery<Object[]> query;
         query = em.createQuery(
                 "SELECT c.nome, cc.bandeira FROM Cliente c LEFT OUTER JOIN c.cartao cc",
-                 Object[].class);
+                Object[].class);
         List<Object[]> resultados = query.getResultList();
         assertEquals(6, resultados.size());
         if (logger.isLoggable(Level.INFO)) {
@@ -392,7 +460,7 @@ public class Testes {
         TypedQuery<Object[]> query;
         query = em.createQuery(
                 "SELECT c.nome, p.id FROM Cliente c JOIN FETCH c.pedidos p WHERE c.id = 4",
-                 Object[].class);
+                Object[].class);
         List<Object[]> resultados = query.getResultList();
         assertEquals(2, resultados.size());
         if (logger.isLoggable(Level.INFO)) {
@@ -403,7 +471,7 @@ public class Testes {
     }
 
     @Test
-    public void t19_persistirPedidoValido(){
+    public void t19_persistirPedidoValido() {
         Pedido pedido = new Pedido();
         pedido.setDataPedido(getData(2, Calendar.APRIL, 2018));
         Calendar c = Calendar.getInstance();
@@ -430,15 +498,17 @@ public class Testes {
         assertNotNull(pedido.getBebidas().get(0).getId());
         assertNotNull(pedido.getBebidas().get(1).getId());
     }
-    
+
 //    @Test
 //    public void t20_delete(){
 //        Query query = em.createQuery("DELETE FROM Pedido p WHERE p.dataPedido < ?1");
 //        query.setParameter(1, getData(28, Calendar.FEBRUARY, 2018));
 //        query.executeUpdate();
 //        em.clear();
-//        Pedido pedido = em.find(Pedido.class, new Long(12));
+//        Pedido pedido = em.find(Pedido.class, new Long(6));
 //        assertNull(pedido);
+//        pedido = em.find(Pedido.class, new Long(12));
+//        assertNull(pedido);
+//        
 //    }
-
 }

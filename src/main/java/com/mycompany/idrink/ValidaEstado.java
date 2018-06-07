@@ -24,7 +24,7 @@ import javax.validation.Payload;
 @Documented
 public @interface ValidaEstado {
     
-    String message() default "{exemplo.main.java.com.mycompany.idrink.Endereco.estado}";
+    String message() default "{idrink.Endereco.estado}";
 
     Class<?>[] groups() default {};
 

@@ -13,6 +13,7 @@ public class Endereco implements Serializable {
     
     @Column(name = "END_TXT_CEP", length = 9, nullable = false)
     private String cep;
+    @ValidaEstado
     @Column(name = "END_TXT_ESTADO", length = 50, nullable = false)
     private String estado;
     @Column(name = "END_TXT_CIDADE", length = 50, nullable = false)

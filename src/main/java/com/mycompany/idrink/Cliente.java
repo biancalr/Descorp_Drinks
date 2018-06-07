@@ -20,6 +20,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.Valid;
 
 /**
  *
@@ -61,6 +62,7 @@ public class Cliente implements Serializable {
             optional = false, orphanRemoval = true)
     @JoinColumn(name = "ID_CARTAO", referencedColumnName = "ID")
     private Cartao cartao;
+    @Valid
     @Embedded
     private Endereco endereco;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "cliente",
