@@ -40,7 +40,7 @@ public class Pedido implements Serializable {
     @Temporal(TemporalType.TIME)
     private Date horaPedido;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY,
-            orphanRemoval = false, mappedBy = "pedido")
+            orphanRemoval = true, mappedBy = "pedido")
     private List<Item> itensSelecionados;
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false)
     @JoinColumn(name = "ID_CLIENTE", referencedColumnName = "ID")
