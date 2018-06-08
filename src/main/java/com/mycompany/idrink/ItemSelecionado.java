@@ -6,6 +6,8 @@
 package com.mycompany.idrink;
 
 import java.io.Serializable;
+import javax.persistence.Access;
+import javax.persistence.AccessType;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,6 +16,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -22,16 +25,21 @@ import javax.persistence.Table;
  * @author Bianca
  */
 @Entity
-@Table(name = "TB_ITEMSELECIONADO")
+@Table(name = "TB_ITEM_SELECIONADO")
 public class ItemSelecionado implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "quantidade", length = 5, nullable = false)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY,
+            optional = false)
+    @JoinColumn(name = "ID_PEDIDO", referencedColumnName = "ID",
+            nullable = false)
+    private Pedido pedido;
+    @Column(name = "NUM_QUANTIDADE", nullable = false)
     private Integer quantidade;
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY,
-            optional = false, orphanRemoval = true)
+            optional = false, orphanRemoval = false)
     @JoinColumn(name = "ID_BEBIDA", referencedColumnName = "ID", 
             nullable = false)
     private Bebida bebida;
@@ -60,6 +68,30 @@ public class ItemSelecionado implements Serializable {
         this.bebida = bebida;
     }
 
+    public Pedido getPedido() {
+        return pedido;
+    }
+
+    public void setPedido(Pedido pedido) {
+        pedido.addItem(this);
+        this.pedido = pedido;
+    }
+    
+    public void adicionarBebida(Bebida bebida, Integer quantidade){
+        this.bebida = bebida;
+        this.quantidade = quantidade;
+        this.bebida.subDoEstoque(quantidade);
+    }
+    
+    public void removerBebida(){
+        this.bebida.addNoEstoque(quantidade);
+        this.bebida = null;
+    }
+    
+    public Double getSubtotal(){
+        return this.bebida.getPreco() * this.quantidade;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -85,7 +117,9 @@ public class ItemSelecionado implements Serializable {
         sb.append(" ID:");
         sb.append(this.id);
         sb.append("\n Bebida:");
-        sb.append(this.bebida.getId());
+        sb.append(this.bebida.getNome());
+        sb.append("\n Quantidade:");
+        sb.append(this.quantidade);
         sb.append("\n");
         return sb.toString();
     }
