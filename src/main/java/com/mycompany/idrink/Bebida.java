@@ -1,12 +1,9 @@
 package com.mycompany.idrink;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
@@ -37,7 +34,7 @@ public class Bebida implements Serializable {
     protected String nome;
     @Column(name = "NUM_PRECO", length = 5, nullable = false)
     protected Double preco;
-    @Column(name = "NUM_ESTOQUE", nullable = false)
+    @Column(name = "NUM_ESTOQUE", length = 3 , nullable = false)
     protected Integer estoque;
 
     public Long getId() {
@@ -66,6 +63,14 @@ public class Bebida implements Serializable {
 
     public void setEstoque(Integer estoque) {
         this.estoque = estoque;
+    }
+    
+    public void addNoEstoque(Integer alteracao) {
+        this.estoque += alteracao;
+    }
+    
+    public void subDoEstoque(Integer alteracao) {
+        this.estoque -= alteracao;
     }
     
     @Override
