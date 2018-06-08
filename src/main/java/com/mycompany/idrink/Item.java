@@ -89,7 +89,7 @@ public class Item implements Serializable {
     
     public void atualizarItem(Bebida bebida, Integer quantidade){
          if(temBebida() == true){
-             this.bebida.addNoEstoque(quantidade);
+             this.removerBebida();
          }
              this.adicionarBebida(bebida, quantidade);
     }
