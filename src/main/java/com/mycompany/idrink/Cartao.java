@@ -58,6 +58,14 @@ public class Cartao implements Serializable {
     public void setNumero(String numero) {
         this.numero = numero;
     }
+    
+    public StatusTransacao transacaoBancaria(boolean conectado){
+        if(conectado){
+            return StatusTransacao.APROVADO;
+        }else{
+            return StatusTransacao.NEGADO;
+        }
+    }
 
     @Override
     public int hashCode() {
