@@ -73,10 +73,25 @@ public class Item implements Serializable {
         this.pedido = pedido;
     }
     
+    public boolean temBebida() {
+        if (this.bebida == null) {
+            return false;
+        }else{
+            return true;
+        }
+    }
+    
     public void adicionarBebida(Bebida bebida, Integer quantidade){
         this.bebida = bebida;
         this.quantidade = quantidade;
         this.bebida.subDoEstoque(quantidade);
+    }
+    
+    public void atualizarItem(Bebida bebida, Integer quantidade){
+         if(temBebida() == true){
+             this.bebida.addNoEstoque(quantidade);
+         }
+             this.adicionarBebida(bebida, quantidade);
     }
     
     public void removerBebida(){
