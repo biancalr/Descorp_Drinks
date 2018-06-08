@@ -16,12 +16,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
 /**
  *
  * @author Bianca
@@ -39,24 +39,20 @@ public class Pedido implements Serializable {
     @Column(name = "HR_PEDIDO", nullable = false)
     @Temporal(TemporalType.TIME)
     private Date horaPedido;
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "TB_PEDIDO_BEBIDA", joinColumns = {
-        @JoinColumn(name = "ID_PEDIDO", referencedColumnName = "ID")}, 
-            inverseJoinColumns = {
-                @JoinColumn(name = "ID_BEBIDA", referencedColumnName = "ID")})
-    private List<Bebida> bebidas;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY,
+            orphanRemoval = false, mappedBy = "pedido")
+    private List<ItemSelecionado> itensSelecionados;
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false)
     @JoinColumn(name = "ID_CLIENTE", referencedColumnName = "ID")
     private Cliente cliente;
     @Enumerated(EnumType.STRING)
     @Column(name = "TXT_STATUS_COMPRA", nullable = false)
     private StatusCompra statusCompra;
-    
-    
+
     public Pedido() {
         this.addDataPedido();
         this.addHoraPedido();
-        
+
     }
 
     public Long getId() {
@@ -70,7 +66,7 @@ public class Pedido implements Serializable {
     public void setDataPedido(Date dataPedido) {
         this.dataPedido = dataPedido;
     }
-    
+
     private void addDataPedido() {
         Calendar c = Calendar.getInstance();
         this.dataPedido = c.getTime();
@@ -83,27 +79,39 @@ public class Pedido implements Serializable {
     public void setHoraPedido(Date horaPedido) {
         this.horaPedido = horaPedido;
     }
-    
+
     private void addHoraPedido() {
         Calendar c = Calendar.getInstance();
         this.horaPedido = c.getTime();
     }
 
-    public List<Bebida> getBebidas() {
-        return bebidas;
-    }
-    public boolean temBebidas(){
-        return !this.bebidas.isEmpty();
+    public List<ItemSelecionado> getItensSelecionados() {
+        return itensSelecionados;
     }
 
-    public void addBebida(Bebida bebida) {
-        if (this.bebidas == null) {
-           this.bebidas = new ArrayList<>(); 
-        }
-        this.bebidas.add(bebida);
+    public boolean temItens() {
+        return !this.itensSelecionados.isEmpty();
     }
-    public boolean removerBebida(Bebida bebida){
-        return this.bebidas.remove(bebida);
+
+    public void addItem(ItemSelecionado item) {
+        if (this.itensSelecionados == null) {
+            this.itensSelecionados = new ArrayList<>();
+        }
+        item.setPedido(this);
+        this.itensSelecionados.add(item);
+    }
+
+    public boolean removerItem(ItemSelecionado item) {
+        item.removerBebida();
+        return this.itensSelecionados.remove(item);
+    }
+    
+    public Double getTotal(){
+        Double total = null;
+        for (ItemSelecionado item : itensSelecionados) {
+            total += item.getSubtotal();
+        }
+        return total;
     }
 
     public Cliente getCliente() {
@@ -122,6 +130,14 @@ public class Pedido implements Serializable {
         this.statusCompra = statusCompra;
     }
     
+    public void atualizaStatusCompra(){
+        if(cliente.getCartao().getDataExpiracao().compareTo(new Date()) >= 0){
+            this.statusCompra = StatusCompra.APROVADO;
+        }else{
+            this.statusCompra = StatusCompra.NEGADO;
+        }
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -146,7 +162,6 @@ public class Pedido implements Serializable {
         }
         return true;
     }
-    
 
     @Override
     public String toString() {
@@ -159,9 +174,12 @@ public class Pedido implements Serializable {
         sb.append(this.dataPedido);
         sb.append("\n Hora do pedido:");
         sb.append(this.horaPedido);
-        sb.append("\n ");
-        sb.append(this.bebidas);
+        sb.append("\n Itens Selecionados: ");
+        for (int i = 0; i < this.itensSelecionados.size(); i++) {
+            sb.append(" \n");
+            sb.append(this.itensSelecionados.get(i).toString());
+        }
         return sb.toString();
     }
-    
+
 }
