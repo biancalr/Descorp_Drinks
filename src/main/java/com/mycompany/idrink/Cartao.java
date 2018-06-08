@@ -59,11 +59,11 @@ public class Cartao implements Serializable {
         this.numero = numero;
     }
     
-    public StatusTransacao transacaoBancaria(boolean conectado){
+    public boolean transacaoBancaria(boolean conectado){
         if(conectado){
-            return StatusTransacao.APROVADO;
+            return true;
         }else{
-            return StatusTransacao.NEGADO;
+            return false;
         }
     }
 
