@@ -41,7 +41,7 @@ public class Pedido implements Serializable {
     private Date horaPedido;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY,
             orphanRemoval = false, mappedBy = "pedido")
-    private List<ItemSelecionado> itensSelecionados;
+    private List<Item> itensSelecionados;
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false)
     @JoinColumn(name = "ID_CLIENTE", referencedColumnName = "ID")
     private Cliente cliente;
@@ -85,7 +85,7 @@ public class Pedido implements Serializable {
         this.horaPedido = c.getTime();
     }
 
-    public List<ItemSelecionado> getItensSelecionados() {
+    public List<Item> getItensSelecionados() {
         return itensSelecionados;
     }
 
@@ -93,7 +93,7 @@ public class Pedido implements Serializable {
         return !this.itensSelecionados.isEmpty();
     }
 
-    public void addItem(ItemSelecionado item) {
+    public void addItem(Item item) {
         if (this.itensSelecionados == null) {
             this.itensSelecionados = new ArrayList<>();
         }
@@ -101,14 +101,14 @@ public class Pedido implements Serializable {
         this.itensSelecionados.add(item);
     }
 
-    public boolean removerItem(ItemSelecionado item) {
+    public boolean removerItem(Item item) {
         item.removerBebida();
         return this.itensSelecionados.remove(item);
     }
     
     public Double getTotal(){
         Double total = null;
-        for (ItemSelecionado item : itensSelecionados) {
+        for (Item item : itensSelecionados) {
             total += item.getSubtotal();
         }
         return total;
