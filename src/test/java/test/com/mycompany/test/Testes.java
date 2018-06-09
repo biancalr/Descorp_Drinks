@@ -1,10 +1,10 @@
 package test.com.mycompany.test;
 
 import com.mycompany.idrink.BebidaAlcoolica;
+import com.mycompany.idrink.BebidaComum;
 import com.mycompany.idrink.Cartao;
 import com.mycompany.idrink.Cliente;
 import com.mycompany.idrink.Endereco;
-import com.mycompany.idrink.Item;
 import com.mycompany.idrink.Pedido;
 import com.mycompany.idrink.StatusCompra;
 import java.util.ArrayList;
@@ -469,17 +469,31 @@ public class Testes {
         }
     }
 
-
-//    @Test
-//    public void t20_delete(){
-//        Query query = em.createQuery("DELETE FROM Pedido p WHERE p.dataPedido < ?1");
-//        query.setParameter(1, getData(28, Calendar.FEBRUARY, 2018));
-//        query.executeUpdate();
-//        em.clear();
-//        Pedido pedido = em.find(Pedido.class, new Long(6));
-//        assertNull(pedido);
-//        pedido = em.find(Pedido.class, new Long(12));
-//        assertNull(pedido);
-//        
-//    }
+    @Test
+    public void t21_persistirBebidaInvalida(){
+        logger.log(Level.INFO, "Executando t21: Persistir Bebida Invalida");
+        BebidaComum bebida = new BebidaComum();
+        bebida.setNome("Lt");//nome invalido
+        bebida.setPreco(-0.0);//preco invalido
+        bebida.setAcucar(32);
+        bebida.setEstoque(-32);//estoque invalido
+        
+        Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
+        
+        Set<ConstraintViolation<BebidaComum>> constraintViolations;
+        constraintViolations = validator.validate(bebida);
+        
+        if (logger.isLoggable(Level.INFO)) {
+            for (ConstraintViolation violation : constraintViolations) {
+                Logger.getGlobal().log(Level.INFO, "{0}.{1}: {2}", new Object[]{violation.getRootBeanClass(), violation.getPropertyPath(), violation.getMessage()});
+            }
+        }
+        
+        assertEquals(3, constraintViolations.size());
+        logger.log(Level.INFO, "Bebida invalida invalidada com sucesso.", bebida);
+        
+    }
+    
+    
+    
 }
