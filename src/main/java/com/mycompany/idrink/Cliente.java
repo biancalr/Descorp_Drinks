@@ -21,6 +21,10 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.Valid;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotBlank;
 
 /**
  *
@@ -48,16 +52,24 @@ public class Cliente implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "TXT_NOME", length = 255, nullable = false)
+    @NotBlank
+    @Column(name = "TXT_NOME", length = 255)
     private String nome;
-    @Column(name = "TXT_EMAIL", length = 50, nullable = false)
+    @NotBlank
+    @Email(message = "{idrink.Cliente.email}")
+    @Column(name = "TXT_EMAIL")
     private String email;
-    @Column(name = "TXT_LOGIN", length = 20, nullable = false)
+    @NotBlank
+    @Column(name = "TXT_LOGIN", length = 20)
     private String login;
-    @Column(name = "TXT_SENHA", length = 20, nullable = false)
+    @NotBlank
+    @Size(min = 6, max = 20, message = "{idrink.Cliente.senha}")
+    @Column(name = "TXT_SENHA")
     private String senha;
-    @Column(name = "TXT_TELEFONE", length = 20, nullable = false)
+    @NotBlank
+    @Column(name = "TXT_TELEFONE", length = 20)
     private String telefone;
+    @Valid
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL,
             optional = false, orphanRemoval = true)
     @JoinColumn(name = "ID_CARTAO", referencedColumnName = "ID")
