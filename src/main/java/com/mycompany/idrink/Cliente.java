@@ -6,8 +6,10 @@ import java.util.List;
 import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.ColumnResult;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.EntityResult;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -19,6 +21,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.SqlResultSetMapping;
 import javax.persistence.Table;
 import javax.validation.Valid;
 import javax.validation.constraints.Size;
@@ -40,11 +43,25 @@ import org.hibernate.validator.constraints.NotBlank;
         }
 )
 @NamedNativeQueries(
-    {
-        @NamedNativeQuery(name = "Nomes.ClientesSQL", 
-        query = "SELECT id, txt_nome FROM tb_cliente ORDER BY id", 
-        resultClass = Cliente.class)
-    }
+        {
+            @NamedNativeQuery(
+                    name = "Nomes.ClientesSQL",
+                    query = "SELECT id, txt_nome FROM tb_cliente ORDER BY id",
+                    resultClass = Cliente.class
+            ),
+            @NamedNativeQuery(
+                    name = "Cliente.QuantidadePedidosSQL",
+                    query = "SELECT c.ID, c.TXT_NOME, COUNT(p.ID) AS TOTAL_PEDIDOS FROM TB_CLIENTE c, TB_PEDIDO p WHERE c.TXT_NOME LIKE ? AND c.ID = p.ID_CLIENTE GROUP BY c.ID",
+                    resultSetMapping = "Cliente.QuantidadePedidos"
+            )
+        }
+)
+@SqlResultSetMapping(
+        name = "Cliente.QuantidadePedidos",
+        entities = {
+            @EntityResult(entityClass = Cliente.class)},
+        columns = {
+            @ColumnResult(name = "TOTAL_PEDIDOS", type = Long.class)}
 )
 public class Cliente implements Serializable {
 
