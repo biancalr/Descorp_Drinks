@@ -1,10 +1,12 @@
 package test.com.mycompany.test;
 
+import com.mycompany.idrink.Bebida;
 import com.mycompany.idrink.BebidaAlcoolica;
 import com.mycompany.idrink.BebidaComum;
 import com.mycompany.idrink.Cartao;
 import com.mycompany.idrink.Cliente;
 import com.mycompany.idrink.Endereco;
+import com.mycompany.idrink.Item;
 import com.mycompany.idrink.Pedido;
 import com.mycompany.idrink.StatusCompra;
 import java.util.ArrayList;
@@ -106,12 +108,12 @@ public class Testes {
     
     private Endereco criarEnderecoInvalido(Cliente cliente) {
         Endereco endereco = new Endereco();
-        endereco.setCep("50690-220");
+        endereco.setCep("50690-2220");//cep invalido
         endereco.setEstado("Pernambuco1");//Estado Inválido
         endereco.setCidade("Recife");
         endereco.setBairro("Iputinga");
         endereco.setLogradouro("Rua Iolanda Rodrigues Sobral");
-        endereco.setNumero(550);
+        endereco.setNumero(-550);//numero invalido
         endereco.setComplemento("Apto. 109");
         cliente.setEndereco(endereco);
         em.flush();
@@ -182,7 +184,7 @@ public class Testes {
                     Logger.getGlobal().log(Level.INFO, "{0}.{1}: {2}", new Object[]{violation.getRootBeanClass(), violation.getPropertyPath(), violation.getMessage()});
                 }
             }
-            assertEquals(3, constraintViolations.size());
+            assertEquals(5, constraintViolations.size());
             assertNull(cliente.getId());
         } catch (Exception ex) {
             fail(ex.getMessage());
@@ -206,9 +208,13 @@ public class Testes {
         Validator validator = Validation.buildDefaultValidatorFactory().getValidator();       
         
         Set<ConstraintViolation<Cliente>> constraintViolations = validator.validate(cliente);
-        assertEquals(1, constraintViolations.size());
-        ConstraintViolation violation = constraintViolations.iterator().next();
-        assertEquals(violation.getMessage(), "Estado invalido");
+        if (logger.isLoggable(Level.INFO)) {
+            for (ConstraintViolation violation : constraintViolations) {
+                Logger.getGlobal().log(Level.INFO, "{0}.{1}: {2}", new Object[]{violation.getRootBeanClass(), violation.getPropertyPath(), violation.getMessage()});
+            }
+        }
+
+        assertEquals(3, constraintViolations.size());
         logger.log(Level.INFO, "Cliente invalido invalidado com sucesso.", cliente);
     }
 
@@ -530,8 +536,48 @@ public class Testes {
     }
     
     @Test
-    public void t23_persistirPedidoValido(){
+    public void t23_pedidoMaisRecente(){
+        logger.info("Executando t23: SELECT o FROM Oferta o WHERE o.data >= ALL (SELECT o1.data FROM Oferta o1))");
+        TypedQuery<Pedido> query;
+        query = em.createQuery(
+                "SELECT p FROM Pedido p WHERE p.dataPedido >= ALL (SELECT p1.dataPedido FROM Pedido p1)",
+                Pedido.class);
+        List<Pedido> pedidos = query.getResultList();
+        assertEquals(1, pedidos.size());
+        if (logger.isLoggable(Level.INFO)) {
+            Pedido pedido = pedidos.get(0);
+            logger.log(Level.INFO, "{0}: {1}", new Object[]{pedido.getDataPedido().toString(), pedido.getId()});
+        }
         
     }
+    
+//    @Test
+//    public void t23_persistirPedidoValido(){
+//        logger.log(Level.INFO, "Executando t23: Persistir Pedido Valido");
+//        Bebida bebida = em.find(Bebida.class, new Long(7));
+//        Item item1 = new Item();
+//        item1.adicionarBebida(bebida, 2);
+//        bebida = em.find(Bebida.class, new Long(5));
+//        Item item2 = new Item();
+//        item2.adicionarBebida(bebida, 1);
+//        Pedido pedido = new Pedido();
+//        pedido.setStatusCompra(StatusCompra.APROVADO);
+//        item1.setPedido(pedido);
+//        pedido.addItem(item1);
+//        item2.setPedido(pedido);
+//        pedido.addItem(item2);
+//        Cliente cliente = em.find(Cliente.class, new Long(3));
+//        pedido.setCliente(cliente);
+//        cliente.addPedidos(pedido);
+//        em.persist(pedido);
+//        em.flush();
+//        em.clear();
+//        pedido = em.find(Pedido.class, pedido.getId());
+//        assertNotNull(pedido.getId());
+//        assertEquals(2, pedido.getItensSelecionados().size());
+//        assertNotNull(pedido.getItensSelecionados().get(0).getId());
+//        assertNotNull(pedido.getItensSelecionados().get(1).getId());
+//        logger.log(Level.INFO, "Pedido incluído com sucesso.", pedido);
+//    }
     
 }
