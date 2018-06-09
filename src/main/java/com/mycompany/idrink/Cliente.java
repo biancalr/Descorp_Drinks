@@ -59,7 +59,8 @@ public class Cliente implements Serializable {
     @Column(name = "TXT_EMAIL")
     private String email;
     @NotBlank
-    @Column(name = "TXT_LOGIN", length = 20)
+    @Size(min = 3, max = 20, message = "{idrink.Cliente.login}")
+    @Column(name = "TXT_LOGIN")
     private String login;
     @NotBlank
     @Size(min = 6, max = 20, message = "{idrink.Cliente.senha}")
