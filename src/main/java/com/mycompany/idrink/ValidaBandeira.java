@@ -23,7 +23,7 @@ import javax.validation.Payload;
 @Documented
 public @interface ValidaBandeira {
     
-    String message() default "{idrink.Endereco.estado}";
+    String message() default "{idrink.Cartao.bandeira}";
 
     Class<?>[] groups() default {};
 
