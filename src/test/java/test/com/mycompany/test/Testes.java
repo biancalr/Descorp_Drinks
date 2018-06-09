@@ -87,8 +87,9 @@ public class Testes {
             et.commit();
         } catch (Exception ex) {
             logger.log(Level.SEVERE, ex.getMessage(), ex);
-            if (et.isActive())
+            if (et.isActive()) {
                 et.rollback();
+            }
         }
     }
 
@@ -105,8 +106,8 @@ public class Testes {
         em.flush();
         return endereco;
     }
-    
-    private Endereco criarEnderecoInvalido(Cliente cliente) {
+
+    public Endereco criarEnderecoInvalido(Cliente cliente) {
         Endereco endereco = new Endereco();
         endereco.setCep("50690-2220");//cep invalido
         endereco.setEstado("Pernambuco1");//Estado Inválido
@@ -118,7 +119,7 @@ public class Testes {
         cliente.setEndereco(endereco);
         em.flush();
         return endereco;
-    }    
+    }
 
     public void criarCartao(Cliente cliente) {
         Cartao cartao = new Cartao();
@@ -133,7 +134,7 @@ public class Testes {
         em.flush();
     }
 
-    private Date getData(Integer dia, Integer mes, Integer ano) {
+    public Date getData(Integer dia, Integer mes, Integer ano) {
         Calendar c = Calendar.getInstance();
         c.set(Calendar.YEAR, ano);
         c.set(Calendar.MONTH, mes);
@@ -189,7 +190,7 @@ public class Testes {
         } catch (Exception ex) {
             fail(ex.getMessage());
         }
-        
+
         logger.log(Level.INFO, "Cliente invalido invalidado com sucesso.", cliente);
     }
 
@@ -204,9 +205,9 @@ public class Testes {
         cliente.setSenha("xu6666");
         criarEnderecoInvalido(cliente);
         criarCartao(cliente);
-        
-        Validator validator = Validation.buildDefaultValidatorFactory().getValidator();       
-        
+
+        Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
+
         Set<ConstraintViolation<Cliente>> constraintViolations = validator.validate(cliente);
         if (logger.isLoggable(Level.INFO)) {
             for (ConstraintViolation violation : constraintViolations) {
@@ -238,7 +239,7 @@ public class Testes {
     @Test
     public void t05_removerCliente() {
         logger.info("Executando t05: Remover Cliente");
-        
+
         Cliente cliente = em.find(Cliente.class, new Long(2));
         assertNotNull(cliente.getId());
         Cartao cartao = em.find(Cartao.class, cliente.getCartao().getId());
@@ -360,14 +361,14 @@ public class Testes {
             }
             assertEquals(2, constraintViolations.size());
             assertNull(cartao.getId());
-            
-        }catch(Exception e){
+
+        } catch (Exception e) {
             fail(e.getMessage());
         }
-        
+
         logger.log(Level.INFO, "Cartao invalidado com sucesso", cartao);
     }
-    
+
     @Test
     public void t11_persistirCartaoValido() {
         logger.log(Level.INFO, "Executando t11: Persistir Cartao Valido");
@@ -457,7 +458,7 @@ public class Testes {
     }
 
     @Test
-    public void t18_maximoPreco() {
+    public void t18_bebidaAlcoolicaMaisCara() {
         logger.log(Level.INFO, "Executando t18: SELECT max(ba.preco) FROM BebidaAlcoolica ba");
         Query query;
         query = em.createQuery("SELECT max(ba.preco) FROM BebidaAlcoolica ba");
@@ -468,7 +469,7 @@ public class Testes {
     }
 
     @Test
-    public void t19_minimoPreco() {
+    public void t19_bebidaComumMaisBarata() {
         logger.log(Level.INFO, "Executando t19: SELECT min(bc.preco) FROM BebidaComum bc");
         Query query;
         query = em.createQuery("SELECT min(bc.preco) FROM BebidaComum bc");
@@ -511,32 +512,32 @@ public class Testes {
     }
 
     @Test
-    public void t22_persistirBebidaInvalida(){
+    public void t22_persistirBebidaInvalida() {
         logger.log(Level.INFO, "Executando t22: Persistir Bebida Invalida");
         BebidaComum bebida = new BebidaComum();
         bebida.setNome("Lt");//nome invalido
         bebida.setPreco(-0.0);//preco invalido
         bebida.setAcucar(32);
         bebida.setEstoque(-32);//estoque invalido
-        
+
         Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
-        
+
         Set<ConstraintViolation<BebidaComum>> constraintViolations;
         constraintViolations = validator.validate(bebida);
-        
+
         if (logger.isLoggable(Level.INFO)) {
             for (ConstraintViolation violation : constraintViolations) {
                 Logger.getGlobal().log(Level.INFO, "{0}.{1}: {2}", new Object[]{violation.getRootBeanClass(), violation.getPropertyPath(), violation.getMessage()});
             }
         }
-        
+
         assertEquals(3, constraintViolations.size());
         logger.log(Level.INFO, "Bebida invalida invalidada com sucesso.", bebida);
-        
+
     }
-    
+
     @Test
-    public void t23_pedidoMaisRecente(){
+    public void t23_pedidoMaisRecente() {
         logger.info("Executando t23: SELECT o FROM Oferta o WHERE o.data >= ALL (SELECT o1.data FROM Oferta o1))");
         TypedQuery<Pedido> query;
         query = em.createQuery(
@@ -548,9 +549,48 @@ public class Testes {
             Pedido pedido = pedidos.get(0);
             logger.log(Level.INFO, "{0}: {1}", new Object[]{pedido.getDataPedido().toString(), pedido.getId()});
         }
-        
+
     }
-    
+
+    @Test
+    public void t24_clienteQuantidadePedido() {
+        logger.info("Executando t24: Cliente.QuantidadePedidosSQL");
+        Query query;
+        query = em.createNamedQuery("Cliente.QuantidadePedidosSQL");
+        query.setParameter(1, "Bianca Leopoldo");
+        List<Object[]> resultados = query.getResultList();
+        assertEquals(1, resultados.size());
+
+        if (logger.isLoggable(Level.INFO)) {
+            for (Object[] resultado : resultados) {
+                logger.log(Level.INFO, "{0}: {1}", resultado);
+            }
+        }
+
+    }
+
+//    @Test
+//    public void t25_delete() {
+//        logger.info("Executando t25: DELETE FROM Pedido p WHERE p.dataPedido <= ?1");
+//        Query query = em.createQuery("DELETE FROM Pedido p WHERE p.dataPedido <= ?1");
+//        query.setParameter(1, getData(30, Calendar.MARCH, 2018));
+//        List<Pedido> resultado = query.getResultList();
+//        for (int i = 0; i < resultado.size(); i++) {
+//            for (int j = 0; j < resultado.get(i).getItensSelecionados().size(); j++) {
+//                Item item = em.find(Item.class, resultado.get(i).getItensSelecionados().get(j));
+//                resultado.remove(item);
+//            }
+//        }
+//        query.executeUpdate();
+//        Pedido pedido = em.find(Pedido.class, new Long(8));
+//        assertNull(pedido);
+//        pedido = em.find(Pedido.class, new Long(11));
+//        assertNull(pedido);
+//        pedido = em.find(Pedido.class, new Long(12));
+//        assertNull(pedido);
+//        logger.log(Level.INFO, "Pedidos removidos com sucesso.");
+//    }
+
 //    @Test
 //    public void t23_persistirPedidoValido(){
 //        logger.log(Level.INFO, "Executando t23: Persistir Pedido Valido");
@@ -579,5 +619,4 @@ public class Testes {
 //        assertNotNull(pedido.getItensSelecionados().get(1).getId());
 //        logger.log(Level.INFO, "Pedido incluído com sucesso.", pedido);
 //    }
-    
 }
