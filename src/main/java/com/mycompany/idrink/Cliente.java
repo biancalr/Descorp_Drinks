@@ -67,7 +67,7 @@ public class Cliente implements Serializable {
     @Column(name = "TXT_SENHA")
     private String senha;
     @NotBlank
-    @Column(name = "TXT_TELEFONE", length = 20)
+    @Column(name = "TXT_TELEFONE", length = 10)
     private String telefone;
     @Valid
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL,
