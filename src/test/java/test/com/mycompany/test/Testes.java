@@ -107,7 +107,7 @@ public class Testes {
     private Endereco criarEnderecoInvalido(Cliente cliente) {
         Endereco endereco = new Endereco();
         endereco.setCep("50690-220");
-        endereco.setEstado("Pernambuco1");
+        endereco.setEstado("Pernambuco1");//Estado Inválido
         endereco.setCidade("Recife");
         endereco.setBairro("Iputinga");
         endereco.setLogradouro("Rua Iolanda Rodrigues Sobral");
@@ -164,21 +164,26 @@ public class Testes {
     public void t02_persistirClienteInValido() {
         logger.info("Executando t02: persistir Cliente InVálido");
         Cliente cliente = new Cliente();
-        cliente.setNome("Xuxa");
+        cliente.setNome("xuxa");
         cliente.setTelefone("3016-2564");
         cliente.setLogin("Xuxis");
-        cliente.setEmail("xuxa@gmail.com");
-        cliente.setSenha("xu6666");
+        cliente.setEmail("xuxa_gmail.com");//email invalido
+        cliente.setSenha("x666"); //senha invalida
         criarEnderecoInvalido(cliente);
         criarCartao(cliente);
         try {
             em.persist(cliente);
             assertTrue(false);
         } catch (ConstraintViolationException ex) {
+            Logger.getGlobal().info(ex.getMessage());
             Set<ConstraintViolation<?>> constraintViolations = ex.getConstraintViolations();
-            assertEquals(1, constraintViolations.size());
-            ConstraintViolation violation = constraintViolations.iterator().next();
-            assertEquals(violation.getMessage(), "Estado invalido");
+            if (logger.isLoggable(Level.INFO)) {
+                for (ConstraintViolation violation : constraintViolations) {
+                    Logger.getGlobal().log(Level.INFO, "{0}.{1}: {2}", new Object[]{violation.getRootBeanClass(), violation.getPropertyPath(), violation.getMessage()});
+                }
+            }
+            assertEquals(3, constraintViolations.size());
+            assertNull(cliente.getId());
         } catch (Exception ex) {
             fail(ex.getMessage());
         }
@@ -206,7 +211,6 @@ public class Testes {
         assertEquals(violation.getMessage(), "Estado invalido");
         logger.log(Level.INFO, "Cliente invalido invalidado com sucesso.", cliente);
     }
-
 
     @Test
     public void t04_atualizarCartaoMerge() {
@@ -260,14 +264,14 @@ public class Testes {
         logger.log(Level.INFO, "Executando t06: Atualizar Cliente Merge");
         Cliente cliente = em.find(Cliente.class, new Long(4));
         assertNotNull(cliente.getId());
-        cliente.setSenha("outraSenha54321");
+        cliente.setSenha("outraSenha23");
         cliente.setLogin("outroLogin");
         em.merge(cliente);
         em.flush();
         em.clear();
         cliente = em.find(Cliente.class, cliente.getId());
-        assertNotNull(cliente.getLogin());
-        assertNotNull(cliente.getSenha());
+        assertTrue("outroLogin".equals(cliente.getLogin()));
+        assertTrue("outraSenha23".equals(cliente.getSenha()));
         logger.log(Level.INFO, "Cliente atualizado com sucesso", cliente);
     }
 
@@ -328,14 +332,45 @@ public class Testes {
     }
 
     @Test
-    public void t10_persistirCartaoValido() {
-        logger.log(Level.INFO, "Executando t10: Adicionar Cartao");
+    public void t10_persistirCartaoInValido() {
+        logger.log(Level.INFO, "Executando t10: Persisir Cartao Invalido");
+        Cartao cartao = new Cartao();
+        Cliente cliente = em.find(Cliente.class, new Long(4));
+        assertNotNull(cliente);
+        cartao.setBandeira("GREEN CARD");//bandeira invalida
+        cartao.setDataExpiracao(getData(19, Calendar.APRIL, 2017));
+        cartao.setNumero("8051 30147 2583-622");//numero invalido
+        cliente.setCartao(cartao);
+        try {
+            em.persist(cartao);
+            assertTrue(false);
+        } catch (ConstraintViolationException e) {
+            Logger.getGlobal().info(e.getMessage());
+            Set<ConstraintViolation<?>> constraintViolations = e.getConstraintViolations();
+            if (logger.isLoggable(Level.INFO)) {
+                constraintViolations.forEach((violation) -> {
+                    Logger.getGlobal().log(Level.INFO, "{0}.{1}: {2}", new Object[]{violation.getRootBeanClass(), violation.getPropertyPath(), violation.getMessage()});
+                });
+            }
+            assertEquals(2, constraintViolations.size());
+            assertNull(cartao.getId());
+            
+        }catch(Exception e){
+            fail(e.getMessage());
+        }
+        
+        logger.log(Level.INFO, "Cartao invalidado com sucesso", cartao);
+    }
+    
+    @Test
+    public void t11_persistirCartaoValido() {
+        logger.log(Level.INFO, "Executando t11: Persistir Cartao Valido");
         Cartao cartao = new Cartao();
         Cliente cliente = em.find(Cliente.class, new Long(4));
         assertNotNull(cliente);
         cartao.setBandeira("MASTERCARD");
         cartao.setNumero("7951301472583690");
-        cartao.setDataExpiracao(new Date());
+        cartao.setDataExpiracao(getData(19, Calendar.APRIL, 2020));
         cliente.setCartao(cartao);
         em.persist(cartao);
         em.flush();
@@ -348,8 +383,8 @@ public class Testes {
     }
 
     @Test
-    public void t11_cartoesExpirados() {
-        logger.log(Level.INFO, "Executando t11: SELECT c FROM Cartao c WHERE c.dataExpiracao < CURRENT_DATE");
+    public void t12_cartoesExpirados() {
+        logger.log(Level.INFO, "Executando t12: SELECT c FROM Cartao c WHERE c.dataExpiracao < CURRENT_DATE");
         TypedQuery<Cartao> query = em.createQuery(
                 "SELECT c FROM Cartao c WHERE c.dataExpiracao < CURRENT_DATE",
                 Cartao.class);
@@ -358,8 +393,8 @@ public class Testes {
     }
 
     @Test
-    public void t12_bandeirasDistintas() {
-        logger.log(Level.INFO, "Executando t12: SELECT DISTINCT(c.bandeira) FROM CartaoCredito c ORDER BY c.bandeira");
+    public void t13_bandeirasDistintas() {
+        logger.log(Level.INFO, "Executando t13: SELECT DISTINCT(c.bandeira) FROM CartaoCredito c ORDER BY c.bandeira");
         TypedQuery<String> query
                 = em.createQuery("SELECT DISTINCT(c.bandeira) FROM Cartao c ORDER BY c.bandeira",
                         String.class);
@@ -368,8 +403,8 @@ public class Testes {
     }
 
     @Test
-    public void t13_cartoesMastercard() {
-        logger.info("Executando t13: SELECT c FROM Cartao c WHERE c.bandeira = MASTERCARD ORDER BY c.id");
+    public void t14_cartoesMastercard() {
+        logger.info("Executando t14: SELECT c FROM Cartao c WHERE c.bandeira = MASTERCARD ORDER BY c.id");
         TypedQuery<Cartao> query;
         query = em.createQuery("SELECT c FROM Cartao c WHERE c.bandeira LIKE ?1", Cartao.class);
         query.setParameter(1, "MASTERCARD");
@@ -379,8 +414,8 @@ public class Testes {
     }
 
     @Test
-    public void t14_pedidosNegados() {
-        logger.info("Executando t14: SELECT p FROM Pedido p WHERE p.statusCompra = NEGADO");
+    public void t15_pedidosNegados() {
+        logger.info("Executando t15: SELECT p FROM Pedido p WHERE p.statusCompra = NEGADO");
         TypedQuery<Pedido> query;
         query = em.createQuery(""
                 + "SELECT p FROM Pedido p "
@@ -398,8 +433,8 @@ public class Testes {
     }
 
     @Test
-    public void t15_findAllClientsNames() {
-        logger.log(Level.INFO, "Executando t015: Find All Clients Names");
+    public void t16_findAllClientsNames() {
+        logger.log(Level.INFO, "Executando t016: Find All Clients Names");
         Query query = em.createNamedQuery("Nomes.Clientes");
         List<Object> resultados = query.getResultList();
         assertEquals(6, resultados.size());
@@ -407,8 +442,8 @@ public class Testes {
     }
 
     @Test
-    public void t16_findAllClientsNamesSQL() {
-        logger.log(Level.INFO, "Executando t16: Nomes.ClientesSQL");
+    public void t17_findAllClientsNamesSQL() {
+        logger.log(Level.INFO, "Executando t17: Nomes.ClientesSQL");
         Query query = em.createNamedQuery("Nomes.ClientesSQL");
         List<Cliente> clientes = query.getResultList();
         assertEquals(6, clientes.size());
@@ -416,8 +451,8 @@ public class Testes {
     }
 
     @Test
-    public void t17_maximoPreco() {
-        logger.log(Level.INFO, "Executando t17: SELECT max(ba.preco) FROM BebidaAlcoolica ba");
+    public void t18_maximoPreco() {
+        logger.log(Level.INFO, "Executando t18: SELECT max(ba.preco) FROM BebidaAlcoolica ba");
         Query query;
         query = em.createQuery("SELECT max(ba.preco) FROM BebidaAlcoolica ba");
         Object resultado = (Object) query.getSingleResult();
@@ -427,8 +462,8 @@ public class Testes {
     }
 
     @Test
-    public void t18_minimoPreco() {
-        logger.log(Level.INFO, "Executando t18: SELECT min(bc.preco) FROM BebidaComum bc");
+    public void t19_minimoPreco() {
+        logger.log(Level.INFO, "Executando t19: SELECT min(bc.preco) FROM BebidaComum bc");
         Query query;
         query = em.createQuery("SELECT min(bc.preco) FROM BebidaComum bc");
         Object resultado = (Object) query.getSingleResult();
@@ -438,8 +473,8 @@ public class Testes {
     }
 
     @Test
-    public void t19_clienteCartao() {
-        logger.log(Level.INFO, "Executando t19: SELECT c.nome, cc.bandeira FROM Cliente c LEFT OUTER JOIN c.cartao cc");
+    public void t20_clienteCartao() {
+        logger.log(Level.INFO, "Executando t20: SELECT c.nome, cc.bandeira FROM Cliente c LEFT OUTER JOIN c.cartao cc");
         TypedQuery<Object[]> query;
         query = em.createQuery(
                 "SELECT c.nome, cc.bandeira FROM Cliente c LEFT OUTER JOIN c.cartao cc",
@@ -454,8 +489,8 @@ public class Testes {
     }
 
     @Test
-    public void t20_clientePedidos() {
-        logger.log(Level.INFO, "Executando t20: SELECT c.nome, p.id FROM Cliente c JOIN FETCH c.pedidos p WHERE c.id = 4");
+    public void t21_clientePedidos() {
+        logger.log(Level.INFO, "Executando t21: SELECT c.nome, p.id FROM Cliente c JOIN FETCH c.pedidos p WHERE c.id = 4");
         TypedQuery<Object[]> query;
         query = em.createQuery(
                 "SELECT c.nome, p.id FROM Cliente c JOIN FETCH c.pedidos p WHERE c.id = 4",
@@ -470,8 +505,8 @@ public class Testes {
     }
 
     @Test
-    public void t21_persistirBebidaInvalida(){
-        logger.log(Level.INFO, "Executando t21: Persistir Bebida Invalida");
+    public void t22_persistirBebidaInvalida(){
+        logger.log(Level.INFO, "Executando t22: Persistir Bebida Invalida");
         BebidaComum bebida = new BebidaComum();
         bebida.setNome("Lt");//nome invalido
         bebida.setPreco(-0.0);//preco invalido
@@ -494,6 +529,9 @@ public class Testes {
         
     }
     
-    
+    @Test
+    public void t23_persistirPedidoValido(){
+        
+    }
     
 }
