@@ -3,6 +3,10 @@ package com.mycompany.idrink;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import org.hibernate.validator.constraints.NotBlank;
 
 /**
  *
@@ -11,20 +15,29 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class Endereco implements Serializable {
     
-    @Column(name = "END_TXT_CEP", length = 9, nullable = false)
+    @NotBlank
+    @Size(min = 8, max = 9, message = "{idrink.Endereco.cep}")
+    @Column(name = "END_TXT_CEP")
     private String cep;
+    @NotBlank
     @ValidaEstado
-    @Column(name = "END_TXT_ESTADO", length = 50, nullable = false)
+    @Column(name = "END_TXT_ESTADO")
     private String estado;
-    @Column(name = "END_TXT_CIDADE", length = 50, nullable = false)
+    @NotBlank
+    @Column(name = "END_TXT_CIDADE", length = 50)
     private String cidade;
-    @Column(name = "END_TXT_BAIRRO", length = 50, nullable = false)
+    @NotBlank
+    @Column(name = "END_TXT_BAIRRO", length = 50)
     private String bairro;
-    @Column(name = "END_TXT_LOGRADOURO", length = 100, nullable = false)
+    @NotBlank
+    @Column(name = "END_TXT_LOGRADOURO", length = 100)
     private String logradouro;
-    @Column(name = "END_TXT_COMPLEMENTO", length = 255, nullable = true)
+    @NotBlank
+    @Column(name = "END_TXT_COMPLEMENTO", length = 255)
     private String complemento;
-    @Column(name = "END_INT_NUMERO", nullable = false)
+    @NotNull
+    @Min(value = 0, message = "{idrink.Endereco.numero}")
+    @Column(name = "END_INT_NUMERO")
     private Integer numero;
 
     public String getCep() {
