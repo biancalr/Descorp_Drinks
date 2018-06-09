@@ -14,6 +14,11 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import org.hibernate.validator.constraints.NotBlank;
 
 /**
  *
@@ -30,11 +35,17 @@ public class Bebida implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
-    @Column(name = "TXT_NOME", length = 50, nullable = false)
+    @NotBlank
+    @Size(min = 3, max = 20)
+    @Column(name = "TXT_NOME")
     protected String nome;
-    @Column(name = "NUM_PRECO", length = 5, nullable = false)
+    @NotNull
+    @DecimalMin(value = "0.1", message = "{idrink.Bebida.preco}")
+    @Column(name = "NUM_PRECO")
     protected Double preco;
-    @Column(name = "NUM_ESTOQUE", length = 3 , nullable = false)
+    @NotNull
+    @Min(value = 0, message = "{idrink.Bebida.estoque}")
+    @Column(name = "NUM_ESTOQUE")
     protected Integer estoque;
 
     public Long getId() {

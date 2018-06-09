@@ -9,6 +9,7 @@
     <class>com.mycompany.idrink.Bebida</class>
     <class>com.mycompany.idrink.BebidaAlcoolica</class>
     <class>com.mycompany.idrink.BebidaComum</class>
+    <class>com.mycompany.idrink.Item</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/idrink?zeroDateTimeBehavior=convertToNull"/>
       <property name="javax.persistence.jdbc.user" value="root"/>
@@ -21,7 +22,7 @@
       <property name="eclipselink.ddl-generation" value="drop-and-create-tables"/>
       <property name="eclipselink.ddl-generation.output-mode" value="both"/>
       <property name="eclipselink.create-ddl-jdbc-file-name" value="create.sql"/>
-      <property name="eclipselink.drop-ddl-jdbc-file-name" value="drop.sql"/> 
+      <property name="eclipselink.drop-ddl-jdbc-file-name" value="drop.sql"/>
     </properties>
   </persistence-unit>
 </persistence>

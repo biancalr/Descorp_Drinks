@@ -1,12 +1,10 @@
 package test.com.mycompany.test;
 
-import com.mycompany.idrink.Bebida;
 import com.mycompany.idrink.BebidaAlcoolica;
 import com.mycompany.idrink.BebidaComum;
 import com.mycompany.idrink.Cartao;
 import com.mycompany.idrink.Cliente;
 import com.mycompany.idrink.Endereco;
-import com.mycompany.idrink.Item;
 import com.mycompany.idrink.Pedido;
 import com.mycompany.idrink.StatusCompra;
 import java.util.ArrayList;
