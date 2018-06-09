@@ -17,6 +17,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 /**
  *
@@ -34,7 +36,9 @@ public class Item implements Serializable {
     @JoinColumn(name = "ID_PEDIDO", referencedColumnName = "ID",
             nullable = false)
     private Pedido pedido;
-    @Column(name = "NUM_QUANTIDADE", nullable = false)
+    @NotNull
+    @Min(value = 0, message = "{idrink.Item.quantidade}")
+    @Column(name = "NUM_QUANTIDADE")
     private Integer quantidade;
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY,
             optional = false, orphanRemoval = false)
