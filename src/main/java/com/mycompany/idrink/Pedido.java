@@ -21,6 +21,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 
 /**
  *
@@ -33,17 +34,21 @@ public class Pedido implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "DT_PEDIDO", nullable = false)
+    @NotNull
+    @Column(name = "DT_PEDIDO")
     @Temporal(TemporalType.DATE)
     private Date dataPedido;
-    @Column(name = "HR_PEDIDO", nullable = false)
+    @NotNull
+    @Column(name = "HR_PEDIDO")
     @Temporal(TemporalType.TIME)
     private Date horaPedido;
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY,
             orphanRemoval = true, mappedBy = "pedido")
     private List<Item> itensSelecionados;
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false)
-    @JoinColumn(name = "ID_CLIENTE", referencedColumnName = "ID")
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL,
+            optional = false)
+    @JoinColumn(name = "ID_CLIENTE", referencedColumnName = "ID",
+            nullable = false)
     private Cliente cliente;
     @Enumerated(EnumType.STRING)
     @Column(name = "TXT_STATUS_COMPRA", nullable = false)
