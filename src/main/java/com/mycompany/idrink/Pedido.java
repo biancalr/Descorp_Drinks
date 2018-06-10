@@ -136,10 +136,10 @@ public class Pedido implements Serializable {
     }
     
     public void atualizaStatusCompra(){
-        if(cliente.getCartao().getDataExpiracao().compareTo(new Date()) >= 0){
-            this.statusCompra = StatusCompra.APROVADO;
-        }else{
+        if(cliente.getCartao().getDataExpiracao().compareTo(new Date()) < 0){
             this.statusCompra = StatusCompra.NEGADO;
+        }else{
+            this.statusCompra = StatusCompra.APROVADO;
         }
     }
 
