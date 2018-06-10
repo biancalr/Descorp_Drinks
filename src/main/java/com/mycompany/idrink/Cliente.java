@@ -46,7 +46,7 @@ import org.hibernate.validator.constraints.NotBlank;
         {
             @NamedNativeQuery(
                     name = "Nomes.ClientesSQL",
-                    query = "SELECT id, txt_nome FROM tb_cliente ORDER BY id",
+                    query = "SELECT id, txt_nome FROM TB_CLIENTE ORDER BY id",
                     resultClass = Cliente.class
             ),
             @NamedNativeQuery(

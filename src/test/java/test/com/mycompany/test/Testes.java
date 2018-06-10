@@ -182,6 +182,7 @@ public class Testes {
                 for (ConstraintViolation violation : constraintViolations) {
                     Logger.getGlobal().log(Level.INFO, "{0}.{1}: {2}", new Object[]{violation.getRootBeanClass(), violation.getPropertyPath(), violation.getMessage()});
                 }
+                assertEquals(cliente, this);
             }
             assertEquals(5, constraintViolations.size());
             assertNull(cliente.getId());
@@ -200,20 +201,16 @@ public class Testes {
         cliente.setTelefone("3016-2564");
         cliente.setLogin("Xuxis");
         cliente.setEmail("xuxa@gmail.com");
-        cliente.setSenha("xu6666");
-        criarEnderecoInvalido(cliente);
+        cliente.setSenha("x666");//senha invalida
+        criarEndereco(cliente);
         criarCartao(cliente);
 
-        Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
-
+        Validator validator = Validation.buildDefaultValidatorFactory().getValidator();       
+        
         Set<ConstraintViolation<Cliente>> constraintViolations = validator.validate(cliente);
-        if (logger.isLoggable(Level.INFO)) {
-            for (ConstraintViolation violation : constraintViolations) {
-                Logger.getGlobal().log(Level.INFO, "{0}.{1}: {2}", new Object[]{violation.getRootBeanClass(), violation.getPropertyPath(), violation.getMessage()});
-            }
-        }
-
-        assertEquals(3, constraintViolations.size());
+        assertEquals(1, constraintViolations.size());
+        ConstraintViolation violation = constraintViolations.iterator().next();
+        assertEquals(violation.getMessage(), "Senha invalida. Deve conter entre 6 e 20 caracteres");
         logger.log(Level.INFO, "Cliente invalido invalidado com sucesso.", cliente);
     }
 
@@ -296,9 +293,12 @@ public class Testes {
         em.flush();
         em.clear();
         cliente = em.find(Cliente.class, cliente.getId());
-        assertEquals(new Long(74), new Long(cliente.getEndereco().getNumero()));
+        assertNotNull(cliente.getEndereco().getNumero());
         assertNotNull(cliente.getEndereco().getLogradouro());
         assertNotNull(cliente.getEndereco().getComplemento());
+        assertEquals(new Long(74), new Long(cliente.getEndereco().getNumero()));
+        assertEquals("Rua Esquadrão", cliente.getEndereco().getLogradouro());
+        assertEquals("Proximo ao Colegio Militar", cliente.getEndereco().getComplemento());
         logger.log(Level.INFO, "Endereco atualizado com sucesso", cliente.getEndereco());
 
     }
